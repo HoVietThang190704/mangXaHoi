@@ -73,6 +73,10 @@ class _LoginViewState extends State<LoginView> {
       );
 
       Utils.userName = result.user?.userName ?? result.user?.email ?? _emailController.text.trim();
+      // Persist in-memory app state so other views can detect login immediately
+      Utils.currentUser = result.user;
+      Utils.accessToken = result.accessToken;
+      Utils.refreshToken = result.refreshToken;
 
       if (!mounted) {
         return;
@@ -177,19 +181,32 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   )
                 : SizedBox.shrink(),
-            // Language chooser
             Positioned(
               top: 8,
               left: 8,
-              child: PopupMenuButton<String>(
-                icon: Icon(Icons.language),
-                onSelected: (value) {
-                  Utils.setLocale(Locale(value));
-                },
-                itemBuilder: (context) => [
-                  PopupMenuItem(value: 'en', child: Text('English')),
-                  PopupMenuItem(value: 'vi', child: Text('Tiếng Việt')),
-                ],
+              child: Material(
+                color: Colors.transparent,
+                child: IconButton(
+                  icon: Icon(Icons.language),
+                  tooltip: AppLocalizations.of(context)!.language_english + '/' + AppLocalizations.of(context)!.language_vietnamese,
+                  onPressed: () async {
+                    final current = Utils.locale.value?.languageCode ?? Localizations.localeOf(context).languageCode;
+                    final selected = await showMenu<String>(
+                      context: context,
+                      position: RelativeRect.fromLTRB(16, 56, 0, 0),
+                      items: [
+                        PopupMenuItem(value: 'en', child: Row(children: [Expanded(child: Text(AppLocalizations.of(context)!.language_english)), if(current=='en') Icon(Icons.check, color: Theme.of(context).primaryColor)])),
+                        PopupMenuItem(value: 'vi', child: Row(children: [Expanded(child: Text(AppLocalizations.of(context)!.language_vietnamese)), if(current=='vi') Icon(Icons.check, color: Theme.of(context).primaryColor)])),
+                      ],
+                    );
+                    if(selected != null){
+                      Utils.setLocale(Locale(selected));
+                      final label = selected == 'en' ? AppLocalizations.of(context)!.language_english : AppLocalizations.of(context)!.language_vietnamese;
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(label)));
+                      setState(() {});
+                    }
+                  },
+                ),
               ),
             ),
             SingleChildScrollView(

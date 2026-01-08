@@ -45,13 +45,10 @@ class ApiService {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        // Cho phép Dio không throw riêng vì status 400
-        // để mình vẫn đọc được e.response?.data và xử lý.
         validateStatus: (status) => status != null && status < 500,
       ),
     );
 
-    // 6) Logging (optional)
     if (enableLog) {
       dio.interceptors.add(LogInterceptor(
         requestHeader: true,
@@ -62,7 +59,6 @@ class ApiService {
       ));
     }
 
-    // 7) Auth interceptor
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -92,16 +88,12 @@ class ApiService {
     return ApiService._internal(dio, storage);
   }
 
-  // -------------------------
-  // Generic helpers
-  // -------------------------
   Future<dynamic> getJson(
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
     final res = await _dio.get(path, queryParameters: queryParameters);
 
-    // Nếu status >= 400 thì throw để UI handle
     if ((res.statusCode ?? 0) >= 400) {
       throw DioException(
         requestOptions: res.requestOptions,
@@ -131,11 +123,44 @@ class ApiService {
     return res.data;
   }
 
-  // -------------------------
-  // Auth APIs
-  // -------------------------
+  /// Upload multipart FormData. Returns decoded JSON map.
+  Future<dynamic> uploadFormData(String path, FormData formData) async {
+    final res = await _dio.post(
+      path,
+      data: formData,
+      options: Options(contentType: 'multipart/form-data'),
+    );
+
+    if ((res.statusCode ?? 0) >= 400) {
+      throw DioException(
+        requestOptions: res.requestOptions,
+        response: res,
+        type: DioExceptionType.badResponse,
+        error: res.data,
+      );
+    }
+    return res.data;
+  }
+
   Future<Map<String, dynamic>> register(Map<String, dynamic> payload) async {
     final data = await postJson('/api/auth/register', payload);
+
+    // Persist tokens if registration returns them
+    try {
+      if (data is Map<String, dynamic>) {
+        final access = data['accessToken']?.toString();
+        final refresh = data['refreshToken']?.toString();
+        if (access != null && access.isNotEmpty) {
+          await _storage.write(key: 'accessToken', value: access);
+        }
+        if (refresh != null && refresh.isNotEmpty) {
+          await _storage.write(key: 'refreshToken', value: refresh);
+        }
+      }
+    } catch (e) {
+      print('⚠️ Failed to persist tokens after register: $e');
+    }
+
     return Map<String, dynamic>.from(data as Map);
   }
 
@@ -144,6 +169,24 @@ class ApiService {
       'email': email,
       'password': password,
     });
+
+    // Persist tokens if returned so Interceptor can include Authorization header
+    try {
+      if (data is Map<String, dynamic>) {
+        final access = data['accessToken']?.toString();
+        final refresh = data['refreshToken']?.toString();
+        if (access != null && access.isNotEmpty) {
+          await _storage.write(key: 'accessToken', value: access);
+        }
+        if (refresh != null && refresh.isNotEmpty) {
+          await _storage.write(key: 'refreshToken', value: refresh);
+        }
+      }
+    } catch (e) {
+      // ignore storage write failures but log for debugging
+      print('⚠️ Failed to persist tokens: $e');
+    }
+
     return Map<String, dynamic>.from(data as Map);
   }
 

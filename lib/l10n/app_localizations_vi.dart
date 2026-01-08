@@ -12,6 +12,70 @@ class AppLocalizationsVi extends AppLocalizations {
   String get facebook => 'facebook';
 
   @override
+  String get home => 'Trang chủ';
+
+  @override
+  String get product => 'Sản phẩm';
+
+  @override
+  String get chat => 'Chat';
+
+  @override
+  String get dt => 'DT';
+
+  @override
+  String get create_post_title => 'Tạo bài viết';
+
+  @override
+  String get create_post_hint => 'Bạn đang nghĩ gì?';
+
+  @override
+  String get cancel => 'Huỷ';
+
+  @override
+  String get post => 'Đăng';
+
+  @override
+  String get comments => 'bình luận';
+
+  @override
+  String get unknown => 'Không rõ';
+
+  @override  String get create_post_error => 'Không thể tạo bài viết';
+
+  @override  String get language_english => 'English';
+
+  @override
+  String get language_vietnamese => 'Tiếng Việt';
+
+  @override
+  String get privacy_public => 'Công khai';
+
+  @override
+  String get privacy_friends => 'Bạn bè';
+
+  @override
+  String get privacy_private => 'Chỉ mình tôi';
+
+  @override
+  String get photo => 'Ảnh';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get tag_people => 'Gắn thẻ người khác';
+
+  @override
+  String get add_location => 'Thêm vị trí';
+
+  @override
+  String get feeling_activity => 'Cảm xúc/hoạt động';
+
+  @override
+  String get create_event => 'Tạo sự kiện';
+
+  @override
   String get hint_name => 'Họ và tên';
 
   @override
@@ -76,4 +140,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get login_success => 'Đăng nhập thành công';
+
+  @override
+  String get login_first => 'Vui lòng đăng nhập để đăng bài';
+
+  @override
+  String get video_not_supported => 'Hiện chưa hỗ trợ đăng video';
 }

@@ -22,5 +22,7 @@
   "name_required": "Full name is required",
   "password_too_short": "Password must be at least 6 characters",
   "confirm_password_required": "Please confirm your password",
-  "login_success": "Logged in successfully"
+  "login_success": "Logged in successfully",
+  "login_first": "Please log in to post",
+  "video_not_supported": "Video upload is not supported yet"
 }
