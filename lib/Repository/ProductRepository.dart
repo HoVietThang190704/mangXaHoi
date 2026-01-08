@@ -1,4 +1,5 @@
 import 'package:mangxahoi/Utils.dart';
+import 'package:mangxahoi/services/api_service.dart';
 
 import '../Model/ProductModel.dart';
 import 'dart:convert';
@@ -9,22 +10,14 @@ import 'BaseRepository.dart';
 
 class ProductRepository extends BaseRepository{
   Future<ApiResponse> getProducts(String url) async {
-    final response = await http.get(Uri.parse("${Utils.baseUrl + url}"),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    // Use ApiService to perform the GET request
+    final api = await ApiService.create();
+    final jsonData = await api.getJson(url);
+
+    final apiResponse = ApiResponse.fromJson(
+      jsonData,
+      (data) => (data as List).map((e) => ProductModel.fromJson(e)).toList(),
     );
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final apiResponse = ApiResponse.fromJson(
-        jsonData,
-            (data) =>  (data  as List)
-            .map((e) => ProductModel.fromJson(e))
-            .toList(),
-      );
-      return apiResponse;
-    }
-    super.codeErrorHandle(response.statusCode);
-    return ApiResponse(status: false, message: "",data: null);
+    return apiResponse;
   }
 }

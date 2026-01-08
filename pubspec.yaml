@@ -40,6 +40,9 @@ dependencies:
   flutter_html: ^3.0.0
   http: ^0.13.6
   signalr_core: ^1.1.1
+  dio: ^5.9.0
+  flutter_dotenv: ^5.1.0
+  flutter_secure_storage: ^9.1.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +66,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  # Include local .env in app assets so flutter_dotenv can load it at runtime
+  assets:
+    - .env
 
   # To add assets to your application, add an assets section, like this:
   # assets:

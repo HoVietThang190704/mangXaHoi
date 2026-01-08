@@ -7,15 +7,17 @@ class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
 
   @override
-  _RegisterViewState createState() => _RegisterViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
 class _RegisterViewState extends State<RegisterView> {
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController txtName = TextEditingController();
   final TextEditingController txtEmail = TextEditingController();
   final TextEditingController txtPassword = TextEditingController();
   final TextEditingController txtConfirm = TextEditingController();
+
   final AuthService _authService = AuthService();
   bool _isLoading = false;
 
@@ -34,54 +36,59 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Future<void> _register() async {
-    if (_isLoading) {
-      return;
-    }
-    if (!(_formKey.currentState?.validate() ?? false)) {
-      return;
-    }
+    if (_isLoading) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+
+    final name = txtName.text.trim();
+    final email = txtEmail.text.trim();
+    final password = txtPassword.text;
+    final confirmPassword = txtConfirm.text;
+
+    setState(() => _isLoading = true);
 
     try {
       final result = await _authService.register(
-        email: txtEmail.text.trim(),
-        password: txtPassword.text,
-        userName: txtName.text.trim(),
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword, // ✅ gửi confirmPassword
+        userName: name,
       );
 
-      Utils.userName = result.user?.userName ?? txtName.text.trim();
+      Utils.userName = result.user?.userName ?? name;
 
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
 
       final message = (result.message.isNotEmpty)
           ? result.message
           : AppLocalizations.of(context)!.register_success;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+
       Navigator.pushReplacementNamed(context, '/home');
     } catch (error) {
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
+
       final fallback = AppLocalizations.of(context)!.register_error;
       final message = _extractErrorMessage(error);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(message.isNotEmpty ? message : fallback)),
       );
     } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  Widget _buildGradientButton(String text, VoidCallback? onTap, {bool isLoading = false, bool enabled = true}) {
+  Widget _buildGradientButton(
+    String text,
+    VoidCallback? onTap, {
+    bool isLoading = false,
+    bool enabled = true,
+  }) {
     return InkWell(
       onTap: (enabled && !isLoading && onTap != null) ? onTap : null,
       borderRadius: BorderRadius.circular(8),
@@ -90,14 +97,14 @@ class _RegisterViewState extends State<RegisterView> {
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: enabled
-              ? LinearGradient(colors: [Color(0xFF3AA0FF), Color(0xFF1777F2)])
+              ? const LinearGradient(colors: [Color(0xFF3AA0FF), Color(0xFF1777F2)])
               : null,
           color: enabled ? null : Colors.grey,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: isLoading
-              ? SizedBox(
+              ? const SizedBox(
                   height: 22,
                   width: 22,
                   child: CircularProgressIndicator(
@@ -105,7 +112,10 @@ class _RegisterViewState extends State<RegisterView> {
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
                 )
-              : Text(text, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              : Text(
+                  text,
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
         ),
       ),
     );
@@ -113,22 +123,24 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Text(
-                AppLocalizations.of(context)!.facebook,
-                style: TextStyle(
+                t.facebook,
+                style: const TextStyle(
                   color: Color(0xFF1877F2),
                   fontSize: 48,
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22.0),
                 child: Card(
@@ -143,92 +155,91 @@ class _RegisterViewState extends State<RegisterView> {
                           TextFormField(
                             controller: txtName,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              hintText: AppLocalizations.of(context)!.name_label,
+                              prefixIcon: const Icon(Icons.person),
+                              hintText: t.name_label,
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
                               filled: true,
                               fillColor: Colors.grey[100],
                             ),
-                            validator: (v) => (v == null || v.trim().isEmpty)
-                                ? AppLocalizations.of(context)!.name_required
-                                : null,
+                            validator: (v) =>
+                                (v == null || v.trim().isEmpty) ? t.name_required : null,
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: txtEmail,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.email),
-                              hintText: AppLocalizations.of(context)!.email_label,
+                              prefixIcon: const Icon(Icons.email),
+                              hintText: t.email_label,
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
                               filled: true,
                               fillColor: Colors.grey[100],
                             ),
                             keyboardType: TextInputType.emailAddress,
                             validator: (v) {
                               final value = v?.trim() ?? '';
-                              if (value.isEmpty) {
-                                return AppLocalizations.of(context)!.email_required;
-                              }
+                              if (value.isEmpty) return t.email_required;
                               final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
-                              if (!emailRegex.hasMatch(value)) {
-                                return AppLocalizations.of(context)!.email_invalid;
-                              }
+                              if (!emailRegex.hasMatch(value)) return t.email_invalid;
                               return null;
                             },
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: txtPassword,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.lock),
-                              hintText: AppLocalizations.of(context)!.hint_password,
+                              prefixIcon: const Icon(Icons.lock),
+                              hintText: t.hint_password,
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
                               filled: true,
                               fillColor: Colors.grey[100],
                             ),
                             obscureText: true,
                             validator: (v) {
-                              if (v == null || v.isEmpty) {
-                                return AppLocalizations.of(context)!.password_required;
-                              }
-                              if (v.length < 6) {
-                                return AppLocalizations.of(context)!.password_too_short;
-                              }
+                              if (v == null || v.isEmpty) return t.password_required;
+                              if (v.length < 6) return t.password_too_short;
                               return null;
                             },
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: txtConfirm,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.lock_outline),
-                              hintText: AppLocalizations.of(context)!.confirm_password,
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              hintText: t.confirm_password,
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
                               filled: true,
                               fillColor: Colors.grey[100],
                             ),
                             obscureText: true,
                             validator: (v) {
-                              if (v == null || v.isEmpty) {
-                                return AppLocalizations.of(context)!.confirm_password_required;
-                              }
-                              if (v != txtPassword.text) {
-                                return AppLocalizations.of(context)!.password_mismatch;
-                              }
+                              if (v == null || v.isEmpty) return t.confirm_password_required;
+                              if (v != txtPassword.text) return t.password_mismatch;
                               return null;
                             },
                           ),
-                          SizedBox(height: 18),
+                          const SizedBox(height: 18),
                           _buildGradientButton(
-                            AppLocalizations.of(context)!.register,
+                            t.register,
                             _register,
                             isLoading: _isLoading,
                             enabled: !_isLoading,
@@ -239,12 +250,15 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text(AppLocalizations.of(context)!.register_prompt, style: TextStyle(color: Colors.blue[700])),
+                child: Text(
+                  t.register_prompt,
+                  style: TextStyle(color: Colors.blue[700]),
+                ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
             ],
           ),
         ),

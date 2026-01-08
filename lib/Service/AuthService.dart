@@ -9,6 +9,7 @@ class AuthService {
   Future<AuthResult> register({
     required String email,
     required String password,
+    required String confirmPassword, 
     String? userName,
     String? phone,
     DateTime? dateOfBirth,
@@ -17,6 +18,7 @@ class AuthService {
     return _repository.register(
       email: email,
       password: password,
+      confirmPassword: confirmPassword, 
       userName: userName,
       phone: phone,
       dateOfBirth: dateOfBirth,

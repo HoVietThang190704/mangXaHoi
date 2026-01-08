@@ -4,11 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:mangxahoi/Model/AuthResult.dart';
 import 'package:mangxahoi/Utils.dart';
 import 'BaseRepository.dart';
+import 'package:mangxahoi/services/api_service.dart';
 
 class AuthRepository extends BaseRepository {
   Future<AuthResult> register({
     required String email,
     required String password,
+    required String confirmPassword,
     String? userName,
     String? phone,
     DateTime? dateOfBirth,
@@ -18,6 +20,7 @@ class AuthRepository extends BaseRepository {
     final payload = <String, dynamic>{
       'email': email,
       'password': password,
+      'confirmPassword': confirmPassword,
       'userName': userName,
       'phone': phone,
       'date_of_birth': dateOfBirth?.toIso8601String(),
@@ -25,41 +28,24 @@ class AuthRepository extends BaseRepository {
     };
     payload.removeWhere((_, value) => value == null);
 
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(payload),
-    );
+    // Use ApiService to perform the request (centralized HTTP client)
+    final api = await ApiService.create();
+    final data = await api.register(payload);
 
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      return AuthResult.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-    }
+    return AuthResult.fromJson(data as Map<String, dynamic>);
 
-    super.codeErrorHandle(response.statusCode);
-    _handleError(response);
   }
 
   Future<AuthResult> login({
     required String email,
     required String password,
   }) async {
-    final uri = Uri.parse('${Utils.baseUrl}/api/auth/login');
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'email': email, 'password': password}),
-    );
+    // Use ApiService to perform the login
+    final api = await ApiService.create();
+    final data = await api.login(email, password);
 
-    if (response.statusCode == 200) {
-      return AuthResult.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-    }
+    return AuthResult.fromJson(data as Map<String, dynamic>);
 
-    super.codeErrorHandle(response.statusCode);
-    _handleError(response);
   }
 
   Never _handleError(http.Response response) {
