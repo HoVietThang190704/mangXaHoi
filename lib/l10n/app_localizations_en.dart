@@ -12,6 +12,70 @@ class AppLocalizationsEn extends AppLocalizations {
   String get facebook => 'facebook';
 
   @override
+  String get home => 'Home';
+
+  @override
+  String get product => 'Product';
+
+  @override
+  String get chat => 'Chat';
+
+  @override
+  String get dt => 'DT';
+
+  @override
+  String get create_post_title => 'Create post';
+
+  @override
+  String get create_post_hint => "What's on your mind?";
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get post => 'Post';
+
+  @override
+  String get comments => 'comments';
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override  String get create_post_error => 'Unable to create post';
+
+  @override  String get language_english => 'English';
+
+  @override
+  String get language_vietnamese => 'Tiếng Việt';
+
+  @override
+  String get privacy_public => 'Public';
+
+  @override
+  String get privacy_friends => 'Friends';
+
+  @override
+  String get privacy_private => 'Only me';
+
+  @override
+  String get photo => 'Photo';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get tag_people => 'Tag people';
+
+  @override
+  String get add_location => 'Add location';
+
+  @override
+  String get feeling_activity => 'Feeling/activity';
+
+  @override
+  String get create_event => 'Create event';
+
+  @override
   String get hint_name => 'Name';
 
   @override
@@ -76,4 +140,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login_success => 'Logged in successfully';
+
+  @override
+  String get login_first => 'Please log in to post';
+
+  @override
+  String get video_not_supported => 'Video upload is not supported yet';
 }

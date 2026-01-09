@@ -22,5 +22,7 @@
   "name_required": "Vui lòng nhập họ và tên",
   "password_too_short": "Mật khẩu tối thiểu 6 ký tự",
   "confirm_password_required": "Vui lòng nhập lại mật khẩu",
-  "login_success": "Đăng nhập thành công"
+  "login_success": "Đăng nhập thành công",
+  "login_first": "Vui lòng đăng nhập để đăng bài",
+  "video_not_supported": "Hiện chưa hỗ trợ đăng video"
 }

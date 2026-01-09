@@ -27,7 +27,6 @@ class _chatView extends State<ChatView>{
     connection.on('ReceiveMessage', (message) {
       print(message.toString());
     });
-    //await connection.invoke('SendMessage', args: ['Bob', 'Says hi!']);
   }
   @override
   Widget build(BuildContext context) {

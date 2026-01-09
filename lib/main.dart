@@ -3,6 +3,7 @@ import 'package:mangxahoi/Views/HomeView.dart';
 import 'package:mangxahoi/Views/Auth/LoginView.dart';
 import 'package:mangxahoi/Views/Auth/RegisterView.dart';
 import 'package:mangxahoi/Views/ProductView.dart';
+import 'package:mangxahoi/Views/CreatePostView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       valueListenable: Utils.locale,
       builder: (context, locale, _) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           navigatorKey: Utils.navigatorKey,
           title: "My app",
           locale: locale,
@@ -45,8 +47,10 @@ class MyApp extends StatelessWidget {
               var args = ModalRoute.of(context)!.settings.arguments as Map;
               return ProductDetailView((args["Id"] as int));
             },
+            '/createPost': (context) => CreatePostView(),
             '/register': (context) => RegisterView(),
           },
+
         );
       },
     );

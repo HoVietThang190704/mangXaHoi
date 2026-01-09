@@ -101,6 +101,138 @@ abstract class AppLocalizations {
   /// **'facebook'**
   String get facebook;
 
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @product.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get product;
+
+  /// No description provided for @chat.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat'**
+  String get chat;
+
+  /// No description provided for @dt.
+  ///
+  /// In en, this message translates to:
+  /// **'DT'**
+  String get dt;
+
+  /// No description provided for @create_post_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create post'**
+  String get create_post_title;
+
+  /// No description provided for @create_post_hint.
+  ///
+  /// In en, this message translates to:
+  /// **"What's on your mind?"**
+  String get create_post_hint;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get post;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'comments'**
+  String get comments;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
+
+  /// No description provided for @create_post_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to create post'**
+  String get create_post_error;
+
+  /// No description provided for @language_english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get language_english;
+
+  /// No description provided for @language_vietnamese.
+  ///
+  /// In en, this message translates to:
+  /// **'Tiếng Việt'**
+  String get language_vietnamese;
+
+  /// No description provided for @privacy_public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get privacy_public;
+
+  /// No description provided for @privacy_friends.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get privacy_friends;
+
+  /// No description provided for @privacy_private.
+  ///
+  /// In en, this message translates to:
+  /// **'Only me'**
+  String get privacy_private;
+
+  /// No description provided for @photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get photo;
+
+  /// No description provided for @video.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get video;
+
+  /// No description provided for @tag_people.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag people'**
+  String get tag_people;
+
+  /// No description provided for @add_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Add location'**
+  String get add_location;
+
+  /// No description provided for @feeling_activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Feeling/activity'**
+  String get feeling_activity;
+
+  /// No description provided for @create_event.
+  ///
+  /// In en, this message translates to:
+  /// **'Create event'**
+  String get create_event;
+
   /// No description provided for @hint_name.
   ///
   /// In en, this message translates to:
@@ -232,6 +364,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logged in successfully'**
   String get login_success;
+
+  /// No description provided for @login_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to post'**
+  String get login_first;
+
+  /// No description provided for @video_not_supported.
+  ///
+  /// In en, this message translates to:
+  /// **'Video upload is not supported yet'**
+  String get video_not_supported;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

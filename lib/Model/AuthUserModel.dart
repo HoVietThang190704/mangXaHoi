@@ -28,4 +28,14 @@ class AuthUserModel {
       address: json['address'] is Map<String, dynamic> ? Map<String, dynamic>.from(json['address'] as Map) : null,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'email': email,
+        'userName': userName,
+        'phone': phone,
+        'role': role,
+        'isVerified': isVerified,
+        'address': address,
+      };
 }
