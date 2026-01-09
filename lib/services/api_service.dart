@@ -123,6 +123,24 @@ class ApiService {
     return res.data;
   }
 
+  Future<dynamic> putJson(String path, dynamic data) async {
+    final res = await _dio.put(
+      path,
+      data: data,
+      options: Options(contentType: Headers.jsonContentType),
+    );
+
+    if ((res.statusCode ?? 0) >= 400) {
+      throw DioException(
+        requestOptions: res.requestOptions,
+        response: res,
+        type: DioExceptionType.badResponse,
+        error: res.data,
+      );
+    }
+    return res.data;
+  }
+
   /// Upload multipart FormData. Returns decoded JSON map.
   Future<dynamic> uploadFormData(String path, FormData formData) async {
     final res = await _dio.post(
@@ -191,7 +209,7 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> getProfile() async {
-    final data = await getJson('/api/auth/profile');
+    final data = await getJson('/api/users/me/profile');
     return Map<String, dynamic>.from(data as Map);
   }
 
