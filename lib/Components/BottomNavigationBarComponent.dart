@@ -11,7 +11,7 @@ class BottomNavigationBarComponent extends StatelessWidget{
         Navigator.pushNamed(context, '/home');
       }
       if(value == 1){
-        Navigator.pushNamed(context, '/product');
+        Navigator.pushNamed(context, '/myprofile');
       }
       if(value == 2){
         Navigator.pushNamed(context, '/chat');
@@ -19,7 +19,7 @@ class BottomNavigationBarComponent extends StatelessWidget{
 
       if(value == 3){
 
-        Navigator.pushNamed(context, '/productDetail');
+        Navigator.pushNamed(context, '/setting');
       }
   }
   @override
@@ -35,9 +35,9 @@ class BottomNavigationBarComponent extends StatelessWidget{
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home,),label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_card,),label: "Product"),
+          BottomNavigationBarItem(icon: Icon(Icons.person,),label: "My Profile"),
           BottomNavigationBarItem(icon: Icon(Icons.chat,),label: "Chat"),
-          BottomNavigationBarItem(icon: Icon(Icons.adb,),label: "DT"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings,),label: "Setting"),
         ]);
   }
 

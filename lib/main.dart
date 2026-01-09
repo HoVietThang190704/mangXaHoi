@@ -49,6 +49,8 @@ class MyApp extends StatelessWidget {
             '/': (context) => LoginView(),
             '/home': (context) => HomeView(),
             '/chat': (context) => ChatView(),
+            // '/myprofile': (context) => MyProfileView(),
+            // '/setting': (context) => SettingView(),
             '/createPost': (context) => CreatePostView(),
             '/register': (context) => RegisterView(),
             '/search': (context) => SearchView(),
