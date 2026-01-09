@@ -25,4 +25,9 @@
   "login_success": "Đăng nhập thành công",
   "login_first": "Vui lòng đăng nhập để đăng bài",
   "video_not_supported": "Hiện chưa hỗ trợ đăng video"
+  "search_title": "Tìm kiếm",
+  "search_hint": "Tìm người dùng",
+  "search_no_results": "Không tìm thấy người dùng",
+  "search_error": "Không thể tìm kiếm người dùng. Vui lòng thử lại.",
+  "search_min_chars": "Vui lòng nhập tối thiểu 2 ký tự"
 }

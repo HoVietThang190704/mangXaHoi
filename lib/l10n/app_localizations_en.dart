@@ -146,4 +146,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get video_not_supported => 'Video upload is not supported yet';
+  String get search_title => 'Search';
+
+  @override
+  String get search_hint => 'Search users';
+
+  @override
+  String get search_no_results => 'No users found';
+
+  @override
+  String get search_error => 'Unable to search users. Please try again.';
+
+  @override
+  String get search_min_chars => 'Please type at least 2 characters';
 }

@@ -25,4 +25,9 @@
   "login_success": "Logged in successfully",
   "login_first": "Please log in to post",
   "video_not_supported": "Video upload is not supported yet"
+  "search_title": "Search",
+  "search_hint": "Search users",
+  "search_no_results": "No users found",
+  "search_error": "Unable to search users. Please try again.",
+  "search_min_chars": "Please type at least 2 characters"
 }

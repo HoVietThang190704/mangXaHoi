@@ -376,6 +376,35 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Video upload is not supported yet'**
   String get video_not_supported;
+  /// No description provided for @search_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search_title;
+
+  /// No description provided for @search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search users'**
+  String get search_hint;
+
+  /// No description provided for @search_no_results.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found'**
+  String get search_no_results;
+
+  /// No description provided for @search_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to search users. Please try again.'**
+  String get search_error;
+
+  /// No description provided for @search_min_chars.
+  ///
+  /// In en, this message translates to:
+  /// **'Please type at least 2 characters'**
+  String get search_min_chars;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

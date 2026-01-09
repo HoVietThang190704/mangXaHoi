@@ -1,55 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:mangxahoi/l10n/app_localizations.dart';
 
-import '../Utils.dart';
-
-class AppBarComponent extends StatelessWidget implements PreferredSizeWidget{
+class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  AppBarComponent(this.title);
+
+  const AppBarComponent(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final username = Utils.userName ?? '';
-    final initial = username.isNotEmpty ? username[0] : (Utils.currentUser?.userName != null && Utils.currentUser!.userName!.isNotEmpty ? Utils.currentUser!.userName![0] : '?');
-
+    final l10n = AppLocalizations.of(context);
     return AppBar(
-      backgroundColor: Color(0xFF1877F2),
-      elevation: 2,
+      backgroundColor: Colors.white,
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      titleSpacing: 16,
       title: Row(
         children: [
-          Icon(Icons.facebook, size: 28, color: Colors.white),
-          SizedBox(width: 8),
-          Text(title, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-          Spacer(),
-          IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
-            onPressed: (){
-              // TODO: implement search navigation
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Search tapped')));
-            },
+          Text(
+            "Localhost",
+            style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
           ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.message, color: Colors.white),
-                onPressed: (){
-                  Navigator.pushNamed(context, '/chat');
-                },
-              ),
-            ],
-          ),
-          SizedBox(width: 8),
-          CircleAvatar(
-            radius: 14,
-            backgroundColor: Colors.white,
-            child: Text(initial, style: TextStyle(color: Color(0xFF1877F2), fontWeight: FontWeight.bold)),
-          ),
+          
         ],
       ),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.add, color: Colors.black87),
+          tooltip: 'Tạo bài viết',
+        ),
+        IconButton(
+          onPressed: () => Navigator.pushNamed(context, '/search'),
+          icon: Icon(Icons.search, color: Colors.black87),
+          tooltip: l10n?.search_title ?? 'Tìm kiếm',
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.chat, color: Colors.black87),
+          tooltip: 'Chat',
+        ),
+      ],
     );
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
 }

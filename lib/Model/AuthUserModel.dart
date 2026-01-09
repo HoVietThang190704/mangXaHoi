@@ -3,6 +3,7 @@ class AuthUserModel {
   final String email;
   final String? userName;
   final String? phone;
+  final String? avatar;
   final String? role;
   final bool? isVerified;
   final Map<String, dynamic>? address;
@@ -12,6 +13,7 @@ class AuthUserModel {
     required this.email,
     this.userName,
     this.phone,
+    this.avatar,
     this.role,
     this.isVerified,
     this.address,
@@ -23,19 +25,23 @@ class AuthUserModel {
       email: json['email']?.toString() ?? '',
       userName: json['userName']?.toString(),
       phone: json['phone']?.toString(),
+      avatar: json['avatar']?.toString(),
       role: json['role']?.toString(),
       isVerified: json['isVerified'] is bool ? json['isVerified'] as bool : null,
       address: json['address'] is Map<String, dynamic> ? Map<String, dynamic>.from(json['address'] as Map) : null,
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'email': email,
-        'userName': userName,
-        'phone': phone,
-        'role': role,
-        'isVerified': isVerified,
-        'address': address,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'userName': userName,
+      'phone': phone,
+      'avatar': avatar,
+      'role': role,
+      'isVerified': isVerified,
+      'address': address,
+    };
+  }
 }

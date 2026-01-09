@@ -1,3 +1,4 @@
+import 'package:mangxahoi/Utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/Components/AppBarComponent.dart';
@@ -9,6 +10,9 @@ import 'package:mangxahoi/Model/PostModel.dart';
 import 'package:mangxahoi/Model/AuthUserModel.dart';
 import 'package:mangxahoi/Service/FeedService.dart';
 import 'package:mangxahoi/Utils.dart';
+
+import '../Components/AppBarComponent.dart';
+import '../Components/BottomNavigationBarComponent.dart';
 
 class HomeView extends StatefulWidget{
   @override
