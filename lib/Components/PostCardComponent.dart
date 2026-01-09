@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
+import 'PostShareSheet.dart';
 import '../Model/PostModel.dart';
 
 class PostCardComponent extends StatelessWidget {
@@ -42,7 +43,7 @@ class PostCardComponent extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(height: 1.4),
               ),
             ),
-          if (post.imageUrl != null) _buildMediaPreview(),
+          if (post.imageUrl != null) _buildMediaPreview(context),
           _buildStatsRow(context),
           Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
           _buildActionRow(context),
@@ -53,6 +54,7 @@ class PostCardComponent extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context, String avatarLabel, String primaryText, String timestamp) {
     final theme = Theme.of(context);
+    final avatarUrl = (post.author.avatar?.trim().isNotEmpty ?? false) ? post.author.avatar!.trim() : null;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(16, 16, 16, 12),
@@ -62,7 +64,10 @@ class PostCardComponent extends StatelessWidget {
           CircleAvatar(
             radius: 24,
             backgroundColor: theme.primaryColor.withOpacity(0.15),
-            child: Text(avatarLabel, style: TextStyle(color: theme.primaryColor, fontWeight: FontWeight.w600)),
+            backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+            child: avatarUrl == null
+                ? Text(avatarLabel, style: TextStyle(color: theme.primaryColor, fontWeight: FontWeight.w600))
+                : null,
           ),
           SizedBox(width: 12),
           Expanded(
@@ -105,24 +110,27 @@ class PostCardComponent extends StatelessWidget {
     );
   }
 
-  Widget _buildMediaPreview() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(0),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Image.network(
-          post.imageUrl!,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, progress) {
-            if (progress == null) return child;
-            return Container(
-              alignment: Alignment.center,
-              color: Colors.grey[200],
-              child: CircularProgressIndicator(value: progress.expectedTotalBytes != null
-                  ? progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
-                  : null),
-            );
-          },
+  Widget _buildMediaPreview(BuildContext context) {
+    return GestureDetector(
+      onTap: onComment,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(0),
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Image.network(
+            post.imageUrl!,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, progress) {
+              if (progress == null) return child;
+              return Container(
+                alignment: Alignment.center,
+                color: Colors.grey[200],
+                child: CircularProgressIndicator(value: progress.expectedTotalBytes != null
+                    ? progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
+                    : null),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -180,7 +188,7 @@ class PostCardComponent extends StatelessWidget {
             context,
             icon: Icons.share_outlined,
             label: 'Share',
-            onTap: () {},
+            onTap: () => showPostShareSheet(context, post),
           ),
         ],
       ),

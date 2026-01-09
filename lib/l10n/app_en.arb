@@ -110,5 +110,22 @@
   "create_event": "Create event",
   "cancel": "Cancel",
   "unknown": "Unknown",
-  "comments": "Comments"
+  "comments": "Comments",
+  "post_detail_title": "Post detail",
+  "comment_input_hint": "Write a comment...",
+  "replying_to": "Replying to {name}",
+  "@replying_to": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "send": "Send",
+  "comments_empty": "No comments yet",
+  "comment_like": "Like",
+  "comment_reply": "Reply",
+  "comment_load_failed": "Unable to load comments",
+  "comment_like_failed": "Unable to like comment",
+  "comment_action_failed": "Unable to post comment",
+  "max_reply_depth": "Only 3 levels of replies are supported"
+  "delete_comment_confirm_title: "delete"
 }

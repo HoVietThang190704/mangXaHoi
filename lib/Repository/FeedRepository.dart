@@ -13,6 +13,13 @@ class FeedRepository{
     return postsJson.map((e) => PostModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
+  Future<PostModel> getPostById(String postId) async{
+    final api = await ApiService.create();
+    final jsonData = await api.getJson('/api/posts/$postId');
+    final data = jsonData['data'];
+    return PostModel.fromJson(Map<String, dynamic>.from(data as Map));
+  }
+
   Future<PostModel> createPost(Map<String, dynamic> payload) async{
     final api = await ApiService.create();
     try{

@@ -4,12 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:mangxahoi/Components/AppBarComponent.dart';
 import 'package:mangxahoi/Components/BottomNavigationBarComponent.dart';
 import 'package:mangxahoi/Components/CreatePostComponent.dart';
+import 'package:mangxahoi/Views/CreatePostView.dart';
+import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'package:mangxahoi/Components/PostCardComponent.dart';
 import 'package:mangxahoi/Components/StoryBarComponent.dart';
 import 'package:mangxahoi/Model/PostModel.dart';
 import 'package:mangxahoi/Model/AuthUserModel.dart';
 import 'package:mangxahoi/Service/FeedService.dart';
+import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/Utils.dart';
+
+import 'PostDetailView.dart';
 
 import '../Components/AppBarComponent.dart';
 import '../Components/BottomNavigationBarComponent.dart';
@@ -42,6 +47,7 @@ class _homeView extends State<HomeView> {
         _posts.clear();
         _posts.addAll(posts);
       });
+      _maybeUpdateUserAvatarFromPosts(posts);
     }catch(e){
       // If backend not available or unauthorized, leave empty and log
       print('Error loading feed: $e');
@@ -61,10 +67,37 @@ class _homeView extends State<HomeView> {
         _posts.addAll(more);
         _loadingMore = false;
       });
+      _maybeUpdateUserAvatarFromPosts(more);
     }catch(e){
       print('Error loading more feed: $e');
       setState(()=> _loadingMore = false);
     }
+  }
+
+  void _maybeUpdateUserAvatarFromPosts(List<PostModel> posts){
+    if ((Utils.currentUser?.avatar?.trim().isNotEmpty ?? false) || Utils.currentUser == null) return;
+    PostModel? mine;
+    try {
+      mine = posts.firstWhere(
+        (p) => p.userId == Utils.currentUser!.id && (p.author.avatar?.trim().isNotEmpty ?? false),
+      );
+    } catch (_) {
+      mine = null;
+    }
+    if (mine == null) return;
+    final updatedUser = AuthUserModel(
+      id: Utils.currentUser!.id,
+      email: Utils.currentUser!.email,
+      userName: Utils.currentUser!.userName,
+      phone: Utils.currentUser!.phone,
+      avatar: mine.author.avatar,
+      role: Utils.currentUser!.role,
+      isVerified: Utils.currentUser!.isVerified,
+      address: Utils.currentUser!.address,
+    );
+    Utils.currentUser = updatedUser;
+    SessionService.updateUser(updatedUser);
+    setState((){});
   }
 
   void _onScroll(){
@@ -149,7 +182,7 @@ class _homeView extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent('Home'),
+      appBar: AppBarComponent('Home', onPostCreated: (p) => setState(() => _posts.insert(0, p))),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: ListView.builder(
@@ -157,7 +190,46 @@ class _homeView extends State<HomeView> {
           itemCount: 3 + _posts.length + (_loadingMore ? 1 : 0),
           itemBuilder: (context, index){
             if(index == 0) return StoryBarComponent();
-            if(index == 1) return CreatePostComponent(onPost: _onCreatePost);
+            if (index == 1) {
+              return Card(
+                margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.grey[200],
+                        backgroundImage: (Utils.currentUser?.avatar?.trim().isNotEmpty ?? false)
+                            ? NetworkImage(Utils.currentUser!.avatar!.trim())
+                            : null,
+                        child: (Utils.currentUser?.avatar?.trim().isNotEmpty ?? false)
+                            ? null
+                            : Icon(Icons.person, color: Colors.grey[700]),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            final created = await Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => CreatePostView()));
+                            if (created != null) {
+                              setState(() => _posts.insert(0, created));
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(color: Colors.grey[300]!),
+                            ),
+                            child: Text(AppLocalizations.of(context)!.create_post_hint, style: TextStyle(color: Colors.grey[700])),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
             if(index == 2) return Divider(thickness: 6, color: Colors.grey[200]);
             final postIndex = index - 3;
             if(postIndex < _posts.length){
@@ -166,7 +238,14 @@ class _homeView extends State<HomeView> {
                 post: p,
                 onLike: () => _handleLike(p),
                 onComment: (){
-                  // navigate to comment page later
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => PostDetailView(post: p))).then((value){
+                    if(value is PostModel){
+                      setState((){
+                        final idx = _posts.indexWhere((element) => element.id == value.id);
+                        if(idx >= 0) _posts[idx] = value;
+                      });
+                    }
+                  });
                 },
               );
             }
