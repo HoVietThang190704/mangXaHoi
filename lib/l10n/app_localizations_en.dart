@@ -12,70 +12,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get facebook => 'facebook';
 
   @override
-  String get home => 'Home';
-
-  @override
-  String get product => 'Product';
-
-  @override
-  String get chat => 'Chat';
-
-  @override
-  String get dt => 'DT';
-
-  @override
-  String get create_post_title => 'Create post';
-
-  @override
-  String get create_post_hint => "What's on your mind?";
-
-  @override
-  String get cancel => 'Cancel';
-
-  @override
-  String get post => 'Post';
-
-  @override
-  String get comments => 'comments';
-
-  @override
-  String get unknown => 'Unknown';
-
-  @override  String get create_post_error => 'Unable to create post';
-
-  @override  String get language_english => 'English';
-
-  @override
-  String get language_vietnamese => 'Tiếng Việt';
-
-  @override
-  String get privacy_public => 'Public';
-
-  @override
-  String get privacy_friends => 'Friends';
-
-  @override
-  String get privacy_private => 'Only me';
-
-  @override
-  String get photo => 'Photo';
-
-  @override
-  String get video => 'Video';
-
-  @override
-  String get tag_people => 'Tag people';
-
-  @override
-  String get add_location => 'Add location';
-
-  @override
-  String get feeling_activity => 'Feeling/activity';
-
-  @override
-  String get create_event => 'Create event';
-
-  @override
   String get hint_name => 'Name';
 
   @override
@@ -146,6 +82,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get video_not_supported => 'Video upload is not supported yet';
+
+  @override
   String get search_title => 'Search';
 
   @override
@@ -159,4 +97,221 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search_min_chars => 'Please type at least 2 characters';
+
+  @override
+  String get settings_title => 'Settings';
+
+  @override
+  String get settings_search => 'Search settings';
+
+  @override
+  String get settings_account_center => 'ACCOUNT CENTER';
+
+  @override
+  String get settings_help_feedback => 'HELP & FEEDBACK';
+
+  @override
+  String get settings_options => 'OPTIONS';
+
+  @override
+  String get settings_edit_profile => 'Edit profile';
+
+  @override
+  String get settings_edit_profile_desc => 'Update name, address and personal info';
+
+  @override
+  String get settings_contact => 'Update contact';
+
+  @override
+  String get settings_contact_desc => 'Manage your social links';
+
+  @override
+  String get settings_security => 'Account security';
+
+  @override
+  String get settings_security_desc => 'Change password and security';
+
+  @override
+  String get settings_feedback => 'Send feedback';
+
+  @override
+  String get settings_feedback_desc => 'Share your ideas and suggestions';
+
+  @override
+  String get settings_language => 'Language';
+
+  @override
+  String get settings_language_desc => 'Change display language';
+
+  @override
+  String get settings_logout => 'Log out';
+
+  @override
+  String get settings_logout_desc => 'Sign out of the current account';
+
+  @override
+  String get settings_logout_confirm_title => 'Log out';
+
+  @override
+  String get settings_logout_confirm_message => 'Are you sure you want to log out?';
+
+  @override
+  String get language_english => 'English';
+
+  @override
+  String get language_vietnamese => 'Vietnamese';
+
+  @override
+  String get common_cancel => 'Cancel';
+
+  @override
+  String get common_confirm => 'Confirm';
+
+  @override
+  String get common_save => 'Save';
+
+  @override
+  String get common_saving => 'Saving...';
+
+  @override
+  String get profile_title => 'Edit profile';
+
+  @override
+  String get profile_display_name => 'Display name';
+
+  @override
+  String get profile_display_name_hint => 'Enter your name';
+
+  @override
+  String get profile_phone => 'Phone number';
+
+  @override
+  String get profile_phone_hint => 'Enter phone number';
+
+  @override
+  String get profile_address => 'Address';
+
+  @override
+  String get profile_address_hint => 'Street, city';
+
+  @override
+  String get profile_save_success => 'Profile updated';
+
+  @override
+  String get profile_phone_invalid => 'Invalid phone (e.g., 098xxxxxxx)';
+
+  @override
+  String get contact_title => 'Update contact';
+
+  @override
+  String get contact_save_success => 'Contact info saved';
+
+  @override
+  String get security_title => 'Account security';
+
+  @override
+  String get security_current_password => 'Current password';
+
+  @override
+  String get security_new_password => 'New password';
+
+  @override
+  String get security_confirm_new_password => 'Confirm new password';
+
+  @override
+  String get security_password_mismatch => 'New password does not match';
+
+  @override
+  String get security_save_success => 'Password changed';
+
+  @override
+  String get language_title => 'Language';
+
+  @override
+  String get language_vi => 'Vietnamese';
+
+  @override
+  String get language_en => 'English';
+
+  @override
+  String get language_save_success => 'Language updated. Restart if not applied.';
+
+  @override
+  String language_save_failed(Object error) {
+    return 'Failed to update language: $error';
+  }
+
+  @override
+  String get feedback_title => 'Feedback';
+
+  @override
+  String get feedback_hint => 'Tell us what you think...';
+
+  @override
+  String get feedback_optional_email => 'Contact email (optional)';
+
+  @override
+  String get feedback_sent => 'Feedback sent. Thank you!';
+
+  @override
+  String get feedback_send => 'Send feedback';
+
+  @override
+  String get feedback_sending => 'Sending...';
+
+  @override
+  String get feedback_required => 'Message cannot be empty';
+
+  @override
+  String feedback_failed(Object error) {
+    return 'Unable to send feedback: $error';
+  }
+
+  @override
+  String get create_post_error => 'Unable to create post';
+
+  @override
+  String get create_post_title => 'Create post';
+
+  @override
+  String get create_post_hint => 'What\'s on your mind?';
+
+  @override
+  String get post => 'Post';
+
+  @override
+  String get privacy_public => 'Public';
+
+  @override
+  String get privacy_friends => 'Friends';
+
+  @override
+  String get privacy_private => 'Only me';
+
+  @override
+  String get photo => 'Photo';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get tag_people => 'Tag people';
+
+  @override
+  String get add_location => 'Check in';
+
+  @override
+  String get feeling_activity => 'Feeling/activity';
+
+  @override
+  String get create_event => 'Create event';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override
+  String get comments => 'Comments';
 }

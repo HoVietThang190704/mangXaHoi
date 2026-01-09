@@ -208,7 +208,7 @@ class _LoginViewState extends State<LoginView> {
                       ],
                     );
                     if(selected != null){
-                      Utils.setLocale(Locale(selected));
+                      await Utils.setLocale(Locale(selected));
                       final label = selected == 'en' ? AppLocalizations.of(context)!.language_english : AppLocalizations.of(context)!.language_vietnamese;
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(label)));
                       setState(() {});

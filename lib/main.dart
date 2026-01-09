@@ -8,6 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'package:mangxahoi/Views/SearchView.dart';
+import 'package:mangxahoi/Views/Settings/EditProfileView.dart';
+import 'package:mangxahoi/Views/Settings/FeedbackView.dart';
+import 'package:mangxahoi/Views/Settings/LanguageSettingsView.dart';
+import 'package:mangxahoi/Views/Settings/SecuritySettingsView.dart';
+import 'package:mangxahoi/Views/Settings/SettingsHomeView.dart';
 
 import 'Utils.dart';
 
@@ -22,6 +27,8 @@ Future<void> main() async {
     debugPaintPointersEnabled = false;
     return true;
   }());
+
+  await Utils.loadSavedLocale();
 
   final bool autoLogin = await SessionService.restoreSession();
   runApp(MyApp(initialRoute: autoLogin ? '/home' : '/'));
@@ -49,8 +56,12 @@ class MyApp extends StatelessWidget {
             '/': (context) => LoginView(),
             '/home': (context) => HomeView(),
             '/chat': (context) => ChatView(),
-            // '/myprofile': (context) => MyProfileView(),
-            // '/setting': (context) => SettingView(),
+            '/setting': (context) => SettingsHomeView(),
+            //'/myprofile': (context) => EditProfileView(),
+            '/settings/profile': (context) => EditProfileView(),
+            '/settings/security': (context) => SecuritySettingsView(),
+            '/settings/feedback': (context) => FeedbackView(),
+            '/settings/language': (context) => LanguageSettingsView(),
             '/createPost': (context) => CreatePostView(),
             '/register': (context) => RegisterView(),
             '/search': (context) => SearchView(),
