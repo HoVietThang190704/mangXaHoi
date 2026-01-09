@@ -34,6 +34,29 @@ class FeedRepository{
     }
   }
 
+  Future<Map<String, dynamic>> toggleLike(String postId) async {
+    final api = await ApiService.create();
+    try {
+      final jsonData = await api.postJson('/api/posts/$postId/like', const {});
+      final data = jsonData['data'] ?? {};
+      return {
+        'isLiked': data['liked'] ?? data['isLiked'] ?? false,
+        'likesCount': data['likesCount'] ?? data['likes'] ?? 0,
+      };
+    } catch (e) {
+      print('❌ toggleLike error: $e');
+      if (e is DioException) {
+        final resp = e.response?.data;
+        print('❌ toggleLike response: $resp');
+        if (resp is Map && resp['message'] != null) {
+          throw Exception(resp['message'].toString());
+        }
+        throw Exception('Server error: ${e.response?.statusCode ?? 'unknown'}');
+      }
+      throw Exception(e.toString());
+    }
+  }
+
   // upload files (images/videos) to server and return array of urls/public ids
   Future<List<String>> uploadFiles(List<String> filePaths) async{
     final api = await ApiService.create();

@@ -93,16 +93,18 @@ class _NavItem extends StatelessWidget{
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 8),
-          Icon(icon, color: active ? color : Colors.grey[600]),
-          SizedBox(height: 4),
-          Text(label, style: TextStyle(fontSize: 12, color: active ? color : Colors.grey[600])),
-          SizedBox(height: 6),
-          if(active) Container(width: 28, height: 3, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2)))
-        ],
+      child: SizedBox(
+        height: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: active ? color : Colors.grey[600]),
+            SizedBox(height: 4),
+            Text(label, style: TextStyle(fontSize: 12, color: active ? color : Colors.grey[600])),
+            SizedBox(height: 6),
+            if(active) Container(width: 28, height: 3, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2)))
+          ],
+        ),
       ),
     );
   }

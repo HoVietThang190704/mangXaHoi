@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 import '../Model/PostModel.dart';
 
-class PostCardComponent extends StatelessWidget{
+class PostCardComponent extends StatelessWidget {
   final PostModel post;
   final VoidCallback? onLike;
   final VoidCallback? onComment;
@@ -11,63 +11,229 @@ class PostCardComponent extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+    final primaryText = post.author.userName ?? post.author.email ?? loc.unknown;
+    final avatarLabel = primaryText.isNotEmpty ? primaryText[0].toUpperCase() : '?';
+    final timestamp = _formatTimestamp(post.createdAt);
+
+    return Container(
       margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Padding(
-        padding: EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: theme.cardColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 18,
+            offset: Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(context, avatarLabel, primaryText, timestamp),
+          if (post.content.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: Text(
+                post.content,
+                style: theme.textTheme.bodyMedium?.copyWith(height: 1.4),
+              ),
+            ),
+          if (post.imageUrl != null) _buildMediaPreview(),
+          _buildStatsRow(context),
+          Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
+          _buildActionRow(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, String avatarLabel, String primaryText, String timestamp) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundColor: theme.primaryColor.withOpacity(0.15),
+            child: Text(avatarLabel, style: TextStyle(color: theme.primaryColor, fontWeight: FontWeight.w600)),
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(child: Text((post.author.userName != null && post.author.userName!.isNotEmpty)
-                    ? post.author.userName![0]
-                    : (post.author.email != null && post.author.email!.isNotEmpty ? post.author.email![0] : AppLocalizations.of(context)!.unknown[0]))),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(post.author.userName ?? post.author.email ?? '', style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('${post.createdAt.toLocal()}'.split('.')[0], style: TextStyle(fontSize:12, color: Colors.grey[600])),
-                    ],
-                  ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        primaryText,
+                        style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SizedBox(width: 6),
+                    Icon(Icons.verified, color: Color(0xFF1D72F2), size: 18),
+                  ],
                 ),
-                IconButton(onPressed: (){}, icon: Icon(Icons.more_horiz))
+                SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      timestamp,
+                      style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                      child: CircleAvatar(radius: 2, backgroundColor: Colors.grey[400]),
+                    ),
+                    Icon(Icons.public, size: 14, color: Colors.grey[600]),
+                  ],
+                ),
               ],
             ),
-            SizedBox(height: 8),
-            Text(post.content),
-            if(post.imageUrl != null) ...[
-              SizedBox(height:8),
-              Container(
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  image: DecorationImage(image: NetworkImage(post.imageUrl!), fit: BoxFit.cover),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-              )
-            ],
-            SizedBox(height: 8),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: onLike,
-                  icon: Icon(post.isLiked ? Icons.favorite : Icons.favorite_border, color: post.isLiked ? Colors.red : null),
-                ),
-                SizedBox(width:6),
-                Text('${post.likes}'),
-                Spacer(),
-                Text('${post.comments} ' + AppLocalizations.of(context)!.comments, style: TextStyle(color: Colors.grey[600])), 
-                SizedBox(width: 8),
-                IconButton(onPressed: onComment, icon: Icon(Icons.comment_outlined))
-              ],
-            ),
-          ],
+          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz, color: Colors.grey[700])),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMediaPreview() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(0),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Image.network(
+          post.imageUrl!,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, progress) {
+            if (progress == null) return child;
+            return Container(
+              alignment: Alignment.center,
+              color: Colors.grey[200],
+              child: CircularProgressIndicator(value: progress.expectedTotalBytes != null
+                  ? progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
+                  : null),
+            );
+          },
         ),
       ),
     );
+  }
+
+  Widget _buildStatsRow(BuildContext context) {
+    final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 48,
+            height: 28,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                _reactionBubble(Colors.blue, Icons.thumb_up, 0),
+                _reactionBubble(Colors.redAccent, Icons.favorite, 18),
+              ],
+            ),
+          ),
+          SizedBox(width: 8),
+          Text('${post.likes}', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+          Spacer(),
+          Text('${post.comments} ${loc.comments.toLowerCase()}', style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600])),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionRow(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4),
+      child: Row(
+        children: [
+          _actionButton(
+            context,
+            icon: post.isLiked ? Icons.favorite : Icons.thumb_up_alt_outlined,
+            label: post.isLiked ? 'Liked' : 'Like',
+            color: post.isLiked ? theme.primaryColor : Colors.grey[700],
+            onTap: onLike,
+          ),
+          _actionButton(
+            context,
+            icon: Icons.mode_comment_outlined,
+            label: 'Comment',
+            onTap: onComment,
+          ),
+          _actionButton(
+            context,
+            icon: Icons.share_outlined,
+            label: 'Share',
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _actionButton(BuildContext context,
+      {required IconData icon, required String label, Color? color, VoidCallback? onTap}) {
+    final theme = Theme.of(context);
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 20, color: color ?? Colors.grey[700]),
+              SizedBox(width: 6),
+              Text(
+                label,
+                style: theme.textTheme.bodyMedium?.copyWith(color: color ?? Colors.grey[800], fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Positioned _reactionBubble(Color color, IconData icon, double leftOffset) {
+    return Positioned(
+      left: leftOffset,
+      child: Container(
+        width: 28,
+        height: 28,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 2)),
+        child: Icon(icon, size: 14, color: Colors.white),
+      ),
+    );
+  }
+
+  String _formatTimestamp(DateTime dateTime) {
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inMinutes < 60) {
+      return '${difference.inMinutes}m';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours}h';
+    } else if (difference.inDays <= 7) {
+      return '${difference.inDays}d';
+    }
+    return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
   }
 }

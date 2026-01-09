@@ -37,6 +37,14 @@ class FeedService {
     }
   }
 
+  Future<Map<String, dynamic>> toggleLike(String postId) async {
+    try {
+      return await _repo.toggleLike(postId);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<String>> uploadFiles(List<String> filePaths) async{
     return await _repo.uploadFiles(filePaths);
   }

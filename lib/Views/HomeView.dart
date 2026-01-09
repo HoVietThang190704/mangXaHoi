@@ -80,11 +80,14 @@ class _homeView extends State<HomeView> {
     final author = Utils.currentUser ??
       AuthUserModel(id: '0', email: 'me@example.com', userName: 'Bạn');
     final tempPost = PostModel(
-      id: DateTime.now().millisecondsSinceEpoch,
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      userId: author.id,
       author: author,
       content: content,
+      images: const [],
       imageUrl: null,
       createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
       likes: 0,
       comments: 0,
     );
@@ -110,6 +113,35 @@ class _homeView extends State<HomeView> {
     }
   }
 
+  Future<void> _handleLike(PostModel post) async {
+    final previousLiked = post.isLiked;
+    final previousLikes = post.likes;
+
+    setState(() {
+      post.isLiked = !post.isLiked;
+      post.likes += post.isLiked ? 1 : -1;
+      if (post.likes < 0) post.likes = 0;
+    });
+
+    try {
+      final result = await _service.toggleLike(post.id);
+      if (!mounted) return;
+      setState(() {
+        post.isLiked = result['isLiked'] ?? post.isLiked;
+        post.likes = result['likesCount'] ?? post.likes;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        post.isLiked = previousLiked;
+        post.likes = previousLikes;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Không thể cập nhật lượt thích.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,10 +160,7 @@ class _homeView extends State<HomeView> {
               final p = _posts[postIndex];
               return PostCardComponent(
                 post: p,
-                onLike: (){
-                  setState(()=> p.isLiked = !p.isLiked);
-                  setState(()=> p.likes += p.isLiked ? 1 : -1);
-                },
+                onLike: () => _handleLike(p),
                 onComment: (){
                   // navigate to comment page later
                 },
