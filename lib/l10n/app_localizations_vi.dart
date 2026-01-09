@@ -314,4 +314,42 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get comments => 'Bình luận';
+
+  @override
+  String get post_detail_title => 'Chi tiết bài viết';
+
+  @override
+  String get comment_input_hint => 'Viết bình luận...';
+
+  @override
+  String replying_to(String name) {
+    return 'Đang trả lời $name';
+  }
+
+  @override
+  String get send => 'Gửi';
+
+  @override
+  String get comments_empty => 'Chưa có bình luận';
+
+  @override
+  String get comment_like => 'Thích';
+
+  @override
+  String get comment_reply => 'Trả lời';
+
+  @override
+  String get comment_load_failed => 'Không thể tải bình luận';
+
+  @override
+  String get comment_like_failed => 'Không thể thích bình luận';
+
+  @override
+  String get comment_action_failed => 'Không thể đăng bình luận';
+
+  @override
+  String get max_reply_depth => 'Chỉ hỗ trợ tối đa 3 tầng trả lời';
+
+  @override
+  String get delete_comment_confirm_title => 'Xóa';
 }

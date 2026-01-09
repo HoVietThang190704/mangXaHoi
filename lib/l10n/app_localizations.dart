@@ -700,6 +700,74 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comments'**
   String get comments;
+
+  /// No description provided for @post_detail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Post detail'**
+  String get post_detail_title;
+
+  /// No description provided for @comment_input_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment...'**
+  String get comment_input_hint;
+
+  /// No description provided for @replying_to.
+  ///
+  /// In en, this message translates to:
+  /// **'Replying to {name}'**
+  String replying_to(String name);
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @comments_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet'**
+  String get comments_empty;
+
+  /// No description provided for @comment_like.
+  ///
+  /// In en, this message translates to:
+  /// **'Like'**
+  String get comment_like;
+
+  /// No description provided for @comment_reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get comment_reply;
+
+  /// No description provided for @comment_load_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load comments'**
+  String get comment_load_failed;
+
+  /// No description provided for @comment_like_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to like comment'**
+  String get comment_like_failed;
+
+  /// No description provided for @comment_action_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to post comment'**
+  String get comment_action_failed;
+
+  /// No description provided for @max_reply_depth.
+  ///
+  /// In en, this message translates to:
+  /// **'Only 3 levels of replies are supported'**
+  String get max_reply_depth;
+
+  String get delete_comment_confirm_title;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

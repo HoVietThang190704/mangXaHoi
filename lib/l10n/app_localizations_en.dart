@@ -314,4 +314,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comments => 'Comments';
+
+  @override
+  String get post_detail_title => 'Post detail';
+
+  @override
+  String get comment_input_hint => 'Write a comment...';
+
+  @override
+  String replying_to(String name) {
+    return 'Replying to $name';
+  }
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get comments_empty => 'No comments yet';
+
+  @override
+  String get comment_like => 'Like';
+
+  @override
+  String get comment_reply => 'Reply';
+
+  @override
+  String get comment_load_failed => 'Unable to load comments';
+
+  @override
+  String get comment_like_failed => 'Unable to like comment';
+
+  @override
+  String get comment_action_failed => 'Unable to post comment';
+
+  @override
+  String get max_reply_depth => 'Only 3 levels of replies are supported';
+
+  @override
+  String get delete_comment_confirm_title => 'Delete';
 }

@@ -45,6 +45,10 @@ class FeedService {
     }
   }
 
+  Future<PostModel> getPostById(String postId) async {
+    return _repo.getPostById(postId);
+  }
+
   Future<List<String>> uploadFiles(List<String> filePaths) async{
     return await _repo.uploadFiles(filePaths);
   }

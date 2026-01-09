@@ -110,5 +110,22 @@
   "create_event": "Tạo sự kiện",
   "cancel": "Hủy",
   "unknown": "Không rõ",
-  "comments": "Bình luận"
+  "comments": "Bình luận",
+  "post_detail_title": "Chi tiết bài viết",
+  "comment_input_hint": "Viết bình luận...",
+  "replying_to": "Đang trả lời {name}",
+  "@replying_to": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "send": "Gửi",
+  "comments_empty": "Chưa có bình luận",
+  "comment_like": "Thích",
+  "comment_reply": "Trả lời",
+  "comment_load_failed": "Không thể tải bình luận",
+  "comment_like_failed": "Không thể thích bình luận",
+  "comment_action_failed": "Không thể đăng bình luận",
+  "max_reply_depth": "Chỉ hỗ trợ tối đa 3 tầng trả lời"
+  "delete_comment_confirm_title": "xóa"
 }
