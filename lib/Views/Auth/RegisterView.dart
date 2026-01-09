@@ -52,7 +52,7 @@ class _RegisterViewState extends State<RegisterView> {
       final result = await _authService.register(
         email: email,
         password: password,
-        confirmPassword: confirmPassword, // ✅ gửi confirmPassword
+        confirmPassword: confirmPassword, 
         userName: name,
       );
 

@@ -146,4 +146,17 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get video_not_supported => 'Hiện chưa hỗ trợ đăng video';
+  String get search_title => 'Tìm kiếm';
+
+  @override
+  String get search_hint => 'Tìm người dùng';
+
+  @override
+  String get search_no_results => 'Không tìm thấy người dùng';
+
+  @override
+  String get search_error => 'Không thể tìm kiếm người dùng. Vui lòng thử lại.';
+
+  @override
+  String get search_min_chars => 'Vui lòng nhập tối thiểu 2 ký tự';
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mangxahoi/Service/AuthService.dart';
+import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 
 class LoginView extends StatefulWidget {
@@ -77,6 +78,13 @@ class _LoginViewState extends State<LoginView> {
       Utils.currentUser = result.user;
       Utils.accessToken = result.accessToken;
       Utils.refreshToken = result.refreshToken;
+      if (result.user != null && result.accessToken != null) {
+        await SessionService.storeSession(
+          accessToken: result.accessToken!,
+          refreshToken: result.refreshToken,
+          user: result.user!,
+        );
+      }
 
       if (!mounted) {
         return;

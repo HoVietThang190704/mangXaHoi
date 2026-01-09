@@ -1,18 +1,20 @@
 import 'package:mangxahoi/Views/ChatView.dart';
 import 'package:mangxahoi/Views/HomeView.dart';
+import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/Views/Auth/LoginView.dart';
 import 'package:mangxahoi/Views/Auth/RegisterView.dart';
-import 'package:mangxahoi/Views/ProductView.dart';
 import 'package:mangxahoi/Views/CreatePostView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
+import 'package:mangxahoi/Views/SearchView.dart';
 
 import 'Utils.dart';
-import 'Views/ProductDetailView.dart';
 
 
-void main() {
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // Ensure debug paint overlays are disabled by default in debug builds
   assert(() {
     debugPaintSizeEnabled = false;
@@ -21,10 +23,15 @@ void main() {
     return true;
   }());
 
-  runApp(MyApp());
+  final bool autoLogin = await SessionService.restoreSession();
+  runApp(MyApp(initialRoute: autoLogin ? '/home' : '/'));
 }
 
 class MyApp extends StatelessWidget {
+  final String initialRoute;
+
+  const MyApp({super.key, required this.initialRoute});
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Locale?>(
@@ -37,18 +44,14 @@ class MyApp extends StatelessWidget {
           locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          initialRoute: '/',
+          initialRoute: initialRoute,
           routes: {
             '/': (context) => LoginView(),
             '/home': (context) => HomeView(),
             '/chat': (context) => ChatView(),
-            '/product': (context) => ProductView(),
-            '/productDetail': (context) {
-              var args = ModalRoute.of(context)!.settings.arguments as Map;
-              return ProductDetailView((args["Id"] as int));
-            },
             '/createPost': (context) => CreatePostView(),
             '/register': (context) => RegisterView(),
+            '/search': (context) => SearchView(),
           },
 
         );
