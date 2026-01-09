@@ -101,138 +101,6 @@ abstract class AppLocalizations {
   /// **'facebook'**
   String get facebook;
 
-  /// No description provided for @home.
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
-  String get home;
-
-  /// No description provided for @product.
-  ///
-  /// In en, this message translates to:
-  /// **'Product'**
-  String get product;
-
-  /// No description provided for @chat.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat'**
-  String get chat;
-
-  /// No description provided for @dt.
-  ///
-  /// In en, this message translates to:
-  /// **'DT'**
-  String get dt;
-
-  /// No description provided for @create_post_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Create post'**
-  String get create_post_title;
-
-  /// No description provided for @create_post_hint.
-  ///
-  /// In en, this message translates to:
-  /// **"What's on your mind?"**
-  String get create_post_hint;
-
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
-
-  /// No description provided for @post.
-  ///
-  /// In en, this message translates to:
-  /// **'Post'**
-  String get post;
-
-  /// No description provided for @comments.
-  ///
-  /// In en, this message translates to:
-  /// **'comments'**
-  String get comments;
-
-  /// No description provided for @unknown.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown'**
-  String get unknown;
-
-  /// No description provided for @create_post_error.
-  ///
-  /// In en, this message translates to:
-  /// **'Unable to create post'**
-  String get create_post_error;
-
-  /// No description provided for @language_english.
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get language_english;
-
-  /// No description provided for @language_vietnamese.
-  ///
-  /// In en, this message translates to:
-  /// **'Tiếng Việt'**
-  String get language_vietnamese;
-
-  /// No description provided for @privacy_public.
-  ///
-  /// In en, this message translates to:
-  /// **'Public'**
-  String get privacy_public;
-
-  /// No description provided for @privacy_friends.
-  ///
-  /// In en, this message translates to:
-  /// **'Friends'**
-  String get privacy_friends;
-
-  /// No description provided for @privacy_private.
-  ///
-  /// In en, this message translates to:
-  /// **'Only me'**
-  String get privacy_private;
-
-  /// No description provided for @photo.
-  ///
-  /// In en, this message translates to:
-  /// **'Photo'**
-  String get photo;
-
-  /// No description provided for @video.
-  ///
-  /// In en, this message translates to:
-  /// **'Video'**
-  String get video;
-
-  /// No description provided for @tag_people.
-  ///
-  /// In en, this message translates to:
-  /// **'Tag people'**
-  String get tag_people;
-
-  /// No description provided for @add_location.
-  ///
-  /// In en, this message translates to:
-  /// **'Add location'**
-  String get add_location;
-
-  /// No description provided for @feeling_activity.
-  ///
-  /// In en, this message translates to:
-  /// **'Feeling/activity'**
-  String get feeling_activity;
-
-  /// No description provided for @create_event.
-  ///
-  /// In en, this message translates to:
-  /// **'Create event'**
-  String get create_event;
-
   /// No description provided for @hint_name.
   ///
   /// In en, this message translates to:
@@ -376,6 +244,115 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Video upload is not supported yet'**
   String get video_not_supported;
+
+  /// No description provided for @create_post_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s on your mind?'**
+  String get create_post_hint;
+
+  /// No description provided for @create_post_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create post'**
+  String get create_post_title;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @post.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get post;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @language_english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get language_english;
+
+  /// No description provided for @language_vietnamese.
+  ///
+  /// In en, this message translates to:
+  /// **'Vietnamese'**
+  String get language_vietnamese;
+
+  /// No description provided for @create_post_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to publish post. Please try again.'**
+  String get create_post_error;
+
+  /// No description provided for @privacy_public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get privacy_public;
+
+  /// No description provided for @privacy_friends.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get privacy_friends;
+
+  /// No description provided for @privacy_private.
+  ///
+  /// In en, this message translates to:
+  /// **'Only me'**
+  String get privacy_private;
+
+  /// No description provided for @photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get photo;
+
+  /// No description provided for @video.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get video;
+
+  /// No description provided for @tag_people.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag people'**
+  String get tag_people;
+
+  /// No description provided for @add_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in'**
+  String get add_location;
+
+  /// No description provided for @feeling_activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Feeling/activity'**
+  String get feeling_activity;
+
+  /// No description provided for @create_event.
+  ///
+  /// In en, this message translates to:
+  /// **'Create event'**
+  String get create_event;
+
   /// No description provided for @search_title.
   ///
   /// In en, this message translates to:
@@ -405,6 +382,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please type at least 2 characters'**
   String get search_min_chars;
+
+  /// No description provided for @profile_feed_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts to display.'**
+  String get profile_feed_empty;
+
+  /// No description provided for @profile_login_required_title.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not signed in'**
+  String get profile_login_required_title;
+
+  /// No description provided for @profile_login_required_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to view your profile.'**
+  String get profile_login_required_body;
+
+  /// No description provided for @profile_retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get profile_retry;
+
+  /// No description provided for @profile_error_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load content'**
+  String get profile_error_title;
+
+  /// No description provided for @profile_edit_cover.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit cover photo'**
+  String get profile_edit_cover;
+
+  /// No description provided for @profile_add_to_story.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to story'**
+  String get profile_add_to_story;
+
+  /// No description provided for @profile_edit_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profile_edit_profile;
+
+  /// No description provided for @profile_tab_posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts'**
+  String get profile_tab_posts;
+
+  /// No description provided for @profile_tab_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get profile_tab_photos;
+
+  /// No description provided for @profile_tab_reels.
+  ///
+  /// In en, this message translates to:
+  /// **'Reels'**
+  String get profile_tab_reels;
+
+  /// No description provided for @profile_friend_count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} friends'**
+  String profile_friend_count(int count);
+
+  /// No description provided for @profile_section_about.
+  ///
+  /// In en, this message translates to:
+  /// **'Intro'**
+  String get profile_section_about;
+
+  /// No description provided for @profile_about_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No introduction yet.'**
+  String get profile_about_empty;
+
+  /// No description provided for @profile_section_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get profile_section_photos;
+
+  /// No description provided for @profile_photos_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No shared photos yet.'**
+  String get profile_photos_empty;
+
+  /// No description provided for @profile_view_all.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get profile_view_all;
+
+  /// No description provided for @profile_section_friends.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get profile_section_friends;
+
+  /// No description provided for @profile_friends_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends list available.'**
+  String get profile_friends_empty;
+
+  /// No description provided for @profile_default_display_name.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get profile_default_display_name;
+
+  /// No description provided for @profile_like_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to update likes.'**
+  String get profile_like_error;
+
+  /// No description provided for @profile_invalid_user_data.
+  ///
+  /// In en, this message translates to:
+  /// **'No valid user data found.'**
+  String get profile_invalid_user_data;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

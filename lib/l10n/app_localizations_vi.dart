@@ -12,70 +12,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get facebook => 'facebook';
 
   @override
-  String get home => 'Trang chủ';
-
-  @override
-  String get product => 'Sản phẩm';
-
-  @override
-  String get chat => 'Chat';
-
-  @override
-  String get dt => 'DT';
-
-  @override
-  String get create_post_title => 'Tạo bài viết';
-
-  @override
-  String get create_post_hint => 'Bạn đang nghĩ gì?';
-
-  @override
-  String get cancel => 'Huỷ';
-
-  @override
-  String get post => 'Đăng';
-
-  @override
-  String get comments => 'bình luận';
-
-  @override
-  String get unknown => 'Không rõ';
-
-  @override  String get create_post_error => 'Không thể tạo bài viết';
-
-  @override  String get language_english => 'English';
-
-  @override
-  String get language_vietnamese => 'Tiếng Việt';
-
-  @override
-  String get privacy_public => 'Công khai';
-
-  @override
-  String get privacy_friends => 'Bạn bè';
-
-  @override
-  String get privacy_private => 'Chỉ mình tôi';
-
-  @override
-  String get photo => 'Ảnh';
-
-  @override
-  String get video => 'Video';
-
-  @override
-  String get tag_people => 'Gắn thẻ người khác';
-
-  @override
-  String get add_location => 'Thêm vị trí';
-
-  @override
-  String get feeling_activity => 'Cảm xúc/hoạt động';
-
-  @override
-  String get create_event => 'Tạo sự kiện';
-
-  @override
   String get hint_name => 'Họ và tên';
 
   @override
@@ -146,6 +82,62 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get video_not_supported => 'Hiện chưa hỗ trợ đăng video';
+
+  @override
+  String get create_post_hint => 'Bạn đang nghĩ gì?';
+
+  @override
+  String get create_post_title => 'Tạo bài viết';
+
+  @override
+  String get cancel => 'Hủy';
+
+  @override
+  String get post => 'Đăng';
+
+  @override
+  String get unknown => 'Không xác định';
+
+  @override
+  String get comments => 'Bình luận';
+
+  @override
+  String get language_english => 'Tiếng Anh';
+
+  @override
+  String get language_vietnamese => 'Tiếng Việt';
+
+  @override
+  String get create_post_error => 'Không thể đăng bài. Vui lòng thử lại.';
+
+  @override
+  String get privacy_public => 'Công khai';
+
+  @override
+  String get privacy_friends => 'Bạn bè';
+
+  @override
+  String get privacy_private => 'Chỉ mình tôi';
+
+  @override
+  String get photo => 'Ảnh';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get tag_people => 'Gắn thẻ bạn bè';
+
+  @override
+  String get add_location => 'Địa điểm';
+
+  @override
+  String get feeling_activity => 'Cảm xúc/hoạt động';
+
+  @override
+  String get create_event => 'Tạo sự kiện';
+
+  @override
   String get search_title => 'Tìm kiếm';
 
   @override
@@ -159,4 +151,72 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get search_min_chars => 'Vui lòng nhập tối thiểu 2 ký tự';
+
+  @override
+  String get profile_feed_empty => 'Chưa có bài viết nào để hiển thị.';
+
+  @override
+  String get profile_login_required_title => 'Bạn chưa đăng nhập';
+
+  @override
+  String get profile_login_required_body => 'Vui lòng đăng nhập để xem trang cá nhân của bạn.';
+
+  @override
+  String get profile_retry => 'Thử lại';
+
+  @override
+  String get profile_error_title => 'Không thể tải nội dung';
+
+  @override
+  String get profile_edit_cover => 'Chỉnh sửa ảnh bìa';
+
+  @override
+  String get profile_add_to_story => 'Thêm vào tin';
+
+  @override
+  String get profile_edit_profile => 'Chỉnh sửa trang cá nhân';
+
+  @override
+  String get profile_tab_posts => 'Bài viết';
+
+  @override
+  String get profile_tab_photos => 'Ảnh';
+
+  @override
+  String get profile_tab_reels => 'Reels';
+
+  @override
+  String profile_friend_count(int count) {
+    return '$count người bạn';
+  }
+
+  @override
+  String get profile_section_about => 'Giới thiệu';
+
+  @override
+  String get profile_about_empty => 'Chưa có thông tin giới thiệu.';
+
+  @override
+  String get profile_section_photos => 'Ảnh';
+
+  @override
+  String get profile_photos_empty => 'Chưa có ảnh nào được chia sẻ.';
+
+  @override
+  String get profile_view_all => 'Xem tất cả';
+
+  @override
+  String get profile_section_friends => 'Bạn bè';
+
+  @override
+  String get profile_friends_empty => 'Chưa có danh sách bạn bè.';
+
+  @override
+  String get profile_default_display_name => 'Người dùng';
+
+  @override
+  String get profile_like_error => 'Không thể cập nhật lượt thích.';
+
+  @override
+  String get profile_invalid_user_data => 'Không tìm thấy dữ liệu người dùng hợp lệ.';
 }

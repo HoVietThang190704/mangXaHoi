@@ -4,6 +4,7 @@ import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/Views/Auth/LoginView.dart';
 import 'package:mangxahoi/Views/Auth/RegisterView.dart';
 import 'package:mangxahoi/Views/CreatePostView.dart';
+import 'package:mangxahoi/Views/MyProfileView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
             '/': (context) => LoginView(),
             '/home': (context) => HomeView(),
             '/chat': (context) => ChatView(),
-            // '/myprofile': (context) => MyProfileView(),
+            '/myprofile': (context) => const MyProfileView(),
             // '/setting': (context) => SettingView(),
             '/createPost': (context) => CreatePostView(),
             '/register': (context) => RegisterView(),
