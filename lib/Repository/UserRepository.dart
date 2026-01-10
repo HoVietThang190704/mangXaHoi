@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:mangxahoi/Model/AuthUserModel.dart';
 import 'package:mangxahoi/Model/SearchUsersResult.dart';
 import 'package:mangxahoi/Utils.dart';
 
@@ -38,5 +39,28 @@ class UserRepository extends BaseRepository {
 
     super.codeErrorHandle(response.statusCode);
     throw Exception('Search failed with status ${response.statusCode}');
+  }
+
+  Future<AuthUserModel> getPublicProfile(String userId) async {
+    final uri = Uri.parse('${Utils.baseUrl}/api/users/$userId/public-profile');
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+      if (Utils.accessToken != null) 'Authorization': 'Bearer ${Utils.accessToken}',
+    };
+
+    final response = await http.get(uri, headers: headers);
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(response.body);
+      if (decoded is Map<String, dynamic>) {
+        final data = decoded['data'];
+        if (data is Map<String, dynamic>) {
+          return AuthUserModel.fromJson(data);
+        }
+      }
+      throw const FormatException('Invalid response format');
+    }
+
+    super.codeErrorHandle(response.statusCode);
+    throw Exception('Failed to load profile (${response.statusCode})');
   }
 }

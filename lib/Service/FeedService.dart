@@ -10,6 +10,10 @@ class FeedService {
     return _repo.getFeed(page: page, limit: pageSize);
   }
 
+  Future<List<PostModel>> getPostsByUser(String userId, {int page = 1, int pageSize = 10}) async {
+    return _repo.getPostsByUser(userId, page: page, limit: pageSize);
+  }
+
   Future<PostModel> createPost(Map<String, dynamic> payload) async {
     if (payload.containsKey('images') && payload['images'] is List<String>) {
       final paths = List<String>.from(payload['images']);

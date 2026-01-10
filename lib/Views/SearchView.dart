@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mangxahoi/Model/AuthUserModel.dart';
 import 'package:mangxahoi/Model/SearchUsersResult.dart';
 import 'package:mangxahoi/Service/UserService.dart';
+import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 
 class SearchView extends StatefulWidget {
@@ -113,6 +114,12 @@ class _SearchViewState extends State<SearchView> {
                 ),
                 title: Text(name),
                 subtitle: Text(user.email),
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    '/profile/user',
+                    arguments: UserProfileArguments(userId: user.id, initialUser: user),
+                  );
+                },
               );
             },
           ),

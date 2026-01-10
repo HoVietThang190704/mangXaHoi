@@ -5,6 +5,7 @@ import 'package:mangxahoi/Views/Auth/LoginView.dart';
 import 'package:mangxahoi/Views/Auth/RegisterView.dart';
 import 'package:mangxahoi/Views/CreatePostView.dart';
 import 'package:mangxahoi/Views/Profile/MyProfileView.dart';
+import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
@@ -21,7 +22,6 @@ import 'Utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Ensure debug paint overlays are disabled by default in debug builds
   assert(() {
     debugPaintSizeEnabled = false;
     debugPaintBaselinesEnabled = false;
@@ -58,6 +58,18 @@ class MyApp extends StatelessWidget {
             '/home': (context) => HomeView(),
             '/chat': (context) => ChatView(),
             '/myprofile': (context) => const MyProfileView(),
+            '/profile/user': (context) {
+              final args = ModalRoute.of(context)?.settings.arguments;
+              if (args is UserProfileArguments) {
+                return UserProfileView(userId: args.userId, initialUser: args.initialUser);
+              }
+              if (args is String && args.isNotEmpty) {
+                return UserProfileView(userId: args);
+              }
+              return const Scaffold(
+                body: Center(child: Text('User not found')),
+              );
+            },
             // '/setting': (context) => SettingView(),
             '/setting': (context) => SettingsHomeView(),
             //'/myprofile': (context) => EditProfileView(),

@@ -821,6 +821,66 @@ abstract class AppLocalizations {
   /// **'User'**
   String get profile_default_display_name;
 
+  /// No description provided for @profile_user_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile_user_title;
+
+  /// No description provided for @profile_add_friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Add friend'**
+  String get profile_add_friend;
+
+  /// No description provided for @profile_cancel_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel request'**
+  String get profile_cancel_request;
+
+  /// No description provided for @profile_remove_friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove friend'**
+  String get profile_remove_friend;
+
+  /// No description provided for @profile_friend_request_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend request sent'**
+  String get profile_friend_request_sent;
+
+  /// No description provided for @profile_friend_request_cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend request cancelled'**
+  String get profile_friend_request_cancelled;
+
+  /// No description provided for @profile_friend_removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from friends'**
+  String get profile_friend_removed;
+
+  /// No description provided for @profile_friend_request_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to update friendship. Please try again.'**
+  String get profile_friend_request_failed;
+
+  /// No description provided for @profile_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get profile_message;
+
+  /// No description provided for @profile_message_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot start a chat right now.'**
+  String get profile_message_unavailable;
+
   /// No description provided for @profile_like_error.
   ///
   /// In en, this message translates to:
