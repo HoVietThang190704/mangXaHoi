@@ -84,6 +84,60 @@ class AppLocalizationsEn extends AppLocalizations {
   String get video_not_supported => 'Video upload is not supported yet';
 
   @override
+  String get create_post_hint => 'What\'s on your mind?';
+
+  @override
+  String get create_post_title => 'Create post';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get post => 'Post';
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get language_english => 'English';
+
+  @override
+  String get language_vietnamese => 'Vietnamese';
+
+  @override
+  String get create_post_error => 'Unable to publish post. Please try again.';
+
+  @override
+  String get privacy_public => 'Public';
+
+  @override
+  String get privacy_friends => 'Friends';
+
+  @override
+  String get privacy_private => 'Only me';
+
+  @override
+  String get photo => 'Photo';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get tag_people => 'Tag people';
+
+  @override
+  String get add_location => 'Check in';
+
+  @override
+  String get feeling_activity => 'Feeling/activity';
+
+  @override
+  String get create_event => 'Create event';
+
+  @override
   String get search_title => 'Search';
 
   @override
@@ -154,12 +208,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_logout_confirm_message => 'Are you sure you want to log out?';
-
-  @override
-  String get language_english => 'English';
-
-  @override
-  String get language_vietnamese => 'Vietnamese';
 
   @override
   String get common_cancel => 'Cancel';
@@ -268,52 +316,83 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get create_post_error => 'Unable to create post';
+  String get profile_feed_empty => 'No posts to display.';
 
   @override
-  String get create_post_title => 'Create post';
+  String get profile_login_required_title => 'You are not signed in';
 
   @override
-  String get create_post_hint => 'What\'s on your mind?';
+  String get profile_login_required_body => 'Please sign in to view your profile.';
 
   @override
-  String get post => 'Post';
+  String get profile_retry => 'Try again';
 
   @override
-  String get privacy_public => 'Public';
+  String get profile_error_title => 'Unable to load content';
 
   @override
-  String get privacy_friends => 'Friends';
+  String get profile_edit_cover => 'Edit cover photo';
 
   @override
-  String get privacy_private => 'Only me';
+  String get profile_add_to_story => 'Add to story';
 
   @override
-  String get photo => 'Photo';
+  String get profile_edit_profile => 'Edit profile';
 
   @override
-  String get video => 'Video';
+  String get profile_tab_posts => 'Posts';
 
   @override
-  String get tag_people => 'Tag people';
+  String get profile_tab_photos => 'Photos';
 
   @override
-  String get add_location => 'Check in';
+  String get profile_tab_reels => 'Reels';
 
   @override
-  String get feeling_activity => 'Feeling/activity';
+  String profile_friend_count(int count) {
+    return '$count friends';
+  }
 
   @override
-  String get create_event => 'Create event';
+  String get profile_section_about => 'Intro';
 
   @override
-  String get cancel => 'Cancel';
+  String get profile_about_empty => 'No introduction yet.';
 
   @override
-  String get unknown => 'Unknown';
+  String get profile_section_photos => 'Photos';
+
+  String get profile_photos_empty => 'No shared photos yet.';
 
   @override
-  String get comments => 'Comments';
+  String get profile_view_all => 'See all';
+
+  @override
+  String get profile_section_friends => 'Friends';
+
+  @override
+  String get profile_friends_empty => 'No friends list available.';
+
+  @override
+  String get profile_default_display_name => 'User';
+
+  @override
+  String get profile_like_error => 'Unable to update likes.';
+
+  @override
+  String get profile_invalid_user_data => 'No valid user data found.';
+
+  @override
+  String get profile_avatar_take_photo => 'Take a photo';
+
+  @override
+  String get profile_avatar_choose_gallery => 'Choose from gallery';
+
+  @override
+  String get profile_avatar_updated => 'Profile photo updated';
+
+  @override
+  String get profile_avatar_update_failed => 'Unable to update profile photo.';
 
   @override
   String get post_detail_title => 'Post detail';

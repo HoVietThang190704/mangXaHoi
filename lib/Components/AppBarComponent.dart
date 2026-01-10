@@ -19,7 +19,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           Text(
-            "Localhost",
+            title,
             style: TextStyle(
               color: Colors.blue,
               fontWeight: FontWeight.bold,

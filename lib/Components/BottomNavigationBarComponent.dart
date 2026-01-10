@@ -5,6 +5,9 @@ import '../Utils.dart';
 
 class BottomNavigationBarComponent extends StatelessWidget{
   void tabItemClick(int value){
+      if (value == Utils.selectIndex) {
+        return;
+      }
       Utils.selectIndex = value;
       BuildContext context = Utils.navigatorKey.currentContext!;
       if( value == 0){
@@ -35,7 +38,7 @@ class BottomNavigationBarComponent extends StatelessWidget{
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home,),label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.person,),label: "My Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle,),label: "My Profile"),
           BottomNavigationBarItem(icon: Icon(Icons.chat,),label: "Chat"),
           BottomNavigationBarItem(icon: Icon(Icons.settings,),label: "Setting"),
         ]);

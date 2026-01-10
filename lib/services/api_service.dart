@@ -64,8 +64,6 @@ class ApiService {
         onRequest: (options, handler) async {
           final token = await storage.read(key: 'accessToken');
 
-          print('➡️ [API] ${options.method} ${dio.options.baseUrl}${options.path}');
-
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           } else {
@@ -75,15 +73,10 @@ class ApiService {
           return handler.next(options);
         },
         onError: (e, handler) {
-          print('❌ [API ERROR] baseUrl=${dio.options.baseUrl}');
-          print('❌ status=${e.response?.statusCode}');
-          print('❌ data=${e.response?.data}');
           return handler.next(e);
         },
       ),
     );
-
-    print('✅ API_BASE_URL in use: ${dio.options.baseUrl}');
 
     return ApiService._internal(dio, storage);
   }
@@ -177,8 +170,6 @@ class ApiService {
 
   Future<Map<String, dynamic>> register(Map<String, dynamic> payload) async {
     final data = await postJson('/api/auth/register', payload);
-
-    // Persist tokens if registration returns them
     try {
       if (data is Map<String, dynamic>) {
         final access = data['accessToken']?.toString();
@@ -191,7 +182,6 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('⚠️ Failed to persist tokens after register: $e');
     }
 
     return Map<String, dynamic>.from(data as Map);
@@ -202,8 +192,6 @@ class ApiService {
       'email': email,
       'password': password,
     });
-
-    // Persist tokens if returned so Interceptor can include Authorization header
     try {
       if (data is Map<String, dynamic>) {
         final access = data['accessToken']?.toString();
@@ -216,8 +204,6 @@ class ApiService {
         }
       }
     } catch (e) {
-      // ignore storage write failures but log for debugging
-      print('⚠️ Failed to persist tokens: $e');
     }
 
     return Map<String, dynamic>.from(data as Map);
