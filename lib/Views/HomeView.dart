@@ -153,7 +153,7 @@ class _HomeViewState extends State<HomeView> {
       setState(() => _posts.removeWhere((p) => p.id == tempPost.id));
       final loc = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loc?.create_post_error ?? 'Không th? t?o bài vi?t.')),
+        SnackBar(content: Text(loc?.create_post_error ?? 'Kh?ng th? t?o b?i vi?t.')),
       );
     }
   }
@@ -204,7 +204,7 @@ class _HomeViewState extends State<HomeView> {
       });
       final loc = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loc?.profile_like_error ?? 'Không th? c?p nh?t lu?t thích.')),
+        SnackBar(content: Text(loc?.profile_like_error ?? 'Kh?ng th? c?p nh?t lu?t th?ch.')),
       );
     }
   }

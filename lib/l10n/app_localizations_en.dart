@@ -377,6 +377,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile_default_display_name => 'User';
 
   @override
+  String get profile_user_title => 'Profile';
+
+  @override
+  String get profile_add_friend => 'Add friend';
+
+  @override
+  String get profile_cancel_request => 'Cancel request';
+
+  @override
+  String get profile_remove_friend => 'Remove friend';
+
+  @override
+  String get profile_friend_request_sent => 'Friend request sent';
+
+  @override
+  String get profile_friend_request_cancelled => 'Friend request cancelled';
+
+  @override
+  String get profile_friend_removed => 'Removed from friends';
+
+  @override
+  String get profile_friend_request_failed => 'Unable to update friendship. Please try again.';
+
+  @override
+  String get profile_message => 'Message';
+
+  @override
+  String get profile_message_unavailable => 'Cannot start a chat right now.';
+
+  @override
   String get profile_like_error => 'Unable to update likes.';
 
   @override

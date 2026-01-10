@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mangxahoi/Utils.dart';
+import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'PostShareSheet.dart';
 import '../Model/PostModel.dart';
@@ -61,13 +63,17 @@ class PostCardComponent extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: theme.primaryColor.withOpacity(0.15),
-            backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
-            child: avatarUrl == null
-                ? Text(avatarLabel, style: TextStyle(color: theme.primaryColor, fontWeight: FontWeight.w600))
-                : null,
+          InkWell(
+            onTap: () => _handleProfileTap(context),
+            customBorder: const CircleBorder(),
+            child: CircleAvatar(
+              radius: 24,
+              backgroundColor: theme.primaryColor.withOpacity(0.15),
+              backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+              child: avatarUrl == null
+                  ? Text(avatarLabel, style: TextStyle(color: theme.primaryColor, fontWeight: FontWeight.w600))
+                  : null,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -259,5 +265,23 @@ class PostCardComponent extends StatelessWidget {
       return '${difference.inDays}d';
     }
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+  }
+
+  void _handleProfileTap(BuildContext context) {
+    final authorId = post.userId.isNotEmpty ? post.userId : post.author.id;
+    if (authorId.isEmpty) {
+      return;
+    }
+
+    final currentId = Utils.currentUser?.id;
+    if (currentId != null && currentId == authorId) {
+      Navigator.of(context).pushNamed('/myprofile');
+      return;
+    }
+
+    Navigator.of(context).pushNamed(
+      '/profile/user',
+      arguments: UserProfileArguments(userId: authorId, initialUser: post.author),
+    );
   }
 }

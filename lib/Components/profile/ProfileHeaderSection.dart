@@ -25,6 +25,8 @@ class ProfileHeaderSection extends StatelessWidget {
   final ValueChanged<int>? onTabChanged;
   final VoidCallback? onAvatarTap;
   final bool isUploadingAvatar;
+  final Widget? actionArea;
+  final bool showAvatarAction;
 
   const ProfileHeaderSection({
     super.key,
@@ -41,6 +43,8 @@ class ProfileHeaderSection extends StatelessWidget {
     this.onTabChanged,
     this.onAvatarTap,
     this.isUploadingAvatar = false,
+    this.actionArea,
+    this.showAvatarAction = true,
   });
 
   @override
@@ -60,6 +64,7 @@ class ProfileHeaderSection extends StatelessWidget {
           initials: initials,
           onAvatarTap: onAvatarTap,
           isUploading: isUploadingAvatar,
+          showCameraButton: showAvatarAction,
         ),
         const SizedBox(height: 16),
         _ProfileStats(
@@ -68,6 +73,10 @@ class ProfileHeaderSection extends StatelessWidget {
           friendLabel: friendLabel,
           highlights: highlights,
         ),
+        if (actionArea != null) ...[
+          const SizedBox(height: 12),
+          actionArea!,
+        ],
         const SizedBox(height: 16),
         _ProfileIntroCard(details: introDetails),
         const SizedBox(height: 12),
@@ -169,6 +178,7 @@ class _CoverSection extends StatelessWidget {
   final String initials;
   final VoidCallback? onAvatarTap;
   final bool isUploading;
+  final bool showCameraButton;
 
   const _CoverSection({
     required this.color,
@@ -177,6 +187,7 @@ class _CoverSection extends StatelessWidget {
     required this.initials,
     this.onAvatarTap,
     this.isUploading = false,
+    this.showCameraButton = true,
   });
 
   @override
@@ -239,15 +250,16 @@ class _CoverSection extends StatelessWidget {
                         : null,
                   ),
                 ),
-                Positioned(
-                  bottom: 6,
-                  right: 6,
-                  child: _AvatarCameraButton(
-                    color: color,
-                    isUploading: isUploading,
-                    onTap: onAvatarTap,
+                if (showCameraButton)
+                  Positioned(
+                    bottom: 6,
+                    right: 6,
+                    child: _AvatarCameraButton(
+                      color: color,
+                      isUploading: isUploading,
+                      onTap: onAvatarTap,
+                    ),
                   ),
-                ),
               ],
             ),
           ),

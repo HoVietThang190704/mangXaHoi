@@ -16,6 +16,17 @@ class FeedRepository {
     return postsJson.map((e) => PostModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
+  Future<List<PostModel>> getPostsByUser(String userId, {int page = 1, int limit = 10}) async {
+    final api = await ApiService.create();
+    final jsonData = await api.getJson(
+      '/api/posts/user/$userId',
+      queryParameters: {'page': page, 'limit': limit},
+    );
+    final data = jsonData['data'];
+    final postsJson = data != null && data['posts'] is List ? data['posts'] as List : [];
+    return postsJson.map((e) => PostModel.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
   Future<PostModel> getPostById(String postId) async {
     final api = await ApiService.create();
     final jsonData = await api.getJson('/api/posts/$postId');

@@ -377,6 +377,36 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profile_default_display_name => 'Người dùng';
 
   @override
+  String get profile_user_title => 'Trang cá nhân';
+
+  @override
+  String get profile_add_friend => 'Kết bạn';
+
+  @override
+  String get profile_cancel_request => 'Hủy lời mời';
+
+  @override
+  String get profile_remove_friend => 'Hủy kết bạn';
+
+  @override
+  String get profile_friend_request_sent => 'Đã gửi lời mời kết bạn';
+
+  @override
+  String get profile_friend_request_cancelled => 'Đã hủy lời mời kết bạn';
+
+  @override
+  String get profile_friend_removed => 'Đã hủy kết bạn';
+
+  @override
+  String get profile_friend_request_failed => 'Không thể cập nhật trạng thái kết bạn.';
+
+  @override
+  String get profile_message => 'Nhắn tin';
+
+  @override
+  String get profile_message_unavailable => 'Chưa thể mở cuộc trò chuyện.';
+
+  @override
   String get profile_like_error => 'Không thể cập nhật lượt thích.';
 
   @override
