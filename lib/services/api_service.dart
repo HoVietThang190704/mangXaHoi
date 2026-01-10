@@ -134,6 +134,22 @@ class ApiService {
     return res.data;
   }
 
+  Future<dynamic> deleteJson(String path) async {
+    final res = await _dio.delete(path);
+
+    if ((res.statusCode ?? 0) >= 400) {
+      throw DioException(
+        requestOptions: res.requestOptions,
+        response: res,
+        type: DioExceptionType.badResponse,
+        error: res.data,
+      );
+    }
+
+    return res.data;
+  }
+
+  /// Upload multipart FormData. Returns decoded JSON map.
   Future<dynamic> uploadFormData(String path, FormData formData) async {
     final res = await _dio.post(
       path,

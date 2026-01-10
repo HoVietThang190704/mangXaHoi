@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
+import 'package:mangxahoi/Views/CreatePostView.dart';
 
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final void Function(dynamic createdPost)? onPostCreated;
 
-  const AppBarComponent(this.title, {super.key});
+  const AppBarComponent(this.title, {super.key, this.onPostCreated});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,14 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            final created = await Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => CreatePostView()));
+            if (created != null) {
+              onPostCreated?.call(created);
+            }
+          },
           icon: Icon(Icons.add, color: Colors.black87),
-          tooltip: 'Tạo bài viết',
+          tooltip: l10n?.create_post_title ?? 'Tạo bài viết',
         ),
         IconButton(
           onPressed: () => Navigator.pushNamed(context, '/search'),

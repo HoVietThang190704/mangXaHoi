@@ -7,7 +7,10 @@ import 'package:mangxahoi/Components/StoryBarComponent.dart';
 import 'package:mangxahoi/Model/AuthUserModel.dart';
 import 'package:mangxahoi/Model/PostModel.dart';
 import 'package:mangxahoi/Service/FeedService.dart';
+import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/Utils.dart';
+import 'package:mangxahoi/Views/PostDetailView.dart';
+import 'package:mangxahoi/l10n/app_localizations.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -48,6 +51,7 @@ class _HomeViewState extends State<HomeView> {
           ..clear()
           ..addAll(posts);
       });
+      _maybeUpdateUserAvatarFromPosts(posts);
     } catch (e) {
       debugPrint('Error loading feed: $e');
       if (!mounted) return;
@@ -68,6 +72,7 @@ class _HomeViewState extends State<HomeView> {
         _posts.addAll(more);
         _loadingMore = false;
       });
+      _maybeUpdateUserAvatarFromPosts(more);
     } catch (e) {
       debugPrint('Error loading more feed: $e');
       if (!mounted) return;
@@ -75,9 +80,34 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  void _maybeUpdateUserAvatarFromPosts(List<PostModel> posts) {
+    if ((Utils.currentUser?.avatar?.trim().isNotEmpty ?? false) || Utils.currentUser == null) return;
+    PostModel? mine;
+    try {
+      mine = posts.firstWhere(
+        (p) => p.userId == Utils.currentUser!.id && (p.author.avatar?.trim().isNotEmpty ?? false),
+      );
+    } catch (_) {
+      mine = null;
+    }
+    if (mine == null) return;
+    final updatedUser = AuthUserModel(
+      id: Utils.currentUser!.id,
+      email: Utils.currentUser!.email,
+      userName: Utils.currentUser!.userName,
+      phone: Utils.currentUser!.phone,
+      avatar: mine.author.avatar,
+      role: Utils.currentUser!.role,
+      isVerified: Utils.currentUser!.isVerified,
+      address: Utils.currentUser!.address,
+    );
+    Utils.currentUser = updatedUser;
+    SessionService.updateUser(updatedUser);
+    setState(() {});
+  }
+
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
       _loadMore();
     }
   }
@@ -90,7 +120,7 @@ class _HomeViewState extends State<HomeView> {
         AuthUserModel(
           id: 'local-${now.millisecondsSinceEpoch}',
           email: 'user@localhost',
-          userName: 'Bạn',
+          userName: 'B?n',
         );
 
     final tempPost = PostModel(
@@ -121,9 +151,29 @@ class _HomeViewState extends State<HomeView> {
     } catch (e) {
       if (!mounted) return;
       setState(() => _posts.removeWhere((p) => p.id == tempPost.id));
+      final loc = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Không thể tạo bài viết.')),
+        SnackBar(content: Text(loc?.create_post_error ?? 'Kh�ng th? t?o b�i vi?t.')),
       );
+    }
+  }
+
+  void _handleAppBarPostCreated(dynamic created) {
+    if (created is! PostModel) return;
+    setState(() => _posts.insert(0, created));
+  }
+
+  Future<void> _openPostDetail(PostModel post) async {
+    final updated = await Navigator.of(context).push<PostModel>(
+      MaterialPageRoute(builder: (ctx) => PostDetailView(post: post)),
+    );
+    if (updated != null && mounted) {
+      setState(() {
+        final idx = _posts.indexWhere((element) => element.id == updated.id);
+        if (idx >= 0) {
+          _posts[idx] = updated;
+        }
+      });
     }
   }
 
@@ -152,8 +202,9 @@ class _HomeViewState extends State<HomeView> {
         post.isLiked = previousLiked;
         post.likes = previousLikes;
       });
+      final loc = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Không thể cập nhật lượt thích.')),
+        SnackBar(content: Text(loc?.profile_like_error ?? 'Kh�ng th? c?p nh?t lu?t th�ch.')),
       );
     }
   }
@@ -161,7 +212,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarComponent('Home'),
+      appBar: AppBarComponent('Home', onPostCreated: _handleAppBarPostCreated),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: ListView.builder(
@@ -178,7 +229,7 @@ class _HomeViewState extends State<HomeView> {
               return PostCardComponent(
                 post: post,
                 onLike: () => _handleLike(post),
-                onComment: () {},
+                onComment: () => _openPostDetail(post),
               );
             }
 
@@ -193,4 +244,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
