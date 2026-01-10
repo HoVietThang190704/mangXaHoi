@@ -46,7 +46,13 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
           tooltip: l10n?.search_title ?? 'Tìm kiếm',
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            final routeName = ModalRoute.of(context)?.settings.name;
+            if (routeName == '/chat') {
+              return;
+            } 
+            Navigator.pushNamed(context, '/chat');
+          },
           icon: Icon(Icons.chat, color: Colors.black87),
           tooltip: 'Chat',
         ),

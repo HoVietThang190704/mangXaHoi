@@ -15,10 +15,7 @@ import 'package:mangxahoi/Views/Settings/FeedbackView.dart';
 import 'package:mangxahoi/Views/Settings/LanguageSettingsView.dart';
 import 'package:mangxahoi/Views/Settings/SecuritySettingsView.dart';
 import 'package:mangxahoi/Views/Settings/SettingsHomeView.dart';
-
 import 'Utils.dart';
-
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,7 +78,6 @@ class MyApp extends StatelessWidget {
             '/register': (context) => RegisterView(),
             '/search': (context) => SearchView(),
           },
-
         );
       },
     );
