@@ -51,7 +51,6 @@ class _CreatePostViewState extends State<CreatePostView> {
     if(content.isEmpty) return;
     setState(()=> _posting = true);
 
-    // Require login before attempting to post
     if (Utils.accessToken == null || Utils.accessToken!.isEmpty) {
       final loc = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.login_first ?? 'Please login to post')));
@@ -61,15 +60,12 @@ class _CreatePostViewState extends State<CreatePostView> {
     }
 
     try{
-      // Do not allow video uploads yet — backend only accepts images
       if (_media.any((m) => (m.mimeType?.startsWith('video/') ?? false))) {
         final loc = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.video_not_supported)));
         setState(()=> _posting = false);
         return;
       }
-
-      // pass media file paths for upload
       final post = await _feedService.createPost({
         'content': content,
         'images': _media.map((e) => e.path).toList(),
@@ -79,10 +75,8 @@ class _CreatePostViewState extends State<CreatePostView> {
     }catch(e){
       final loc = AppLocalizations.of(context)!;
       final message = e is Exception ? e.toString().replaceFirst('Exception: ', '') : 'Unknown error';
-      // Show friendly localized message plus debug detail in debug mode
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${loc.create_post_error}: $message')));
-      // Also log full error for debugging
-      print('❌ _submit error: $e');
+      print('_submit error: $e');
     }finally{
       if(mounted) setState(()=> _posting = false);
     }
@@ -91,6 +85,14 @@ class _CreatePostViewState extends State<CreatePostView> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final user = Utils.currentUser;
+    final avatarUrl = user?.avatar?.trim();
+    final hasAvatar = avatarUrl?.isNotEmpty ?? false;
+    final placeholderInitial = (user?.userName?.isNotEmpty ?? false)
+      ? user!.userName!.trim()[0].toUpperCase()
+      : (user?.email?.isNotEmpty ?? false)
+        ? user!.email!.trim()[0].toUpperCase()
+        : null;
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.create_post_title),
@@ -105,7 +107,22 @@ class _CreatePostViewState extends State<CreatePostView> {
       body: Column(
         children: [
           ListTile(
-            leading: CircleAvatar(child: Icon(Icons.person)),
+            leading: CircleAvatar(
+              radius: 24,
+              backgroundColor: const Color(0xFFF1F5F9),
+              backgroundImage: hasAvatar ? NetworkImage(avatarUrl!) : null,
+              child: hasAvatar
+                  ? null
+                  : (placeholderInitial != null
+                      ? Text(
+                          placeholderInitial,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF111827),
+                          ),
+                        )
+                      : const Icon(Icons.person, color: Color(0xFF9CA3AF))),
+            ),
             title: Text(Utils.currentUser?.userName ?? Utils.userName ?? ''),
             subtitle: GestureDetector(
               onTap: () async{

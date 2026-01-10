@@ -9,27 +9,16 @@ class ApiService {
 
   ApiService._internal(this._dio, this._storage);
 
+  static bool _envLoaded = false;
+  static String? _cachedBaseUrl;
+
   static String _normalizeBaseUrl(String url) {
     // trim + remove trailing slashes
     return url.trim().replaceAll(RegExp(r'/*$'), '');
   }
 
   static Future<ApiService> create({bool enableLog = true}) async {
-    // 1) Load env (không crash nếu thiếu)
-    try {
-      await dotenv.load(fileName: ".env");
-    } catch (e) {
-      // ignore: avoid_print
-      print('⚠️ Warning: .env not found or not bundled. Using defaults. $e');
-    }
-
-    // 2) Default base url theo platform (fallback)
-    final platformDefault =
-        Platform.isAndroid ? 'http://10.0.2.2:5000' : 'http://localhost:5000';
-
-    // 3) BaseUrl từ env hoặc fallback
-    final rawBaseUrl = dotenv.env['API_BASE_URL'] ?? platformDefault;
-    final baseUrl = _normalizeBaseUrl(rawBaseUrl);
+    final baseUrl = await getBaseUrl();
 
     // 4) Storage (reuse 1 instance)
     const storage = FlutterSecureStorage();
@@ -79,6 +68,29 @@ class ApiService {
     );
 
     return ApiService._internal(dio, storage);
+  }
+
+  static Future<void> _ensureEnvLoaded() async {
+    if (_envLoaded) return;
+    try {
+      await dotenv.load(fileName: ".env");
+    } catch (e) {
+      // ignore: avoid_print
+      print('⚠️ Warning: .env not found or not bundled. Using defaults. $e');
+    }
+    _envLoaded = true;
+  }
+
+  static Future<String> getBaseUrl() async {
+    await _ensureEnvLoaded();
+    if (_cachedBaseUrl != null) {
+      return _cachedBaseUrl!;
+    }
+
+    final platformDefault = Platform.isAndroid ? 'http://10.0.2.2:5000' : 'http://localhost:5000';
+    final rawBaseUrl = dotenv.env['API_BASE_URL'] ?? platformDefault;
+    _cachedBaseUrl = _normalizeBaseUrl(rawBaseUrl);
+    return _cachedBaseUrl!;
   }
 
   Future<dynamic> getJson(

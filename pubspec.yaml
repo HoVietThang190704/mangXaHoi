@@ -38,14 +38,15 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   flutter_html: ^3.0.0
-  http: ^0.13.6
-  signalr_core: ^1.1.1
+  http: ^1.6.0
   dio: ^5.9.0
   flutter_dotenv: ^5.1.0
   flutter_secure_storage: ^9.1.0
   image_picker: ^0.8.7+4
   shared_preferences: ^2.5.4
   url_launcher: ^6.3.1
+  socket_io_client: ^2.0.3
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

@@ -11,6 +11,7 @@ import 'package:mangxahoi/Service/FriendService.dart';
 import 'package:mangxahoi/Service/UserService.dart';
 import 'package:mangxahoi/Utils.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
+import 'package:mangxahoi/Views/Chat/ChatViewArguments.dart';
 
 class UserProfileArguments {
   final String userId;
@@ -283,7 +284,15 @@ class _UserProfileViewState extends State<UserProfileView> {
       _showSnack(loc.profile_message_unavailable);
       return;
     }
-    Navigator.of(context).pushNamed('/chat');
+    final loc = AppLocalizations.of(context)!;
+    Navigator.of(context).pushNamed(
+      '/chat',
+      arguments: ChatViewArguments(
+        userId: _user!.id,
+        displayName: _displayName(loc),
+        avatar: _user!.avatar,
+      ),
+    );
   }
 
   void _showSnack(String message) {
