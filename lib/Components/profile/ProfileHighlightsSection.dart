@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 
-class ProfileDetail {
-	final IconData icon;
-	final String text;
-
-	const ProfileDetail({required this.icon, required this.text});
-}
-
 class FriendPreview {
 	final String name;
 	final String? photoUrl;
@@ -16,17 +9,17 @@ class FriendPreview {
 }
 
 class ProfileHighlightsSection extends StatelessWidget {
-	final List<ProfileDetail> details;
 	final List<String> photoUrls;
 	final List<FriendPreview> friends;
 	final Color accentColor;
+	final bool showPhotos;
 
 	const ProfileHighlightsSection({
 		super.key,
-		required this.details,
 		required this.photoUrls,
 		required this.friends,
 		required this.accentColor,
+		this.showPhotos = true,
 	});
 
 	@override
@@ -35,13 +28,7 @@ class ProfileHighlightsSection extends StatelessWidget {
 		return Column(
 			crossAxisAlignment: CrossAxisAlignment.start,
 			children: [
-				_SectionCard(
-					title: loc.profile_section_about,
-					child: details.isEmpty
-							? Text(loc.profile_about_empty)
-							: Column(children: details.map((detail) => _InfoTile(detail: detail)).toList()),
-				),
-				const SizedBox(height: 20),
+			if (showPhotos)
 				_SectionCard(
 					title: loc.profile_section_photos,
 					actionText: photoUrls.isNotEmpty ? loc.profile_view_all : null,
@@ -66,19 +53,8 @@ class ProfileHighlightsSection extends StatelessWidget {
 								},
 							),
 				),
-				const SizedBox(height: 20),
-				_SectionCard(
-					title: loc.profile_section_friends,
-					child: friends.isEmpty
-							? Text(loc.profile_friends_empty)
-							: Wrap(
-								spacing: 12,
-								runSpacing: 12,
-								children: friends
-										.map((friend) => _FriendTile(friend: friend, accentColor: accentColor))
-										.toList(),
-							),
-				),
+				if (showPhotos) const SizedBox(height: 20),
+
 				],
 			);
 	}
@@ -125,32 +101,6 @@ class _SectionCard extends StatelessWidget {
 					),
 					const SizedBox(height: 12),
 					child,
-				],
-			),
-		);
-	}
-}
-
-class _InfoTile extends StatelessWidget {
-	final ProfileDetail detail;
-
-	const _InfoTile({required this.detail});
-
-	@override
-	Widget build(BuildContext context) {
-		return Padding(
-			padding: const EdgeInsets.symmetric(vertical: 6),
-			child: Row(
-				crossAxisAlignment: CrossAxisAlignment.start,
-				children: [
-					Icon(detail.icon, color: Colors.black54),
-					const SizedBox(width: 16),
-					Expanded(
-						child: Text(
-							detail.text,
-							style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.4),
-						),
-					),
 				],
 			),
 		);

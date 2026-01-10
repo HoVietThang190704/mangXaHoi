@@ -383,6 +383,324 @@ abstract class AppLocalizations {
   /// **'Please type at least 2 characters'**
   String get search_min_chars;
 
+  /// No description provided for @settings_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_title;
+
+  /// No description provided for @settings_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search settings'**
+  String get settings_search;
+
+  /// No description provided for @settings_account_center.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCOUNT CENTER'**
+  String get settings_account_center;
+
+  /// No description provided for @settings_help_feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'HELP & FEEDBACK'**
+  String get settings_help_feedback;
+
+  /// No description provided for @settings_options.
+  ///
+  /// In en, this message translates to:
+  /// **'OPTIONS'**
+  String get settings_options;
+
+  /// No description provided for @settings_edit_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get settings_edit_profile;
+
+  /// No description provided for @settings_edit_profile_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Update name, address and personal info'**
+  String get settings_edit_profile_desc;
+
+  /// No description provided for @settings_contact.
+  ///
+  /// In en, this message translates to:
+  /// **'Update contact'**
+  String get settings_contact;
+
+  /// No description provided for @settings_contact_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your social links'**
+  String get settings_contact_desc;
+
+  /// No description provided for @settings_security.
+  ///
+  /// In en, this message translates to:
+  /// **'Account security'**
+  String get settings_security;
+
+  /// No description provided for @settings_security_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password and security'**
+  String get settings_security_desc;
+
+  /// No description provided for @settings_feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get settings_feedback;
+
+  /// No description provided for @settings_feedback_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your ideas and suggestions'**
+  String get settings_feedback_desc;
+
+  /// No description provided for @settings_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settings_language;
+
+  /// No description provided for @settings_language_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Change display language'**
+  String get settings_language_desc;
+
+  /// No description provided for @settings_logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get settings_logout;
+
+  /// No description provided for @settings_logout_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of the current account'**
+  String get settings_logout_desc;
+
+  /// No description provided for @settings_logout_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get settings_logout_confirm_title;
+
+  /// No description provided for @settings_logout_confirm_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get settings_logout_confirm_message;
+
+  /// No description provided for @common_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get common_cancel;
+
+  /// No description provided for @common_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get common_confirm;
+
+  /// No description provided for @common_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get common_save;
+
+  /// No description provided for @common_saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get common_saving;
+
+  /// No description provided for @profile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profile_title;
+
+  /// No description provided for @profile_display_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get profile_display_name;
+
+  /// No description provided for @profile_display_name_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get profile_display_name_hint;
+
+  /// No description provided for @profile_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get profile_phone;
+
+  /// No description provided for @profile_phone_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter phone number'**
+  String get profile_phone_hint;
+
+  /// No description provided for @profile_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get profile_address;
+
+  /// No description provided for @profile_address_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Street, city'**
+  String get profile_address_hint;
+
+  /// No description provided for @profile_save_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get profile_save_success;
+
+  /// No description provided for @profile_phone_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone (e.g., 098xxxxxxx)'**
+  String get profile_phone_invalid;
+
+  /// No description provided for @contact_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Update contact'**
+  String get contact_title;
+
+  /// No description provided for @contact_save_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact info saved'**
+  String get contact_save_success;
+
+  /// No description provided for @security_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Account security'**
+  String get security_title;
+
+  /// No description provided for @security_current_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get security_current_password;
+
+  /// No description provided for @security_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get security_new_password;
+
+  /// No description provided for @security_confirm_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get security_confirm_new_password;
+
+  /// No description provided for @security_password_mismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'New password does not match'**
+  String get security_password_mismatch;
+
+  /// No description provided for @security_save_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed'**
+  String get security_save_success;
+
+  /// No description provided for @language_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language_title;
+
+  /// No description provided for @language_vi.
+  ///
+  /// In en, this message translates to:
+  /// **'Vietnamese'**
+  String get language_vi;
+
+  /// No description provided for @language_en.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get language_en;
+
+  /// No description provided for @language_save_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Language updated. Restart if not applied.'**
+  String get language_save_success;
+
+  /// No description provided for @language_save_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update language: {error}'**
+  String language_save_failed(Object error);
+
+  /// No description provided for @feedback_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedback_title;
+
+  /// No description provided for @feedback_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what you think...'**
+  String get feedback_hint;
+
+  /// No description provided for @feedback_optional_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact email (optional)'**
+  String get feedback_optional_email;
+
+  /// No description provided for @feedback_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback sent. Thank you!'**
+  String get feedback_sent;
+
+  /// No description provided for @feedback_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get feedback_send;
+
+  /// No description provided for @feedback_sending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get feedback_sending;
+
+  /// No description provided for @feedback_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Message cannot be empty'**
+  String get feedback_required;
+
+  /// No description provided for @feedback_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to send feedback: {error}'**
+  String feedback_failed(Object error);
+
   /// No description provided for @profile_feed_empty.
   ///
   /// In en, this message translates to:
@@ -514,6 +832,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No valid user data found.'**
   String get profile_invalid_user_data;
+
+  /// No description provided for @profile_avatar_take_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get profile_avatar_take_photo;
+
+  /// No description provided for @profile_avatar_choose_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get profile_avatar_choose_gallery;
+
+  /// No description provided for @profile_avatar_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo updated'**
+  String get profile_avatar_updated;
+
+  /// No description provided for @profile_avatar_update_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to update profile photo.'**
+  String get profile_avatar_update_failed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -3,11 +3,16 @@ import 'package:mangxahoi/Components/BottomNavigationBarComponent.dart';
 import 'package:mangxahoi/Components/profile/ProfileFeedSection.dart';
 import 'package:mangxahoi/Components/profile/ProfileHeaderSection.dart';
 import 'package:mangxahoi/Components/profile/ProfileHighlightsSection.dart';
+import 'package:mangxahoi/Components/profile/ProfilePhotosSection.dart';
 import 'package:mangxahoi/Model/AuthUserModel.dart';
 import 'package:mangxahoi/Model/PostModel.dart';
 import 'package:mangxahoi/Service/FeedService.dart';
 import 'package:mangxahoi/Utils.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:mangxahoi/Service/SettingsService.dart';
+import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/services/api_service.dart';
 
 class MyProfileView extends StatefulWidget {
@@ -23,6 +28,10 @@ class _MyProfileViewState extends State<MyProfileView> {
   AuthUserModel? _user = Utils.currentUser;
   bool _isLoading = true;
   String? _error;
+  int _activeTab = 0;
+  bool _isUploadingAvatar = false;
+  final ImagePicker _picker = ImagePicker();
+  final SettingsService _settingsService = SettingsService();
 
   @override
   void initState() {
@@ -139,12 +148,67 @@ class _MyProfileViewState extends State<MyProfileView> {
     return urls.toList();
   }
 
+  Future<XFile?> _selectAvatarSource() async {
+    final loc = AppLocalizations.of(context)!;
+    return showModalBottomSheet<XFile?>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: Text(loc.profile_avatar_take_photo),
+              onTap: () async {
+                final file = await _picker.pickImage(source: ImageSource.camera, imageQuality: 80, maxWidth: 2048);
+                Navigator.of(sheetContext).pop(file);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: Text(loc.profile_avatar_choose_gallery),
+              onTap: () async {
+                final file = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80, maxWidth: 2048);
+                Navigator.of(sheetContext).pop(file);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.close),
+              title: Text(loc.common_cancel),
+              onTap: () => Navigator.of(sheetContext).pop(null),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleChangeAvatar() async {
+    final loc = AppLocalizations.of(context)!;
+    final picked = await _selectAvatarSource();
+    if (picked == null) return;
+
+    setState(() => _isUploadingAvatar = true);
+    try {
+      final file = File(picked.path);
+      final avatarUrl = await _settingsService.uploadAvatar(file);
+      final updated = await _settingsService.updateProfile(avatarUrl: avatarUrl);
+      await SessionService.updateUser(updated);
+      if (!mounted) return;
+      setState(() => _user = updated);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.profile_avatar_updated)));
+    } catch (e) {
+      debugPrint('Avatar update failed: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.profile_avatar_update_failed)));
+    } finally {
+      if (mounted) setState(() => _isUploadingAvatar = false);
+    }
+  }
+
   List<String> get _highlights {
     final user = _user;
     final items = <String>[];
-    if (user?.role != null && user!.role!.isNotEmpty) {
-      items.add(user.role!);
-    }
     final address = user?.address;
     if (address != null) {
       final city = address['city']?.toString();
@@ -182,9 +246,6 @@ class _MyProfileViewState extends State<MyProfileView> {
           ),
         );
       }
-    }
-    if (user.role != null && user.role!.isNotEmpty) {
-      items.add(ProfileDetail(icon: Icons.work_outline, text: user.role!));
     }
     return items;
   }
@@ -263,7 +324,6 @@ class _MyProfileViewState extends State<MyProfileView> {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              _buildAppBar(displayName, initials),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
@@ -285,21 +345,41 @@ class _MyProfileViewState extends State<MyProfileView> {
                               coverUrl: _coverUrl,
                               friendCount: _friendCount,
                               highlights: _highlights,
+                              introDetails: _details,
+                              friends: _friends,
+                              activeIndex: _activeTab,
+                              isUploadingAvatar: _isUploadingAvatar,
+                              onTabChanged: (index) {
+                                if (!mounted) return;
+                                setState(() => _activeTab = index);
+                              },
+                              onAvatarTap: _handleChangeAvatar,
                             ),
                             const SizedBox(height: 20),
+                            if (_activeTab == 0) ...[
+                              ProfileFeedSection(
+                                posts: _posts,
+                                isLoading: _isLoading,
+                                errorMessage: _error,
+                                onRetry: _loadData,
+                                onLike: _handleLike,
+                              ),
+                            ] else if (_activeTab == 1) ...[
+                              ProfilePhotosSection(photoUrls: _photoUrls, accentColor: accent),
+                            ] else ...[
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                                child: const Text('No reels available.'),
+                              ),
+                            ],
+                            const SizedBox(height: 24),
                             ProfileHighlightsSection(
-                              details: _details,
                               photoUrls: _photoUrls,
                               friends: _friends,
                               accentColor: accent,
-                            ),
-                            const SizedBox(height: 24),
-                            ProfileFeedSection(
-                              posts: _posts,
-                              isLoading: _isLoading,
-                              errorMessage: _error,
-                              onRetry: _loadData,
-                              onLike: _handleLike,
+                              showPhotos: _activeTab != 1,
                             ),
                           ],
                         ),
@@ -309,49 +389,6 @@ class _MyProfileViewState extends State<MyProfileView> {
           ),
         ),
       ),
-    );
-  }
-
-  SliverAppBar _buildAppBar(String displayName, String initials) {
-    return SliverAppBar(
-      pinned: true,
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.transparent,
-      titleSpacing: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black87),
-        onPressed: () => Navigator.maybePop(context),
-      ),
-      title: Row(
-        children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundColor: const Color(0xFFE0E0E0),
-            backgroundImage: _avatarUrl != null ? NetworkImage(_avatarUrl!) : null,
-            child: _avatarUrl == null
-                ? Text(
-                    initials,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  )
-                : null,
-          ),
-          const SizedBox(width: 12),
-          Text(
-            displayName,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black87),
-          ),
-        ],
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search, color: Colors.black87),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.more_horiz, color: Colors.black87),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 }

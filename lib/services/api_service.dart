@@ -64,8 +64,6 @@ class ApiService {
         onRequest: (options, handler) async {
           final token = await storage.read(key: 'accessToken');
 
-          print('➡️ [API] ${options.method} ${dio.options.baseUrl}${options.path}');
-
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           } else {
@@ -75,15 +73,10 @@ class ApiService {
           return handler.next(options);
         },
         onError: (e, handler) {
-          print('❌ [API ERROR] baseUrl=${dio.options.baseUrl}');
-          print('❌ status=${e.response?.statusCode}');
-          print('❌ data=${e.response?.data}');
           return handler.next(e);
         },
       ),
     );
-
-    print('✅ API_BASE_URL in use: ${dio.options.baseUrl}');
 
     return ApiService._internal(dio, storage);
   }
@@ -123,7 +116,24 @@ class ApiService {
     return res.data;
   }
 
-  /// Upload multipart FormData. Returns decoded JSON map.
+  Future<dynamic> putJson(String path, dynamic data) async {
+    final res = await _dio.put(
+      path,
+      data: data,
+      options: Options(contentType: Headers.jsonContentType),
+    );
+
+    if ((res.statusCode ?? 0) >= 400) {
+      throw DioException(
+        requestOptions: res.requestOptions,
+        response: res,
+        type: DioExceptionType.badResponse,
+        error: res.data,
+      );
+    }
+    return res.data;
+  }
+
   Future<dynamic> uploadFormData(String path, FormData formData) async {
     final res = await _dio.post(
       path,
@@ -144,8 +154,6 @@ class ApiService {
 
   Future<Map<String, dynamic>> register(Map<String, dynamic> payload) async {
     final data = await postJson('/api/auth/register', payload);
-
-    // Persist tokens if registration returns them
     try {
       if (data is Map<String, dynamic>) {
         final access = data['accessToken']?.toString();
@@ -158,7 +166,6 @@ class ApiService {
         }
       }
     } catch (e) {
-      print('⚠️ Failed to persist tokens after register: $e');
     }
 
     return Map<String, dynamic>.from(data as Map);
@@ -169,8 +176,6 @@ class ApiService {
       'email': email,
       'password': password,
     });
-
-    // Persist tokens if returned so Interceptor can include Authorization header
     try {
       if (data is Map<String, dynamic>) {
         final access = data['accessToken']?.toString();
@@ -183,15 +188,13 @@ class ApiService {
         }
       }
     } catch (e) {
-      // ignore storage write failures but log for debugging
-      print('⚠️ Failed to persist tokens: $e');
     }
 
     return Map<String, dynamic>.from(data as Map);
   }
 
   Future<Map<String, dynamic>> getProfile() async {
-    final data = await getJson('/api/auth/profile');
+    final data = await getJson('/api/users/me/profile');
     return Map<String, dynamic>.from(data as Map);
   }
 

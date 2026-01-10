@@ -56,6 +56,13 @@ class SessionService {
     }
   }
 
+  static Future<void> updateUser(AuthUserModel user) async {
+    final prefs = await SharedPreferences.getInstance();
+    Utils.currentUser = user;
+    Utils.userName = user.userName ?? user.email;
+    await prefs.setString(_userKey, jsonEncode(user.toJson()));
+  }
+
   static Future<void> clearSession() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_accessTokenKey);
