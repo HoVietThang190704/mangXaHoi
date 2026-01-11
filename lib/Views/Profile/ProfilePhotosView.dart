@@ -3,12 +3,17 @@ import 'package:mangxahoi/l10n/app_localizations.dart';
 
 class ProfilePhotosView extends StatelessWidget {
   final List<String> photoUrls;
+  final int? initialIndex;
 
-  const ProfilePhotosView({super.key, required this.photoUrls});
+  const ProfilePhotosView({super.key, required this.photoUrls, this.initialIndex});
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    if (initialIndex != null) {
+      return _PhotoViewer(photoUrls: photoUrls, initialIndex: initialIndex!);
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text(loc.profile_section_photos)),
       body: Padding(

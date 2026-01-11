@@ -8,7 +8,7 @@ class Utils{
   static int selectIndex = 0;
   // Backend API base URL (update to your reachable server)
   // Current dev/test IP
-  static String baseUrl = "http://192.168.1.32:5000";
+  static String baseUrl = "http://192.168.1.44:5000";
   static String slideUrl = "/api/Product/get-slide-product";
   static String allProductUrl = "/api/Product/get-all-product";
   static AuthUserModel? currentUser;
