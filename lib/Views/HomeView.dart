@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/Components/AppBarComponent.dart';
-import 'package:mangxahoi/Components/BottomNavigationBarComponent.dart';
 import 'package:mangxahoi/Components/CreatePostComponent.dart';
 import 'package:mangxahoi/Components/PostCardComponent.dart';
 import 'package:mangxahoi/Components/StoryBarComponent.dart';
@@ -312,7 +311,6 @@ class _HomeViewState extends State<HomeView> {
           },
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarComponent(),
     );
   }
 }

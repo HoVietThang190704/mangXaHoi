@@ -10,12 +10,13 @@ import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'package:mangxahoi/Service/ChatSocketManager.dart';
 import 'package:mangxahoi/Utils.dart';
 
-import '../Components/BottomNavigationBarComponent.dart';
 import 'Chat/ChatDetailView.dart';
 import 'Chat/ChatViewArguments.dart';
 
 class ChatView extends StatefulWidget {
-  const ChatView({super.key});
+  final ChatViewArguments? initialArgs;
+
+  const ChatView({super.key, this.initialArgs});
 
   @override
   State<ChatView> createState() => _ChatViewState();
@@ -54,7 +55,7 @@ class _ChatViewState extends State<ChatView> {
   @override
   void initState() {
     super.initState();
-    Utils.selectIndex = 2;
+    _pendingArgs = widget.initialArgs;
     _loadThreads();
     _setupSocket();
   }
@@ -62,7 +63,7 @@ class _ChatViewState extends State<ChatView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_argsCaptured) {
+    if (!_argsCaptured && _pendingArgs == null) {
       final args = ModalRoute.of(context)?.settings.arguments;
       if (args is ChatViewArguments) {
         _pendingArgs = args;
@@ -231,7 +232,6 @@ class _ChatViewState extends State<ChatView> {
       appBar: null,
       extendBodyBehindAppBar: true,
       body: _buildBody(),
-      bottomNavigationBar: BottomNavigationBarComponent(),
     );
   }
 

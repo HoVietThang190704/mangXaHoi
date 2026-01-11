@@ -431,6 +431,30 @@ abstract class AppLocalizations {
   /// **'Please type at least 2 characters'**
   String get search_min_chars;
 
+  /// No description provided for @search_tab_users.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get search_tab_users;
+
+  /// No description provided for @search_tab_posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts'**
+  String get search_tab_posts;
+
+  /// No description provided for @search_tab_posts_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search posts'**
+  String get search_tab_posts_hint;
+
+  /// No description provided for @search_posts_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts found'**
+  String get search_posts_empty;
+
   /// No description provided for @settings_title.
   ///
   /// In en, this message translates to:

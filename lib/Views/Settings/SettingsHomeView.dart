@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mangxahoi/Components/BottomNavigationBarComponent.dart';
 import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/Utils.dart';
 import 'package:mangxahoi/services/api_service.dart';
@@ -43,7 +42,6 @@ class SettingsHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Utils.selectIndex = 4; 
     final l10n = AppLocalizations.of(context)!;
     final sectionSpacing = SizedBox(height: 14);
 
@@ -111,7 +109,6 @@ class SettingsHomeView extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarComponent(),
     );
   }
 }
