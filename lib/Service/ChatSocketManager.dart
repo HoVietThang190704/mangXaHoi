@@ -21,9 +21,11 @@ class ChatSocketManager {
   bool _connecting = false;
   final _messageController = StreamController<ChatSocketMessageEvent>.broadcast();
   final _threadController = StreamController<ChatThreadModel>.broadcast();
+  final _friendController = StreamController<FriendSocketEvent>.broadcast();
 
   Stream<ChatSocketMessageEvent> get messages => _messageController.stream;
   Stream<ChatThreadModel> get threadUpdates => _threadController.stream;
+  Stream<FriendSocketEvent> get friendEvents => _friendController.stream;
 
   Future<void> ensureConnected() async {
     if (_socket != null) {
@@ -71,6 +73,21 @@ class ChatSocketManager {
           if (thread != null) {
             _threadController.add(thread);
           }
+        })
+        // Friend request / accepted events
+        ..on('friend-request:received', (data) {
+          try {
+            if (data is Map) {
+              _friendController.add(FriendSocketEvent(type: 'friend_request', payload: Map<String, dynamic>.from(data)));
+            }
+          } catch (_) {}
+        })
+        ..on('friend-request:accepted', (data) {
+          try {
+            if (data is Map) {
+              _friendController.add(FriendSocketEvent(type: 'friend_request_accepted', payload: Map<String, dynamic>.from(data)));
+            }
+          } catch (_) {}
         });
 
       _socket!.connect();
@@ -113,5 +130,17 @@ class ChatSocketManager {
     _socket?.dispose();
     _socket = null;
     _connecting = false;
+    try {
+      _messageController.close();
+      _threadController.close();
+      _friendController.close();
+    } catch (_) {}
   }
+}
+
+class FriendSocketEvent {
+  final String type;
+  final Map<String, dynamic> payload;
+
+  FriendSocketEvent({required this.type, required this.payload});
 }

@@ -11,11 +11,13 @@ import 'package:mangxahoi/Views/PostDetailView.dart';
 import 'package:mangxahoi/Views/Profile/ProfilePhotosView.dart';
 import 'package:mangxahoi/Utils.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
+import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:mangxahoi/Service/SettingsService.dart';
 import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/services/api_service.dart';
+import 'package:mangxahoi/Service/UserService.dart';
 
 class MyProfileView extends StatefulWidget {
   const MyProfileView({super.key});
@@ -370,6 +372,35 @@ class _MyProfileViewState extends State<MyProfileView> {
                                 setState(() => _activeTab = index);
                               },
                               onAvatarTap: _handleChangeAvatar,
+                              onFriendTap: (friend) async {
+                                final userName = friend.name;
+                                final userId = friend.id;
+                                if (userId != null && userId.isNotEmpty) {
+                                  Navigator.of(context).pushNamed('/profile/user', arguments: UserProfileArguments(userId: userId));
+                                  return;
+                                }
+                                if (userName != null && userName.isNotEmpty) {
+                                  try {
+                                    final result = await UserService().searchUsers(userName, limit: 20);
+                                    if (result.users.length == 1) {
+                                      Navigator.of(context).pushNamed('/profile/user', arguments: UserProfileArguments(userId: result.users.first.id));
+                                    } else if (result.users.isNotEmpty) {
+                                      Navigator.pushNamed(context, '/search', arguments: {'q': userName});
+                                    } else {
+                                      final loc = AppLocalizations.of(context)!;
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.profile_friend_not_found)));
+                                    }
+                                  } catch (_) {
+                                    final loc = AppLocalizations.of(context)!;
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.profile_friend_not_found)));
+                                  }
+                                }
+                              },
+                              onViewAll: () {
+                                final uid = Utils.currentUser?.id;
+                                if (uid == null) return;
+                                Navigator.of(context).pushNamed('/profile/friends', arguments: {'userId': uid, 'title': displayName});
+                              },
                             ),
                             const SizedBox(height: 20),
                             if (_activeTab == 0) ...[

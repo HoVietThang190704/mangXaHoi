@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 
 class FriendPreview {
+  final String? id;
 	final String name;
 	final String? photoUrl;
 
-	const FriendPreview({required this.name, this.photoUrl});
+	const FriendPreview({this.id, required this.name, this.photoUrl});
 }
 
 class ProfileHighlightsSection extends StatelessWidget {
@@ -110,50 +111,54 @@ class _SectionCard extends StatelessWidget {
 class _FriendTile extends StatelessWidget {
 	final FriendPreview friend;
 	final Color accentColor;
+	final ValueChanged<String?>? onTap;
 
-	const _FriendTile({required this.friend, required this.accentColor});
+	const _FriendTile({required this.friend, required this.accentColor, this.onTap});
 
 	@override
 	Widget build(BuildContext context) {
-		return SizedBox(
-			width: 92,
-			child: Column(
-				crossAxisAlignment: CrossAxisAlignment.start,
-				children: [
-					Stack(
-						children: [
-							ClipRRect(
-								borderRadius: BorderRadius.circular(16),
-								child: AspectRatio(
-									aspectRatio: 1,
-									child: friend.photoUrl != null && friend.photoUrl!.isNotEmpty
+		return InkWell(
+			onTap: () => onTap?.call(friend.id),
+			child: SizedBox(
+				width: 92,
+				child: Column(
+					crossAxisAlignment: CrossAxisAlignment.start,
+					children: [
+						Stack(
+							children: [
+								ClipRRect(
+									borderRadius: BorderRadius.circular(16),
+									child: AspectRatio(
+										aspectRatio: 1,
+										child: friend.photoUrl != null && friend.photoUrl!.isNotEmpty
 											? Image.network(friend.photoUrl!, fit: BoxFit.cover)
 											: Container(color: accentColor.withOpacity(0.1), child: const Icon(Icons.person, size: 32)),
-								),
-							),
-							Positioned(
-								bottom: 8,
-								right: 8,
-								child: CircleAvatar(
-									radius: 12,
-									backgroundColor: Colors.white,
-									child: CircleAvatar(
-										radius: 9,
-										backgroundColor: accentColor,
-										child: const Icon(Icons.person, size: 12, color: Colors.white),
 									),
 								),
-							),
-						],
-					),
-					const SizedBox(height: 8),
-					Text(
-						friend.name,
-						style: const TextStyle(fontWeight: FontWeight.w600),
-						maxLines: 2,
-						overflow: TextOverflow.ellipsis,
-					),
-				],
+								Positioned(
+									bottom: 8,
+									right: 8,
+									child: CircleAvatar(
+										radius: 12,
+										backgroundColor: Colors.white,
+										child: CircleAvatar(
+											radius: 9,
+											backgroundColor: accentColor,
+											child: const Icon(Icons.person, size: 12, color: Colors.white),
+										),
+									),
+								),
+							],
+						),
+						const SizedBox(height: 8),
+						Text(
+							friend.name,
+							style: const TextStyle(fontWeight: FontWeight.w600),
+							maxLines: 2,
+							overflow: TextOverflow.ellipsis,
+						),
+					],
+				),
 			),
 		);
 	}

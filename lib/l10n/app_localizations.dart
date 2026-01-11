@@ -857,6 +857,12 @@ abstract class AppLocalizations {
   /// **'Friends'**
   String get profile_section_friends;
 
+  /// No description provided for @profile_my_friends.
+  ///
+  /// In en, this message translates to:
+  /// **'My friends'**
+  String get profile_my_friends;
+
   /// No description provided for @profile_friends_empty.
   ///
   /// In en, this message translates to:
@@ -916,6 +922,9 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unable to update friendship. Please try again.'**
   String get profile_friend_request_failed;
+
+  /// No description provided for @profile_friend_not_found.
+  String get profile_friend_not_found;
 
   /// No description provided for @profile_message.
   ///

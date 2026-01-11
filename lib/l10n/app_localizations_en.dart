@@ -385,6 +385,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile_section_friends => 'Friends';
 
   @override
+  String get profile_my_friends => 'My friends';
+
+  @override
   String get profile_friends_empty => 'No friends list available.';
 
   @override
@@ -413,6 +416,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile_friend_request_failed => 'Unable to update friendship. Please try again.';
+
+  String get profile_friend_not_found => 'Friend not found.';
 
   @override
   String get profile_message => 'Message';

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/Components/profile/ProfileFeedSection.dart';
 import 'package:mangxahoi/Components/profile/ProfileHeaderSection.dart';
@@ -14,6 +15,7 @@ import 'package:mangxahoi/Views/PostDetailView.dart';
 import 'package:mangxahoi/Views/Profile/ProfilePhotosView.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'package:mangxahoi/Views/Chat/ChatViewArguments.dart';
+import 'package:mangxahoi/Service/ChatSocketManager.dart';
 
 class UserProfileArguments {
   final String userId;
@@ -47,11 +49,23 @@ class _UserProfileViewState extends State<UserProfileView> {
   FriendStatus _friendStatus = FriendStatus.none;
   bool _friendBusy = false;
 
+  StreamSubscription<FriendSocketEvent>? _friendSub;
+
   @override
   void initState() {
     super.initState();
     _user = widget.initialUser;
     _loadInitial();
+
+    ChatSocketManager.instance.ensureConnected();
+    _friendSub = ChatSocketManager.instance.friendEvents.listen((event) {
+      if (event.type == 'friend_request_accepted') {
+        final relatedUserId = event.payload['userId']?.toString();
+        if (relatedUserId == widget.userId || Utils.currentUser?.id == widget.userId) {
+          _loadProfile();
+        }
+      }
+    });
   }
 
   Future<void> _loadInitial() async {
@@ -270,6 +284,7 @@ class _UserProfileViewState extends State<UserProfileView> {
 
       if (mounted) {
         setState(() => _friendStatus = updated);
+        await _loadProfile();
       }
     } catch (_) {
       if (mounted) {
@@ -293,6 +308,7 @@ class _UserProfileViewState extends State<UserProfileView> {
       await _friendService.acceptFriendRequest(requestId);
       _showSnack(loc.profile_friend_accepted);
       if (mounted) {
+        await _loadProfile();
         setState(() => _friendStatus = FriendStatus.friends);
       }
     } catch (_) {
@@ -472,6 +488,35 @@ class _UserProfileViewState extends State<UserProfileView> {
           friends: _friends,
           activeIndex: _activeTab,
           onTabChanged: (index) => setState(() => _activeTab = index),
+          onFriendTap: (friend) async {
+            final userName = friend.name;
+            final userId = friend.id;
+            if (userId != null && userId.isNotEmpty) {
+              Navigator.of(context).pushNamed('/profile/user', arguments: UserProfileArguments(userId: userId));
+              return;
+            }
+            // Fallback: search by name
+            if (userName != null && userName.isNotEmpty) {
+              try {
+                final result = await _userService.searchUsers(userName, limit: 20);
+                if (result.users.length == 1) {
+                  Navigator.of(context).pushNamed('/profile/user', arguments: UserProfileArguments(userId: result.users.first.id));
+                } else if (result.users.isNotEmpty) {
+                  // Many results - open search page with query
+                  Navigator.pushNamed(context, '/search', arguments: {'q': userName});
+                } else {
+                  final loc = AppLocalizations.of(context)!;
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.profile_friend_not_found)));
+                }
+              } catch (_) {
+                final loc = AppLocalizations.of(context)!;
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.profile_friend_not_found)));
+              }
+            }
+          },
+          onViewAll: () {
+            Navigator.of(context).pushNamed('/profile/friends', arguments: {'userId': widget.userId, 'title': displayName});
+          },
           actionArea: _buildActionArea(loc),
           showAvatarAction: false,
         ),
@@ -520,6 +565,12 @@ class _UserProfileViewState extends State<UserProfileView> {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _friendSub?.cancel();
+    super.dispose();
   }
 
   @override
