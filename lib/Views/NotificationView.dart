@@ -3,6 +3,7 @@ import 'package:mangxahoi/Model/NotificationModel.dart';
 import 'package:mangxahoi/Service/NotificationService.dart';
 import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'package:mangxahoi/Views/Chat/ChatDetailView.dart';
+import 'package:mangxahoi/Components/BottomNavigationBarComponent.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 
 class NotificationView extends StatefulWidget {
@@ -322,6 +323,7 @@ class _NotificationViewState extends State<NotificationView> {
                     );
                   },
                 ),
+      bottomNavigationBar: BottomNavigationBarComponent(),
     );
   }
 }
