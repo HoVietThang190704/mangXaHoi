@@ -11,6 +11,7 @@ class ProfileFeedSection extends StatelessWidget {
 	final String? errorMessage;
 	final Future<void> Function() onRetry;
 	final ProfileLikeCallback onLike;
+	final Future<void> Function(PostModel post)? onComment;
 
 	const ProfileFeedSection({
 		super.key,
@@ -19,6 +20,7 @@ class ProfileFeedSection extends StatelessWidget {
 		required this.errorMessage,
 		required this.onRetry,
 		required this.onLike,
+		this.onComment,
 	});
 
 	@override

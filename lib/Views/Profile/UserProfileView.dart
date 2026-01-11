@@ -10,6 +10,8 @@ import 'package:mangxahoi/Service/FeedService.dart';
 import 'package:mangxahoi/Service/FriendService.dart';
 import 'package:mangxahoi/Service/UserService.dart';
 import 'package:mangxahoi/Utils.dart';
+import 'package:mangxahoi/Views/PostDetailView.dart';
+import 'package:mangxahoi/Views/Profile/ProfilePhotosView.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'package:mangxahoi/Views/Chat/ChatViewArguments.dart';
 
@@ -345,6 +347,20 @@ class _UserProfileViewState extends State<UserProfileView> {
     );
   }
 
+  Future<void> _openPostDetail(PostModel post) async {
+    final updated = await Navigator.of(context).push<PostModel>(
+      MaterialPageRoute(builder: (ctx) => PostDetailView(post: post)),
+    );
+    if (updated != null && mounted) {
+      setState(() {
+        final idx = _posts.indexWhere((element) => element.id == updated.id);
+        if (idx >= 0) {
+          _posts[idx] = updated;
+        }
+      });
+    }
+  }
+
   void _showSnack(String message) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
@@ -467,9 +483,27 @@ class _UserProfileViewState extends State<UserProfileView> {
             errorMessage: _postsError,
             onRetry: _loadPosts,
             onLike: _handleLike,
+            onComment: _openPostDetail,
           )
         else if (_activeTab == 1)
-          ProfilePhotosSection(photoUrls: _photoUrls, accentColor: accent)
+          ProfilePhotosSection(
+            photoUrls: _photoUrls,
+            accentColor: accent,
+            onPhotoTap: (index, url) {
+              PostModel? matched;
+              for (final p in _posts) {
+                if ((p.imageUrl?.trim() ?? '') == url || p.images.contains(url)) {
+                  matched = p;
+                  break;
+                }
+              }
+              if (matched != null) {
+                _openPostDetail(matched);
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProfilePhotosView(photoUrls: _photoUrls, initialIndex: index)));
+              }
+            },
+          )
         else
           Container(
             width: double.infinity,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/Utils.dart';
 import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
+import 'package:mangxahoi/Views/PostDetailView.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'PostMediaViewer.dart';
 import 'PostShareSheet.dart';
@@ -52,7 +53,7 @@ class PostCardComponent extends StatelessWidget {
               child: PostMediaViewer(
                 images: _mediaImages,
                 videos: post.videos,
-                onTap: onComment,
+                onTap: () => _handleOpenDetail(context),
               ),
             ),
           _buildStatsRow(context),
@@ -189,7 +190,7 @@ class PostCardComponent extends StatelessWidget {
             context,
             icon: Icons.mode_comment_outlined,
             label: 'Comment',
-            onTap: onComment,
+            onTap: () => _handleOpenDetail(context),
           ),
           _actionButton(
             context,
@@ -279,5 +280,19 @@ class PostCardComponent extends StatelessWidget {
       '/profile/user',
       arguments: UserProfileArguments(userId: authorId, initialUser: post.author),
     );
+  }
+
+  void _handleOpenDetail(BuildContext context) {
+    debugPrint('PostCard: open detail for post ${post.id}');
+    if (onComment != null) {
+      try {
+        onComment!();
+        return;
+      } catch (e) {
+        debugPrint('onComment callback failed: $e');
+      }
+    }
+
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => PostDetailView(post: post)));
   }
 }

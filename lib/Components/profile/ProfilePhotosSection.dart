@@ -5,8 +5,9 @@ import 'package:mangxahoi/Views/Profile/ProfilePhotosView.dart';
 class ProfilePhotosSection extends StatelessWidget {
   final List<String> photoUrls;
   final Color accentColor;
+  final void Function(int index, String url)? onPhotoTap;
 
-  const ProfilePhotosSection({super.key, required this.photoUrls, required this.accentColor});
+  const ProfilePhotosSection({super.key, required this.photoUrls, required this.accentColor, this.onPhotoTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,16 @@ class ProfilePhotosSection extends StatelessWidget {
                 itemCount: photoUrls.length,
                 itemBuilder: (context, index) {
                   final url = photoUrls[index];
-                  return ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(url, fit: BoxFit.cover));
+                  return InkWell(
+                    onTap: () {
+                      if (onPhotoTap != null) {
+                        onPhotoTap!(index, url);
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProfilePhotosView(photoUrls: photoUrls, initialIndex: index)));
+                      }
+                    },
+                    child: ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(url, fit: BoxFit.cover)),
+                  );
                 },
               ),
       ]),
