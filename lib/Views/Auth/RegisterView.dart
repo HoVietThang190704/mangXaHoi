@@ -133,7 +133,7 @@ class _RegisterViewState extends State<RegisterView> {
             children: [
               const SizedBox(height: 40),
               Text(
-                t.facebook,
+                t.name_main,
                 style: const TextStyle(
                   color: Color(0xFF1877F2),
                   fontSize: 48,

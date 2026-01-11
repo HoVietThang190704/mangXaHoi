@@ -193,6 +193,26 @@ class ChatSendMessageResult {
   ChatSendMessageResult({required this.thread, required this.message});
 }
 
+class ChatGroupResult {
+  final String id;
+  final String name;
+  final String? avatar;
+  final List<String> members;
+  final List<String> admins;
+
+  ChatGroupResult({required this.id, required this.name, this.avatar, required this.members, required this.admins});
+
+  factory ChatGroupResult.fromJson(Map<String, dynamic> json) {
+    return ChatGroupResult(
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      avatar: json['avatar']?.toString(),
+      members: (json['members'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      admins: (json['admins'] as List?)?.map((e) => e.toString()).toList() ?? [],
+    );
+  }
+}
+
 DateTime? _parseDate(dynamic value) {
   if (value == null) return null;
   if (value is DateTime) return value;

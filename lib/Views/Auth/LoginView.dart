@@ -221,7 +221,7 @@ class _LoginViewState extends State<LoginView> {
               child: Column(
                 children: [
                   SizedBox(height: 24),
-                  Text(AppLocalizations.of(context)!.facebook,
+                  Text(AppLocalizations.of(context)!.name_main,
                       style: TextStyle(
                         color: Color(0xFF1877F2),
                         fontSize: 48,

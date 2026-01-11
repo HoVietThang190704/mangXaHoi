@@ -53,6 +53,34 @@ class ChatRepository {
     );
   }
 
+  Future<ChatGroupResult> createGroup({required String name, List<String>? memberIds, String? avatar}) async {
+    final api = await ApiService.create();
+    final payload = {
+      'name': name,
+      if (memberIds != null && memberIds.isNotEmpty) 'memberIds': memberIds,
+      if (avatar != null) 'avatar': avatar,
+    };
+
+    final response = await api.postJson('/api/chat/groups', payload);
+    final data = response['data'] as Map<String, dynamic>? ?? {};
+    return ChatGroupResult.fromJson(data);
+  }
+
+  Future<List<ChatGroupResult>> fetchGroups({int page = 1, int limit = 20}) async {
+    final api = await ApiService.create();
+    final response = await api.getJson('/api/chat/groups', queryParameters: {'page': page, 'limit': limit});
+    final data = response['data'] as List? ?? [];
+    return data.map((e) => ChatGroupResult.fromJson(Map<String, dynamic>.from(e as Map))).toList();
+  }
+
+  Future<ChatGroupResult?> getGroup(String groupId) async {
+    final api = await ApiService.create();
+    final response = await api.getJson('/api/chat/groups/$groupId');
+    final data = response['data'] as Map<String, dynamic>?;
+    if (data == null) return null;
+    return ChatGroupResult.fromJson(Map<String, dynamic>.from(data));
+  }
+
   Future<ChatSendMessageResult> sendMessage({
     required String recipientId,
     String? threadId,

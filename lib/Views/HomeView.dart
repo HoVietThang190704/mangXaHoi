@@ -129,6 +129,7 @@ class _HomeViewState extends State<HomeView> {
       author: author,
       content: content,
       images: const [],
+      videos: const [],
       createdAt: now,
       updatedAt: now,
     );
@@ -151,9 +152,8 @@ class _HomeViewState extends State<HomeView> {
     } catch (e) {
       if (!mounted) return;
       setState(() => _posts.removeWhere((p) => p.id == tempPost.id));
-      final loc = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loc?.create_post_error ?? 'Kh?ng th? t?o b?i vi?t.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.create_post_error)),
       );
     }
   }
@@ -202,9 +202,8 @@ class _HomeViewState extends State<HomeView> {
         post.isLiked = previousLiked;
         post.likes = previousLikes;
       });
-      final loc = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loc?.profile_like_error ?? 'Kh?ng th? c?p nh?t lu?t th?ch.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.profile_like_error)),
       );
     }
   }

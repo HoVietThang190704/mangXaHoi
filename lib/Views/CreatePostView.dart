@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mangxahoi/Service/FeedService.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
@@ -11,6 +12,9 @@ class CreatePostView extends StatefulWidget {
 }
 
 class _CreatePostViewState extends State<CreatePostView> {
+  static const int _maxImages = 10;
+  static const int _maxVideos = 2;
+
   final TextEditingController _controller = TextEditingController();
   final FeedService _feedService = FeedService();
   String _privacy = 'public';
@@ -18,24 +22,64 @@ class _CreatePostViewState extends State<CreatePostView> {
   final List<XFile> _media = [];
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _pickImages() async{
-    try{
+  void _showSnack(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  bool _isVideoFile(XFile file) {
+    final mime = file.mimeType;
+    if (mime != null) {
+      return mime.toLowerCase().startsWith('video/');
+    }
+    final lowerPath = file.path.toLowerCase();
+    const videoExts = ['.mp4', '.mov', '.m4v', '.avi', '.wmv', '.flv', '.mkv', '.3gp'];
+    return videoExts.any((ext) => lowerPath.endsWith(ext));
+  }
+
+  Future<void> _pickImages() async {
+    final loc = AppLocalizations.of(context)!;
+    try {
       final imgs = await _picker.pickMultiImage();
-      if(imgs != null && imgs.isNotEmpty){
-        setState(()=> _media.addAll(imgs));
+      if (imgs == null || imgs.isEmpty) return;
+
+      final currentImages = _media.where((file) => !_isVideoFile(file)).length;
+      if (currentImages >= _maxImages) {
+        _showSnack(loc.create_post_image_limit(_maxImages));
+        return;
       }
-    }catch(e){
-      final loc = AppLocalizations.of(context)!;
+
+      final availableSlots = _maxImages - currentImages;
+      final toAdd = imgs.take(availableSlots).toList();
+      if (toAdd.isEmpty) {
+        _showSnack(loc.create_post_image_limit(_maxImages));
+        return;
+      }
+
+      setState(() => _media.addAll(toAdd));
+
+      if (toAdd.length < imgs.length) {
+        _showSnack(loc.create_post_image_limit(_maxImages));
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.create_post_error)));
     }
   }
 
-  Future<void> _pickVideo() async{
-    try{
-      final v = await _picker.pickVideo(source: ImageSource.gallery);
-      if(v != null) setState(()=> _media.add(v));
-    }catch(e){
-      final loc = AppLocalizations.of(context)!;
+  Future<void> _pickVideo() async {
+    final loc = AppLocalizations.of(context)!;
+    try {
+      final currentVideos = _media.where(_isVideoFile).length;
+      if (currentVideos >= _maxVideos) {
+        _showSnack(loc.create_post_video_limit(_maxVideos));
+        return;
+      }
+
+      final video = await _picker.pickVideo(source: ImageSource.gallery);
+      if (video != null) {
+        setState(() => _media.add(video));
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.create_post_error)));
     }
   }
@@ -46,39 +90,49 @@ class _CreatePostViewState extends State<CreatePostView> {
     super.dispose();
   }
 
-  Future<void> _submit() async{
+  Future<void> _submit() async {
+    final loc = AppLocalizations.of(context)!;
     final content = _controller.text.trim();
-    if(content.isEmpty) return;
-    setState(()=> _posting = true);
+    final imagePaths = _media.where((file) => !_isVideoFile(file)).map((file) => file.path).toList();
+    final videoPaths = _media.where(_isVideoFile).map((file) => file.path).toList();
+
+    if (content.isEmpty && imagePaths.isEmpty && videoPaths.isEmpty) {
+      _showSnack(loc.create_post_require_media);
+      return;
+    }
+
+    setState(() => _posting = true);
 
     if (Utils.accessToken == null || Utils.accessToken!.isEmpty) {
-      final loc = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.login_first ?? 'Please login to post')));
-      setState(()=> _posting = false);
+      setState(() => _posting = false);
       Navigator.of(context).pushNamed('/login');
       return;
     }
 
-    try{
-      if (_media.any((m) => (m.mimeType?.startsWith('video/') ?? false))) {
-        final loc = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.video_not_supported)));
-        setState(()=> _posting = false);
-        return;
-      }
-      final post = await _feedService.createPost({
+    try {
+      final payload = <String, dynamic>{
         'content': content,
-        'images': _media.map((e) => e.path).toList(),
         'visibility': _privacy,
-      });
+      };
+
+      if (imagePaths.isNotEmpty) {
+        payload['images'] = imagePaths;
+      }
+
+      if (videoPaths.isNotEmpty) {
+        payload['videos'] = videoPaths;
+      }
+
+      final post = await _feedService.createPost(payload);
+      if (!mounted) return;
       Navigator.of(context).pop(post);
-    }catch(e){
-      final loc = AppLocalizations.of(context)!;
+    } catch (e) {
       final message = e is Exception ? e.toString().replaceFirst('Exception: ', '') : 'Unknown error';
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${loc.create_post_error}: $message')));
-      print('_submit error: $e');
-    }finally{
-      if(mounted) setState(()=> _posting = false);
+      debugPrint('_submit error: $e');
+    } finally {
+      if (mounted) setState(() => _posting = false);
     }
   }
 
@@ -93,7 +147,9 @@ class _CreatePostViewState extends State<CreatePostView> {
       : (user?.email?.isNotEmpty ?? false)
         ? user!.email!.trim()[0].toUpperCase()
         : null;
+    final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(loc.create_post_title),
         leading: BackButton(),
@@ -104,102 +160,161 @@ class _CreatePostViewState extends State<CreatePostView> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              radius: 24,
-              backgroundColor: const Color(0xFFF1F5F9),
-              backgroundImage: hasAvatar ? NetworkImage(avatarUrl!) : null,
-              child: hasAvatar
-                  ? null
-                  : (placeholderInitial != null
-                      ? Text(
-                          placeholderInitial,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF111827),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: bottomPadding + 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 24,
+                  backgroundColor: const Color(0xFFF1F5F9),
+                  backgroundImage: hasAvatar ? NetworkImage(avatarUrl!) : null,
+                  child: hasAvatar
+                      ? null
+                      : (placeholderInitial != null
+                          ? Text(
+                              placeholderInitial,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF111827),
+                              ),
+                            )
+                          : const Icon(Icons.person, color: Color(0xFF9CA3AF))),
+                ),
+                title: Text(Utils.currentUser?.userName ?? Utils.userName ?? ''),
+                subtitle: GestureDetector(
+                  onTap: () async {
+                    final sel = await showModalBottomSheet<String>(
+                      context: context,
+                      builder: (ctx) {
+                        return SafeArea(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(title: Text(loc.privacy_public), onTap: () => Navigator.of(ctx).pop('public')),
+                              ListTile(title: Text(loc.privacy_friends), onTap: () => Navigator.of(ctx).pop('friends')),
+                              ListTile(title: Text(loc.privacy_private), onTap: () => Navigator.of(ctx).pop('private')),
+                            ],
                           ),
-                        )
-                      : const Icon(Icons.person, color: Color(0xFF9CA3AF))),
-            ),
-            title: Text(Utils.currentUser?.userName ?? Utils.userName ?? ''),
-            subtitle: GestureDetector(
-              onTap: () async{
-                final sel = await showModalBottomSheet<String>(context: context, builder: (ctx){
-                  return SafeArea(child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    ListTile(title: Text(loc.privacy_public), onTap: ()=> Navigator.of(ctx).pop('public')),
-                    ListTile(title: Text(loc.privacy_friends), onTap: ()=> Navigator.of(ctx).pop('friends')),
-                    ListTile(title: Text(loc.privacy_private), onTap: ()=> Navigator.of(ctx).pop('private')),
-                  ]));
-                });
-                if(sel != null) setState(()=> _privacy = sel);
-              },
-              child: Row(children: [Icon(Icons.public, size: 16), SizedBox(width:6), Text(_privacy == 'public' ? loc.privacy_public : _privacy=='friends' ? loc.privacy_friends : loc.privacy_private)]),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: TextField(
-                controller: _controller,
-                maxLines: null,
-                expands: true,
-                decoration: InputDecoration.collapsed(hintText: loc.create_post_hint),
-                autofocus: true,
-              ),
-            ),
-          ),
-          // Media previews
-          if(_media.isNotEmpty)
-            Container(
-              height: 100,
-              padding: EdgeInsets.symmetric(horizontal:12, vertical: 8),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _media.length,
-                itemBuilder: (ctx, i){
-                  final file = File(_media[i].path);
-                  final isVideo = _media[i].mimeType?.startsWith('video/') ?? false;
-                  return Stack(
+                        );
+                      },
+                    );
+                    if (sel != null) setState(() => _privacy = sel);
+                  },
+                  child: Row(
                     children: [
-                      Container(margin: EdgeInsets.only(right:8), width: 120, height:100, decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)), child: isVideo ? Center(child: Icon(Icons.videocam, size: 40)) : Image.file(file, fit: BoxFit.cover)),
-                      Positioned(top:4, right:4, child: InkWell(onTap: (){ setState(()=> _media.removeAt(i)); }, child: CircleAvatar(radius:12, child: Icon(Icons.close, size:14))))
+                      const Icon(Icons.public, size: 16),
+                      const SizedBox(width: 6),
+                      Text(
+                        _privacy == 'public'
+                            ? loc.privacy_public
+                            : _privacy == 'friends'
+                                ? loc.privacy_friends
+                                : loc.privacy_private,
+                      ),
                     ],
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
-          Container(
-            height: 60,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal:12, vertical: 8),
-              children: [
-                // color choices
-                ...List.generate(8, (i) => Container(margin: EdgeInsets.only(right:8), width: 48, height:48, decoration: BoxDecoration(color: Colors.primaries[i % Colors.primaries.length], borderRadius: BorderRadius.circular(8)))),
-                // Add buttons
-                SizedBox(width:12),
-                IconButton(icon: Icon(Icons.image), onPressed: _pickImages),
-                IconButton(icon: Icon(Icons.videocam), onPressed: _pickVideo),
-              ],
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 160),
+                  child: TextField(
+                    controller: _controller,
+                    maxLines: null,
+                    minLines: 6,
+                    decoration: InputDecoration(
+                      hintText: loc.create_post_hint,
+                      border: InputBorder.none,
+                    ),
+                    autofocus: true,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                  ),
+                ),
+              ),
+              if (_media.isNotEmpty)
+                Container(
+                  height: 100,
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _media.length,
+                    itemBuilder: (ctx, i) {
+                      final file = File(_media[i].path);
+                      final isVideo = _isVideoFile(_media[i]);
+                      return Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            width: 120,
+                            height: 100,
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                            child: isVideo
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const [
+                                        Icon(Icons.videocam, size: 36, color: Colors.deepPurple),
+                                        SizedBox(height: 6),
+                                        Text(
+                                          'Video',
+                                          style: TextStyle(fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Image.file(file, fit: BoxFit.cover),
+                          ),
+                          Positioned(
+                            top: 4,
+                            right: 4,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() => _media.removeAt(i));
+                              },
+                              child: const CircleAvatar(radius: 12, child: Icon(Icons.close, size: 14)),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(icon: const Icon(Icons.image), onPressed: _pickImages),
+                    IconButton(icon: const Icon(Icons.videocam), onPressed: _pickVideo),
+                  ],
+                ),
+              ),
+              const Divider(height: 1),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Column(
+                  children: [
+                    _ActionItem(icon: Icons.image, label: loc.photo, onTap: _pickImages),
+                    _ActionItem(icon: Icons.videocam, label: loc.video, onTap: _pickVideo),
+                    _ActionItem(icon: Icons.person_add_alt_1, label: loc.tag_people, onTap: () {}),
+                    _ActionItem(icon: Icons.place, label: loc.add_location, onTap: () {}),
+                    _ActionItem(icon: Icons.emoji_emotions, label: loc.feeling_activity, onTap: () {}),
+                    _ActionItem(icon: Icons.event, label: loc.create_event, onTap: () {}),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Divider(height:1),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Column(
-              children: [
-                _ActionItem(icon: Icons.image, label: loc.photo, onTap: _pickImages),
-                _ActionItem(icon: Icons.videocam, label: loc.video, onTap: _pickVideo),
-                _ActionItem(icon: Icons.person_add_alt_1, label: loc.tag_people, onTap: (){}),
-                _ActionItem(icon: Icons.place, label: loc.add_location, onTap: (){}),
-                _ActionItem(icon: Icons.emoji_emotions, label: loc.feeling_activity, onTap: (){}),
-                _ActionItem(icon: Icons.event, label: loc.create_event, onTap: (){}),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

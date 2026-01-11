@@ -374,13 +374,15 @@ class _MyProfileViewState extends State<MyProfileView> {
                                 child: const Text('No reels available.'),
                               ),
                             ],
-                            const SizedBox(height: 24),
-                            ProfileHighlightsSection(
-                              photoUrls: _photoUrls,
-                              friends: _friends,
-                              accentColor: accent,
-                              showPhotos: _activeTab != 1,
-                            ),
+                            if (_activeTab != 0) ...[
+                              const SizedBox(height: 24),
+                              ProfileHighlightsSection(
+                                photoUrls: _photoUrls,
+                                friends: _friends,
+                                accentColor: accent,
+                                showPhotos: _activeTab != 1,
+                              ),
+                            ],
                           ],
                         ),
                 ),

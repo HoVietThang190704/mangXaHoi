@@ -98,8 +98,8 @@ abstract class AppLocalizations {
   /// No description provided for @facebook.
   ///
   /// In en, this message translates to:
-  /// **'facebook'**
-  String get facebook;
+  /// **'Local'**
+  String get name_main;
 
   /// No description provided for @hint_name.
   ///
@@ -352,6 +352,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create event'**
   String get create_event;
+
+  /// No description provided for @create_group_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create group'**
+  String get create_group_title;
+
+  /// No description provided for @create_group_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create_group_button;
+
+  /// No description provided for @create_group_name_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name'**
+  String get create_group_name_hint;
+
+  /// No description provided for @create_group_search_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search friends'**
+  String get create_group_search_hint;
+
+  /// No description provided for @create_group_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to create group.'**
+  String get create_group_failed;
+
+  /// No description provided for @create_post_require_media.
+  ///
+  /// In en, this message translates to:
+  /// **'Add text, photos, or videos before posting.'**
+  String get create_post_require_media;
+
+  /// No description provided for @create_post_image_limit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only attach up to {count} photos.'**
+  String create_post_image_limit(int count);
+
+  /// No description provided for @create_post_video_limit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only attach up to {count} videos.'**
+  String create_post_video_limit(int count);
 
   /// No description provided for @search_title.
   ///
@@ -911,6 +959,9 @@ abstract class AppLocalizations {
   /// **'Profile photo updated'**
   String get profile_avatar_updated;
 
+  /// No description provided for @profile_avatar_update_failed.
+  ///
+  /// In en, this message translates to:
   /// **'Unable to update profile photo.'**
   String get profile_avatar_update_failed;
 
@@ -930,7 +981,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Replying to {name}'**
-  String replying_to(String name);
+  String replying_to(Object name);
 
   /// No description provided for @send.
   ///

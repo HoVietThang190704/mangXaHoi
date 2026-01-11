@@ -1,6 +1,6 @@
 {
   "@@locale": "vi",
-  "facebook": "facebook",
+  "name_main": "Local",
   "hint_name": "Họ và tên",
   "hint_password": "Mật khẩu",
   "login": "Đăng nhập",
@@ -43,6 +43,28 @@
   "add_location": "Địa điểm",
   "feeling_activity": "Cảm xúc/hoạt động",
   "create_event": "Tạo sự kiện",
+  "create_group_title": "Tạo nhóm",
+  "create_group_button": "Tạo",
+  "create_group_name_hint": "Tên nhóm",
+  "create_group_search_hint": "Tìm kiếm bạn bè",
+  "create_group_failed": "Không thể tạo nhóm.",
+  "create_post_require_media": "Vui lòng nhập nội dung hoặc chọn ảnh/video trước khi đăng.",
+  "create_post_image_limit": "Bạn chỉ có thể chọn tối đa {count} ảnh.",
+  "@create_post_image_limit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "create_post_video_limit": "Bạn chỉ có thể chọn tối đa {count} video.",
+  "@create_post_video_limit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "search_title": "Tìm kiếm",
   "search_hint": "Tìm người dùng",
   "search_no_results": "Không tìm thấy người dùng",
