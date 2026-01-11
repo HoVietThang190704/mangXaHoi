@@ -162,11 +162,20 @@ class ApiService {
   }
 
   /// Upload multipart FormData. Returns decoded JSON map.
-  Future<dynamic> uploadFormData(String path, FormData formData) async {
+  Future<dynamic> uploadFormData(
+    String path,
+    FormData formData, {
+    Duration? sendTimeout,
+    Duration? receiveTimeout,
+  }) async {
     final res = await _dio.post(
       path,
       data: formData,
-      options: Options(contentType: 'multipart/form-data'),
+      options: Options(
+        contentType: 'multipart/form-data',
+        sendTimeout: sendTimeout ?? const Duration(minutes: 3),
+        receiveTimeout: receiveTimeout ?? const Duration(minutes: 3),
+      ),
     );
 
     if ((res.statusCode ?? 0) >= 400) {

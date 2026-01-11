@@ -54,6 +54,7 @@ class ProfileFeedSection extends StatelessWidget {
 						(post) => Padding(
 							padding: const EdgeInsets.only(bottom: 16),
 							child: PostCardComponent(
+								margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
 								post: post,
 								onLike: () => onLike(post),
 							),

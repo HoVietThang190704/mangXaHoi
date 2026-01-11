@@ -11,8 +11,9 @@ class PostCardComponent extends StatelessWidget {
   final PostModel post;
   final VoidCallback? onLike;
   final VoidCallback? onComment;
+  final EdgeInsetsGeometry? margin;
 
-  const PostCardComponent({super.key, required this.post, this.onLike, this.onComment});
+  const PostCardComponent({super.key, required this.post, this.onLike, this.onComment, this.margin});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class PostCardComponent extends StatelessWidget {
     final timestamp = _formatTimestamp(post.createdAt);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      margin: margin ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: theme.cardColor,
