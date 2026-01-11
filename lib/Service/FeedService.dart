@@ -94,6 +94,24 @@ class FeedService {
     return _repo.getPostById(postId);
   }
 
+  Future<PostModel> updatePost(String postId, Map<String, dynamic> payload) async {
+    try {
+      return await _repo.updatePost(postId, payload);
+    } catch (e) {
+      debugPrint('❌ updatePost failed: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> deletePost(String postId) async {
+    try {
+      await _repo.deletePost(postId);
+    } catch (e) {
+      debugPrint('❌ deletePost failed: $e');
+      rethrow;
+    }
+  }
+
   Future<List<String>> uploadFiles(List<String> filePaths) {
     return _repo.uploadFiles(filePaths);
   }

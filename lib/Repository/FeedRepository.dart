@@ -53,6 +53,28 @@ class FeedRepository {
     }
   }
 
+  Future<PostModel> updatePost(String postId, Map<String, dynamic> payload) async {
+    final api = await ApiService.create();
+    try {
+      final jsonData = await api.putJson('/api/posts/$postId', payload);
+      final data = jsonData['data'];
+      return PostModel.fromJson(data as Map<String, dynamic>);
+    } catch (e) {
+      _logDioError('updatePost', e);
+      rethrow;
+    }
+  }
+
+  Future<void> deletePost(String postId) async {
+    final api = await ApiService.create();
+    try {
+      await api.deleteJson('/api/posts/$postId');
+    } catch (e) {
+      _logDioError('deletePost', e);
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> toggleLike(String postId) async {
     final api = await ApiService.create();
     try {

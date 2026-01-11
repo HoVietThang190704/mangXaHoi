@@ -138,6 +138,21 @@ class AppLocalizationsVi extends AppLocalizations {
   String get create_event => 'Tạo sự kiện';
 
   @override
+  String get create_group_title => 'Tạo nhóm';
+
+  @override
+  String get create_group_button => 'Tạo';
+
+  @override
+  String get create_group_name_hint => 'Tên nhóm';
+
+  @override
+  String get create_group_search_hint => 'Tìm kiếm bạn bè';
+
+  @override
+  String get create_group_failed => 'Không thể tạo nhóm.';
+
+  @override
   String get create_post_require_media => 'Vui lòng nhập nội dung hoặc chọn ảnh/video trước khi đăng.';
 
   @override
@@ -367,6 +382,9 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get profile_friend_not_found => 'Không tìm thấy bạn bè';
+
+  @override
   String get profile_section_about => 'Giới thiệu';
 
   @override
@@ -417,28 +435,11 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get profile_friend_request_failed => 'Không thể cập nhật trạng thái kết bạn.';
 
-  String get profile_friend_not_found => 'Không tìm thấy bạn bè.';
-
   @override
   String get profile_message => 'Nhắn tin';
 
   @override
   String get profile_message_unavailable => 'Chưa thể mở cuộc trò chuyện.';
-
-  @override
-  String get create_group_title => 'Tạo nhóm';
-
-  @override
-  String get create_group_button => 'Tạo';
-
-  @override
-  String get create_group_name_hint => 'Tên nhóm';
-
-  @override
-  String get create_group_search_hint => 'Tìm kiếm bạn bè';
-
-  @override
-  String get create_group_failed => 'Không thể tạo nhóm.';
 
   @override
   String get profile_like_error => 'Không thể cập nhật lượt thích.';
@@ -495,6 +496,27 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get delete_comment_confirm_title => 'Xóa';
+
+  @override
+  String get delete_post_confirm => 'Xóa bài viết này?';
+
+  @override
+  String get common_delete => 'Xóa';
+
+  @override
+  String get post_deleted => 'Đã xóa bài viết';
+
+  @override
+  String get post_delete_failed => 'Xóa bài viết thất bại';
+
+  @override
+  String get edit_post => 'Chỉnh sửa bài viết';
+
+  @override
+  String get edit_post_hint => 'Cập nhật nội dung';
+
+  @override
+  String get post_updated => 'Đã cập nhật bài viết';
 
   @override
   String get notification_title => 'Thông báo';

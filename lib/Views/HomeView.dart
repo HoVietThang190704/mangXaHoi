@@ -208,6 +208,73 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
+  Future<void> _handleDeletePost(PostModel post) async {
+    final loc = AppLocalizations.of(context)!;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(loc.common_confirm),
+        content: Text(loc.delete_post_confirm ?? 'Delete this post?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: Text(loc.common_cancel)),
+          TextButton(onPressed: () => Navigator.of(ctx).pop(true), child: Text(loc.common_delete)),
+        ],
+      ),
+    );
+
+    if (confirm != true) return;
+
+    try {
+      await _service.deletePost(post.id);
+      if (!mounted) return;
+      setState(() => _posts.removeWhere((p) => p.id == post.id));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.post_deleted ?? 'Post deleted')));
+    } catch (e) {
+      debugPrint('Delete post failed: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.post_delete_failed ?? 'Failed to delete post')));
+    }
+  }
+
+  Future<void> _handleEditPost(PostModel post) async {
+    final loc = AppLocalizations.of(context)!;
+    final controller = TextEditingController(text: post.content);
+    final updated = await showDialog<PostModel?>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(loc.edit_post ?? 'Edit post'),
+        content: TextField(
+          controller: controller,
+          maxLines: null,
+          decoration: InputDecoration(hintText: loc.edit_post_hint ?? 'Update content'),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(null), child: Text(loc.common_cancel)),
+          TextButton(
+              onPressed: () async {
+                final newContent = controller.text.trim();
+                if (newContent.isEmpty) return;
+                try {
+                  final result = await _service.updatePost(post.id, {'content': newContent});
+                  Navigator.of(ctx).pop(result);
+                } catch (e) {
+                  Navigator.of(ctx).pop(null);
+                }
+              },
+              child: Text(loc.common_save)),
+        ],
+      ),
+    );
+
+    if (updated != null && mounted) {
+      setState(() {
+        final idx = _posts.indexWhere((p) => p.id == updated.id);
+        if (idx >= 0) _posts[idx] = updated;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loc.post_updated ?? 'Post updated')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,6 +300,8 @@ class _HomeViewState extends State<HomeView> {
                 post: post,
                 onLike: () => _handleLike(post),
                 onComment: () => _openPostDetail(post),
+                onEdit: () => _handleEditPost(post),
+                onDelete: () => _handleDeletePost(post),
               );
             }
 

@@ -12,6 +12,8 @@ class ProfileFeedSection extends StatelessWidget {
 	final Future<void> Function() onRetry;
 	final ProfileLikeCallback onLike;
 	final Future<void> Function(PostModel post)? onComment;
+	final Future<void> Function(PostModel post)? onEdit;
+	final Future<void> Function(PostModel post)? onDelete;
 
 	const ProfileFeedSection({
 		super.key,
@@ -21,6 +23,8 @@ class ProfileFeedSection extends StatelessWidget {
 		required this.onRetry,
 		required this.onLike,
 		this.onComment,
+		this.onEdit,
+		this.onDelete,
 	});
 
 	@override
@@ -56,8 +60,9 @@ class ProfileFeedSection extends StatelessWidget {
 							child: PostCardComponent(
 								margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
 								post: post,
-								onLike: () => onLike(post),
-							),
+								onLike: () => onLike(post),								onComment: onComment != null ? () => onComment!(post) : null,
+								onEdit: onEdit != null ? () => onEdit!(post) : null,
+								onDelete: onDelete != null ? () => onDelete!(post) : null,							),
 						),
 					),
 			],

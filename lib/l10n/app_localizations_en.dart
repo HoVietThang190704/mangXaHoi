@@ -138,6 +138,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get create_event => 'Create event';
 
   @override
+  String get create_group_title => 'Create group';
+
+  @override
+  String get create_group_button => 'Create';
+
+  @override
+  String get create_group_name_hint => 'Group name';
+
+  @override
+  String get create_group_search_hint => 'Search friends';
+
+  @override
+  String get create_group_failed => 'Unable to create group.';
+
+  @override
   String get create_post_require_media => 'Add text, photos, or videos before posting.';
 
   @override
@@ -367,6 +382,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get profile_friend_not_found => 'Friend not found';
+
+  @override
   String get profile_section_about => 'Intro';
 
   @override
@@ -417,28 +435,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profile_friend_request_failed => 'Unable to update friendship. Please try again.';
 
-  String get profile_friend_not_found => 'Friend not found.';
-
   @override
   String get profile_message => 'Message';
 
   @override
   String get profile_message_unavailable => 'Cannot start a chat right now.';
-
-  @override
-  String get create_group_title => 'Create group';
-
-  @override
-  String get create_group_button => 'Create';
-
-  @override
-  String get create_group_name_hint => 'Group name';
-
-  @override
-  String get create_group_search_hint => 'Search friends';
-
-  @override
-  String get create_group_failed => 'Unable to create group.';
 
   @override
   String get profile_like_error => 'Unable to update likes.';
@@ -495,6 +496,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete_comment_confirm_title => 'Delete';
+
+  @override
+  String get delete_post_confirm => 'Delete this post?';
+
+  @override
+  String get common_delete => 'Delete';
+
+  @override
+  String get post_deleted => 'Post deleted';
+
+  @override
+  String get post_delete_failed => 'Failed to delete post';
+
+  @override
+  String get edit_post => 'Edit post';
+
+  @override
+  String get edit_post_hint => 'Update content';
+
+  @override
+  String get post_updated => 'Post updated';
 
   @override
   String get notification_title => 'Notifications';

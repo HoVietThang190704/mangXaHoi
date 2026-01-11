@@ -322,6 +322,72 @@ class _UserProfileViewState extends State<UserProfileView> {
     }
   }
 
+  Future<void> _handleDeletePost(PostModel post) async {
+    final loc = AppLocalizations.of(context)!;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(loc.delete_comment_confirm_title ?? 'Delete'),
+        content: Text('Delete this post?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: Text(loc.common_cancel)),
+          TextButton(onPressed: () => Navigator.of(ctx).pop(true), child: Text(loc.delete_comment_confirm_title ?? 'Delete')),
+        ],
+      ),
+    );
+
+    if (confirm != true) return;
+
+    try {
+      await _feedService.deletePost(post.id);
+      if (!mounted) return;
+      setState(() => _posts.removeWhere((p) => p.id == post.id));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Post deleted')));
+    } catch (e) {
+      debugPrint('Delete post failed: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to delete post')));
+    }
+  }
+
+  Future<void> _handleEditPost(PostModel post) async {
+    final controller = TextEditingController(text: post.content);
+    final updated = await showDialog<PostModel?>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Edit post'),
+        content: TextField(
+          controller: controller,
+          maxLines: null,
+          decoration: InputDecoration(hintText: 'Update content'),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(ctx).pop(null), child: Text(AppLocalizations.of(context)!.common_cancel)),
+          TextButton(
+              onPressed: () async {
+                final newContent = controller.text.trim();
+                if (newContent.isEmpty) return;
+                try {
+                  final result = await _feedService.updatePost(post.id, {'content': newContent});
+                  Navigator.of(ctx).pop(result);
+                } catch (e) {
+                  Navigator.of(ctx).pop(null);
+                }
+              },
+              child: Text(AppLocalizations.of(context)!.common_save)),
+        ],
+      ),
+    );
+
+    if (updated != null && mounted) {
+      setState(() {
+        final idx = _posts.indexWhere((p) => p.id == updated.id);
+        if (idx >= 0) _posts[idx] = updated;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Post updated')));
+    }
+  }
+
   Future<void> _handleRejectRequest() async {
     if (_friendBusy) return;
     final loc = AppLocalizations.of(context)!;
@@ -529,6 +595,8 @@ class _UserProfileViewState extends State<UserProfileView> {
             onRetry: _loadPosts,
             onLike: _handleLike,
             onComment: _openPostDetail,
+            onEdit: _handleEditPost,
+            onDelete: _handleDeletePost,
           )
         else if (_activeTab == 1)
           ProfilePhotosSection(

@@ -95,7 +95,7 @@ abstract class AppLocalizations {
     Locale('vi')
   ];
 
-  /// No description provided for @facebook.
+  /// No description provided for @name_main.
   ///
   /// In en, this message translates to:
   /// **'Local'**
@@ -821,6 +821,12 @@ abstract class AppLocalizations {
   /// **'{count} friends'**
   String profile_friend_count(int count);
 
+  /// No description provided for @profile_friend_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend not found'**
+  String get profile_friend_not_found;
+
   /// No description provided for @profile_section_about.
   ///
   /// In en, this message translates to:
@@ -922,9 +928,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unable to update friendship. Please try again.'**
   String get profile_friend_request_failed;
-
-  /// No description provided for @profile_friend_not_found.
-  String get profile_friend_not_found;
 
   /// No description provided for @profile_message.
   ///
@@ -1045,6 +1048,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete_comment_confirm_title;
+
+  /// No description provided for @delete_post_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this post?'**
+  String get delete_post_confirm;
+
+  /// No description provided for @common_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get common_delete;
+
+  /// No description provided for @post_deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Post deleted'**
+  String get post_deleted;
+
+  /// No description provided for @post_delete_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete post'**
+  String get post_delete_failed;
+
+  /// No description provided for @edit_post.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit post'**
+  String get edit_post;
+
+  /// No description provided for @edit_post_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Update content'**
+  String get edit_post_hint;
+
+  /// No description provided for @post_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Post updated'**
+  String get post_updated;
 
   /// No description provided for @notification_title.
   ///

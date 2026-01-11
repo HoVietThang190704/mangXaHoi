@@ -152,6 +152,7 @@
       }
     }
   },
+  "profile_friend_not_found": "Không tìm thấy bạn bè",
   "profile_section_about": "Giới thiệu",
   "profile_about_empty": "Chưa có thông tin giới thiệu.",
   "profile_section_photos": "Ảnh",
@@ -194,6 +195,13 @@
   "comment_action_failed": "Không thể đăng bình luận",
   "max_reply_depth": "Chỉ hỗ trợ tối đa 3 tầng trả lời",
   "delete_comment_confirm_title": "Xóa",
+  "delete_post_confirm": "Xóa bài viết này?",
+  "common_delete": "Xóa",
+  "post_deleted": "Đã xóa bài viết",
+  "post_delete_failed": "Xóa bài viết thất bại",
+  "edit_post": "Chỉnh sửa bài viết",
+  "edit_post_hint": "Cập nhật nội dung",
+  "post_updated": "Đã cập nhật bài viết",
   "notification_title": "Thông báo",
   "notification_empty": "Chưa có thông báo",
   "notification_load_error": "Không thể tải thông báo",

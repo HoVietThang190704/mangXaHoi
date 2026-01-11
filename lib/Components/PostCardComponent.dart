@@ -11,9 +11,11 @@ class PostCardComponent extends StatelessWidget {
   final PostModel post;
   final VoidCallback? onLike;
   final VoidCallback? onComment;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
   final EdgeInsetsGeometry? margin;
 
-  const PostCardComponent({super.key, required this.post, this.onLike, this.onComment, this.margin});
+  const PostCardComponent({super.key, required this.post, this.onLike, this.onComment, this.onEdit, this.onDelete, this.margin});
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +105,7 @@ class PostCardComponent extends StatelessWidget {
                     const SizedBox(width: 6),
                     const Icon(Icons.verified, color: Color(0xFFF1F5F9), size: 18),
                   ],
-                ),
-                const SizedBox(height: 4),
+                ),                                const SizedBox(height: 4),
                 Row(
                   children: [
                     Text(
@@ -121,7 +122,28 @@ class PostCardComponent extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz, color: Colors.grey[700])),
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'edit' && Utils.currentUser != null && (Utils.currentUser!.id == post.userId || Utils.currentUser!.role == 'admin')) {
+                if (onEdit != null) onEdit!();
+              }
+              if (value == 'delete' && Utils.currentUser != null && (Utils.currentUser!.id == post.userId || Utils.currentUser!.role == 'admin')) {
+                if (onDelete != null) onDelete!();
+              }
+            },
+            itemBuilder: (context) {
+              final items = <PopupMenuEntry<String>>[];
+              final currentId = Utils.currentUser?.id;
+              final isOwner = currentId != null && currentId == post.userId;
+              final isAdmin = Utils.currentUser?.role == 'admin';
+              if (isOwner || isAdmin) {
+                items.add(const PopupMenuItem(value: 'edit', child: Text('Edit')));
+                items.add(const PopupMenuItem(value: 'delete', child: Text('Delete')));
+              }
+              return items;
+            },
+            icon: Icon(Icons.more_horiz, color: Colors.grey[700]),
+          ),
         ],
       ),
     );

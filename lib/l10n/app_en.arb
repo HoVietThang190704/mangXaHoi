@@ -152,6 +152,7 @@
       }
     }
   },
+  "profile_friend_not_found": "Friend not found",
   "profile_section_about": "Intro",
   "profile_about_empty": "No introduction yet.",
   "profile_section_photos": "Photos",
@@ -194,6 +195,13 @@
   "comment_action_failed": "Unable to post comment",
   "max_reply_depth": "Only 3 levels of replies are supported",
   "delete_comment_confirm_title": "Delete",
+  "delete_post_confirm": "Delete this post?",
+  "common_delete": "Delete",
+  "post_deleted": "Post deleted",
+  "post_delete_failed": "Failed to delete post",
+  "edit_post": "Edit post",
+  "edit_post_hint": "Update content",
+  "post_updated": "Post updated",
   "notification_title": "Notifications",
   "notification_empty": "No notifications yet",
   "notification_load_error": "Unable to load notifications",
