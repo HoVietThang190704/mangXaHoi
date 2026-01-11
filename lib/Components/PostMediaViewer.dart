@@ -169,13 +169,14 @@ class _PostVideoPlayerState extends State<_PostVideoPlayer> {
   late final VideoPlayerController _controller;
   bool _initialized = false;
   bool _failed = false;
+  bool _muted = true;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.url))
       ..setLooping(true)
-      ..setVolume(0);
+      ..setVolume(_muted ? 0 : 1);
     _controller.initialize().then((_) {
       if (!mounted) return;
       setState(() => _initialized = true);
@@ -201,6 +202,14 @@ class _PostVideoPlayerState extends State<_PostVideoPlayer> {
       } else {
         _controller.play();
       }
+    });
+  }
+
+  void _toggleMute() {
+    if (!_initialized || _failed) return;
+    setState(() {
+      _muted = !_muted;
+      _controller.setVolume(_muted ? 0 : 1);
     });
   }
 
@@ -233,18 +242,21 @@ class _PostVideoPlayerState extends State<_PostVideoPlayer> {
         Positioned(
           bottom: 12,
           right: 12,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.black54,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: const [
-                Icon(Icons.volume_off, color: Colors.white, size: 14),
-                SizedBox(width: 4),
-                Text('Muted', style: TextStyle(color: Colors.white, fontSize: 12)),
-              ],
+          child: InkWell(
+            onTap: _toggleMute,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.black54,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Icon(_muted ? Icons.volume_off : Icons.volume_up, color: Colors.white, size: 14),
+                  const SizedBox(width: 4),
+                  Text(_muted ? 'Muted' : 'Sound', style: const TextStyle(color: Colors.white, fontSize: 12)),
+                ],
+              ),
             ),
           ),
         ),
