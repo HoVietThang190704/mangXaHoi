@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mangxahoi/Utils.dart';
 import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
+import 'PostMediaViewer.dart';
 import 'PostShareSheet.dart';
 import '../Model/PostModel.dart';
 
@@ -45,7 +46,15 @@ class PostCardComponent extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(height: 1.4),
               ),
             ),
-          if (post.imageUrl != null && post.imageUrl!.isNotEmpty) _buildMediaPreview(context),
+          if (_hasMedia)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: PostMediaViewer(
+                images: _mediaImages,
+                videos: post.videos,
+                onTap: onComment,
+              ),
+            ),
           _buildStatsRow(context),
           Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
           _buildActionRow(context),
@@ -90,7 +99,7 @@ class PostCardComponent extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 6),
-                    const Icon(Icons.verified, color: Color(0xFF1D72F2), size: 18),
+                    const Icon(Icons.verified, color: Color(0xFFF1F5F9), size: 18),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -116,33 +125,20 @@ class PostCardComponent extends StatelessWidget {
     );
   }
 
-  Widget _buildMediaPreview(BuildContext context) {
-    return GestureDetector(
-      onTap: onComment,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(0),
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Image.network(
-            post.imageUrl!,
-            fit: BoxFit.cover,
-            loadingBuilder: (context, child, progress) {
-              if (progress == null) return child;
-              return Container(
-                alignment: Alignment.center,
-                color: Colors.grey[200],
-                child: CircularProgressIndicator(
-                  value: progress.expectedTotalBytes != null
-                      ? progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
-                      : null,
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
+  List<String> get _mediaImages {
+    final images = <String>{};
+    for (final url in post.images) {
+      final trimmed = url.trim();
+      if (trimmed.isNotEmpty) images.add(trimmed);
+    }
+    final single = post.imageUrl?.trim();
+    if (images.isEmpty && (single?.isNotEmpty ?? false)) {
+      images.add(single!);
+    }
+    return images.toList();
   }
+
+  bool get _hasMedia => _mediaImages.isNotEmpty || post.videos.isNotEmpty;
 
   Widget _buildStatsRow(BuildContext context) {
     final theme = Theme.of(context);

@@ -6,7 +6,7 @@ class Utils{
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static String userName = "";
   static int selectIndex = 0;
-  static String baseUrl = "http://10.0.2.2:5000";
+  static String baseUrl = "http://192.168.1.44:5000";
   static String slideUrl = "/api/Product/get-slide-product";
   static String allProductUrl = "/api/Product/get-all-product";
   static AuthUserModel? currentUser;

@@ -8,6 +8,7 @@ class PostModel {
   final AuthUserModel author;
   final String content;
   final List<String> images;
+  final List<String> videos;
   final String? imageUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -26,6 +27,7 @@ class PostModel {
     required this.createdAt,
     required this.updatedAt,
     this.images = const [],
+    this.videos = const [],
     this.imageUrl,
     this.visibility = 'public',
     this.isEdited = false,
@@ -42,6 +44,7 @@ class PostModel {
     final author = AuthUserModel.fromJson(authorMap);
     final createdAt = _parseDate(json['createdAt']) ?? DateTime.now();
     final updatedAt = _parseDate(json['updatedAt']) ?? createdAt;
+    final videos = (json['videos'] as List?)?.map((e) => e.toString()).toList() ?? const <String>[];
 
     return PostModel(
       id: json['id']?.toString() ?? json['_id']?.toString() ?? '',
@@ -49,6 +52,7 @@ class PostModel {
       author: author,
       content: json['content']?.toString() ?? '',
       images: images,
+      videos: videos,
       imageUrl: json['imageUrl']?.toString() ?? (images.isNotEmpty ? images.first : null),
       createdAt: createdAt,
       updatedAt: updatedAt,
@@ -67,6 +71,7 @@ class PostModel {
         'author': author.toJson(),
         'content': content,
         'images': images,
+        'videos': videos,
         'imageUrl': imageUrl,
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),

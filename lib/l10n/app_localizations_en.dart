@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get facebook => 'facebook';
+  String get name_main => 'Local';
 
   @override
   String get hint_name => 'Name';
@@ -136,6 +136,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get create_event => 'Create event';
+
+  @override
+  String get create_post_require_media => 'Add text, photos, or videos before posting.';
+
+  @override
+  String create_post_image_limit(int count) {
+    return 'You can only attach up to $count photos.';
+  }
+
+  @override
+  String create_post_video_limit(int count) {
+    return 'You can only attach up to $count videos.';
+  }
 
   @override
   String get search_title => 'Search';
@@ -362,6 +375,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profile_section_photos => 'Photos';
 
+  @override
   String get profile_photos_empty => 'No shared photos yet.';
 
   @override
@@ -407,6 +421,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile_message_unavailable => 'Cannot start a chat right now.';
 
   @override
+  String get create_group_title => 'Create group';
+
+  @override
+  String get create_group_button => 'Create';
+
+  @override
+  String get create_group_name_hint => 'Group name';
+
+  @override
+  String get create_group_search_hint => 'Search friends';
+
+  @override
+  String get create_group_failed => 'Unable to create group.';
+
+  @override
   String get profile_like_error => 'Unable to update likes.';
 
   @override
@@ -431,7 +460,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get comment_input_hint => 'Write a comment...';
 
   @override
-  String replying_to(String name) {
+  String replying_to(Object name) {
     return 'Replying to $name';
   }
 

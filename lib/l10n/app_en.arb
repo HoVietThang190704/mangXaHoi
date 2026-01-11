@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "facebook": "facebook",
+  "name_main": "Local",
   "hint_name": "Name",
   "hint_password": "Password",
   "login": "Login",
@@ -43,6 +43,28 @@
   "add_location": "Check in",
   "feeling_activity": "Feeling/activity",
   "create_event": "Create event",
+  "create_group_title": "Create group",
+  "create_group_button": "Create",
+  "create_group_name_hint": "Group name",
+  "create_group_search_hint": "Search friends",
+  "create_group_failed": "Unable to create group.",
+  "create_post_require_media": "Add text, photos, or videos before posting.",
+  "create_post_image_limit": "You can only attach up to {count} photos.",
+  "@create_post_image_limit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "create_post_video_limit": "You can only attach up to {count} videos.",
+  "@create_post_video_limit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "search_title": "Search",
   "search_hint": "Search users",
   "search_no_results": "No users found",

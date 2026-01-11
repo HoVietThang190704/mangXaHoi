@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mangxahoi/Model/ChatModels.dart';
+import 'package:mangxahoi/Views/Chat/CreateGroupView.dart';
 import 'package:mangxahoi/Repository/ChatRepository.dart';
+import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'package:mangxahoi/Service/ChatSocketManager.dart';
 import 'package:mangxahoi/Utils.dart';
 
@@ -113,10 +115,36 @@ class _ChatViewState extends State<ChatView> {
 
     try {
       final result = await _repo.fetchThreads(page: 1, limit: 50);
+
+      // Also fetch groups and merge them into the threads list so newly created
+      // groups appear in the chat list. We map each group to a synthetic thread
+      // where the group's name and avatar are shown as the participant.
+      List<ChatThreadModel> groupThreads = [];
+      try {
+        final groups = await _repo.fetchGroups(page: 1, limit: 50);
+        groupThreads = groups.map((g) => ChatThreadModel(
+              id: 'group:${g.id}',
+              participantIds: g.members,
+              participants: [
+                ChatParticipant(userId: g.id, userName: g.name, avatar: g.avatar)
+              ],
+              lastMessage: null,
+              lastMessageAt: null,
+              lastSenderId: null,
+              unreadCount: 0,
+              unreadByUser: {},
+              createdAt: null,
+              updatedAt: null,
+            )).toList();
+      } catch (_) {
+        // Non-fatal: if fetching groups fails, continue showing threads only
+      }
+
       if (!mounted) return;
       setState(() {
         _threads
           ..clear()
+          ..addAll(groupThreads)
           ..addAll(result.threads);
         _loading = false;
         _refreshing = false;
@@ -241,8 +269,19 @@ class _ChatViewState extends State<ChatView> {
               IconButton(
                 onPressed: () => Navigator.pushNamed(context, '/search'),
                 icon: Icon(Icons.person_add_alt, color: _primaryColor),
-                tooltip: 'Tìm bạn mới',
-              )
+                tooltip: AppLocalizations.of(context)!.search_title,
+              ),
+              IconButton(
+                onPressed: () async {
+                  final created = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const CreateGroupView()));
+                  if (created != null) {
+                    // optionally reload threads to show group
+                    _loadThreads();
+                  }
+                },
+                icon: Icon(Icons.group_add, color: _primaryColor),
+                tooltip: AppLocalizations.of(context)!.create_group_title,
+              ),
             ],
           ),
           const SizedBox(height: 12),

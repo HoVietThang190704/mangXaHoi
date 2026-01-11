@@ -9,7 +9,7 @@ class AppLocalizationsVi extends AppLocalizations {
   AppLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
-  String get facebook => 'facebook';
+  String get name_main => 'Local';
 
   @override
   String get hint_name => 'Họ và tên';
@@ -136,6 +136,19 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get create_event => 'Tạo sự kiện';
+
+  @override
+  String get create_post_require_media => 'Vui lòng nhập nội dung hoặc chọn ảnh/video trước khi đăng.';
+
+  @override
+  String create_post_image_limit(int count) {
+    return 'Bạn chỉ có thể chọn tối đa $count ảnh.';
+  }
+
+  @override
+  String create_post_video_limit(int count) {
+    return 'Bạn chỉ có thể chọn tối đa $count video.';
+  }
 
   @override
   String get search_title => 'Tìm kiếm';
@@ -362,6 +375,7 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get profile_section_photos => 'Ảnh';
 
+  @override
   String get profile_photos_empty => 'Chưa có ảnh nào được chia sẻ.';
 
   @override
@@ -407,6 +421,21 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profile_message_unavailable => 'Chưa thể mở cuộc trò chuyện.';
 
   @override
+  String get create_group_title => 'Tạo nhóm';
+
+  @override
+  String get create_group_button => 'Tạo';
+
+  @override
+  String get create_group_name_hint => 'Tên nhóm';
+
+  @override
+  String get create_group_search_hint => 'Tìm kiếm bạn bè';
+
+  @override
+  String get create_group_failed => 'Không thể tạo nhóm.';
+
+  @override
   String get profile_like_error => 'Không thể cập nhật lượt thích.';
 
   @override
@@ -431,7 +460,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get comment_input_hint => 'Viết bình luận...';
 
   @override
-  String replying_to(String name) {
+  String replying_to(Object name) {
     return 'Đang trả lời $name';
   }
 

@@ -10,7 +10,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
@@ -38,12 +38,12 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
             }
           },
           icon: Icon(Icons.add, color: Colors.black87),
-          tooltip: l10n?.create_post_title ?? 'Tạo bài viết',
+          tooltip: l10n.create_post_title,
         ),
         IconButton(
           onPressed: () => Navigator.pushNamed(context, '/search'),
           icon: Icon(Icons.search, color: Colors.black87),
-          tooltip: l10n?.search_title ?? 'Tìm kiếm',
+          tooltip: l10n.search_title,
         ),
         IconButton(
           onPressed: () {
@@ -54,7 +54,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
             Navigator.pushNamed(context, '/chat');
           },
           icon: Icon(Icons.chat, color: Colors.black87),
-          tooltip: 'Chat',
+          tooltip: l10n.profile_message,
         ),
       ],
     );

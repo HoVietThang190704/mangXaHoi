@@ -15,20 +15,8 @@ class FeedService {
   }
 
   Future<PostModel> createPost(Map<String, dynamic> payload) async {
-    if (payload.containsKey('images') && payload['images'] is List<String>) {
-      final paths = List<String>.from(payload['images']);
-      if (paths.isEmpty) {
-        payload.remove('images');
-      } else {
-        try {
-          final uploaded = await _repo.uploadFiles(paths);
-          payload['images'] = uploaded;
-        } catch (e) {
-          debugPrint('❌ File upload failed: $e');
-          rethrow;
-        }
-      }
-    }
+    await _prepareMedia(payload, 'images', _repo.uploadImagesWithIds, idKey: 'cloudinaryPublicIds');
+    await _prepareMedia(payload, 'videos', _repo.uploadVideos, idKey: 'videoPublicIds');
 
     try {
       return await _repo.createPost(payload);
@@ -36,6 +24,62 @@ class FeedService {
       debugPrint('❌ createPost failed: $e');
       rethrow;
     }
+  }
+
+  Future<void> _prepareMedia(
+    Map<String, dynamic> payload,
+    String key,
+    Future<UploadResult> Function(List<String>) uploader, {
+    String? idKey,
+  }) async {
+    if (!payload.containsKey(key)) return;
+    final raw = payload[key];
+    if (raw is! List) return;
+
+    final cleaned = raw
+      .map((e) => e == null ? null : e.toString())
+        .whereType<String>()
+        .map((value) => value.trim())
+        .where((value) => value.isNotEmpty)
+        .toList();
+
+    if (cleaned.isEmpty) {
+      payload.remove(key);
+      if (idKey != null) payload.remove(idKey);
+      return;
+    }
+
+    final remote = <String>[];
+    final local = <String>[];
+
+    for (final path in cleaned) {
+      if (_isRemotePath(path)) {
+        remote.add(path);
+      } else {
+        local.add(path);
+      }
+    }
+
+    if (local.isEmpty) {
+      payload[key] = remote;
+      return;
+    }
+
+    try {
+      final uploaded = await uploader(local);
+      payload[key] = [...remote, ...uploaded.urls];
+      if (idKey != null) {
+        payload[idKey] = uploaded.publicIds;
+      }
+    } catch (e) {
+      debugPrint('❌ $key upload failed: $e');
+      rethrow;
+    }
+  }
+
+  bool _isRemotePath(String value) {
+    final lower = value.toLowerCase();
+    return lower.startsWith('http://') || lower.startsWith('https://');
   }
 
   Future<Map<String, dynamic>> toggleLike(String postId) async {
