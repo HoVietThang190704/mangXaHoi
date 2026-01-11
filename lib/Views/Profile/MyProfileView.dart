@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mangxahoi/Components/BottomNavigationBarComponent.dart';
 import 'package:mangxahoi/Components/profile/ProfileFeedSection.dart';
 import 'package:mangxahoi/Components/profile/ProfileHeaderSection.dart';
 import 'package:mangxahoi/Components/profile/ProfileHighlightsSection.dart';
@@ -40,7 +39,6 @@ class _MyProfileViewState extends State<MyProfileView> {
   @override
   void initState() {
     super.initState();
-    Utils.selectIndex = 1;
     _loadData();
   }
 
@@ -402,7 +400,6 @@ class _MyProfileViewState extends State<MyProfileView> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF0F2F5),
-      bottomNavigationBar: BottomNavigationBarComponent(),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _loadData,

@@ -181,6 +181,18 @@ class AppLocalizationsVi extends AppLocalizations {
   String get search_min_chars => 'Vui lòng nhập tối thiểu 2 ký tự';
 
   @override
+  String get search_tab_users => 'Người dùng';
+
+  @override
+  String get search_tab_posts => 'Bài viết';
+
+  @override
+  String get search_tab_posts_hint => 'Tìm kiếm bài viết';
+
+  @override
+  String get search_posts_empty => 'Chưa có bài viết nào';
+
+  @override
   String get settings_title => 'Cài đặt';
 
   @override

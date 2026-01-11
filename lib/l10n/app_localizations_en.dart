@@ -181,6 +181,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search_min_chars => 'Please type at least 2 characters';
 
   @override
+  String get search_tab_users => 'Users';
+
+  @override
+  String get search_tab_posts => 'Posts';
+
+  @override
+  String get search_tab_posts_hint => 'Search posts';
+
+  @override
+  String get search_posts_empty => 'No posts found';
+
+  @override
   String get settings_title => 'Settings';
 
   @override

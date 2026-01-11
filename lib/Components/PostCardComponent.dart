@@ -178,7 +178,7 @@ class PostCardComponent extends StatelessWidget {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                _reactionBubble(Colors.blue, Icons.thumb_up, 0),
+                //_reactionBubble(Colors.blue, Icons.thumb_up, 0),
                 _reactionBubble(Colors.redAccent, Icons.favorite, 18),
               ],
             ),

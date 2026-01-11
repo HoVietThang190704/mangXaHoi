@@ -1,11 +1,7 @@
-import 'package:mangxahoi/Views/ChatView.dart';
-import 'package:mangxahoi/Views/HomeView.dart';
 import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/Views/Auth/LoginView.dart';
 import 'package:mangxahoi/Views/Auth/RegisterView.dart';
 import 'package:mangxahoi/Views/CreatePostView.dart';
-import 'package:mangxahoi/Views/NotificationView.dart';
-import 'package:mangxahoi/Views/Profile/MyProfileView.dart';
 import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,8 +12,9 @@ import 'package:mangxahoi/Views/Settings/EditProfileView.dart';
 import 'package:mangxahoi/Views/Settings/FeedbackView.dart';
 import 'package:mangxahoi/Views/Settings/LanguageSettingsView.dart';
 import 'package:mangxahoi/Views/Settings/SecuritySettingsView.dart';
-import 'package:mangxahoi/Views/Settings/SettingsHomeView.dart';
+import 'package:mangxahoi/Views/MainShell.dart';
 import 'Utils.dart';
+import 'Views/Chat/ChatViewArguments.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,12 +48,37 @@ class MyApp extends StatelessWidget {
           locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          theme: ThemeData(
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: ZoomPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.windows: ZoomPageTransitionsBuilder(),
+                TargetPlatform.linux: ZoomPageTransitionsBuilder(),
+                TargetPlatform.fuchsia: ZoomPageTransitionsBuilder(),
+              },
+            ),
+          ),
           initialRoute: initialRoute,
           routes: {
             '/': (context) => LoginView(),
-            '/home': (context) => HomeView(),
-            '/chat': (context) => ChatView(),
-            '/myprofile': (context) => const MyProfileView(),
+            '/home': (context) => const MainShell(initialIndex: 0),
+            '/chat': (context) {
+              final args = ModalRoute.of(context)?.settings.arguments;
+              ChatViewArguments? chatArgs;
+              if (args is ChatViewArguments) {
+                chatArgs = args;
+              } else if (args is Map) {
+                chatArgs = ChatViewArguments(
+                  userId: args['userId']?.toString(),
+                  displayName: args['displayName']?.toString(),
+                  avatar: args['avatar']?.toString(),
+                );
+              }
+              return MainShell(initialIndex: 2, chatArgs: chatArgs);
+            },
+            '/myprofile': (context) => const MainShell(initialIndex: 1),
             '/profile/user': (context) {
               final args = ModalRoute.of(context)?.settings.arguments;
               if (args is UserProfileArguments) {
@@ -79,9 +101,8 @@ class MyApp extends StatelessWidget {
               }
               return const Scaffold(body: Center(child: Text('No user specified')));
             },
-            '/notifications': (context) => const NotificationView(),
-            // '/setting': (context) => SettingView(),
-            '/setting': (context) => SettingsHomeView(),
+            '/notifications': (context) => const MainShell(initialIndex: 3),
+            '/setting': (context) => const MainShell(initialIndex: 4),
             //'/myprofile': (context) => EditProfileView(),
             '/settings/profile': (context) => EditProfileView(),
             '/settings/security': (context) => SecuritySettingsView(),
