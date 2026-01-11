@@ -4,7 +4,8 @@ import 'package:mangxahoi/l10n/app_localizations.dart';
 
 class CreatePostComponent extends StatelessWidget{
   final void Function(String content)? onPost;
-  CreatePostComponent({this.onPost});
+  final ValueChanged<dynamic>? onCreated;
+  CreatePostComponent({this.onPost, this.onCreated});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,19 @@ class CreatePostComponent extends StatelessWidget{
             Expanded(
               child: InkWell(
                 onTap: () async {
+                  final created = await Navigator.of(context).pushNamed('/createPost');
+                  if (created != null) {
+                    if (onCreated != null) {
+                      onCreated!(created);
+                      return;
+                    }
+
+                    if (created is String && created.trim().isNotEmpty) {
+                      onPost?.call(created);
+                      return;
+                    }
+                  }
+
                   final content = await showDialog<String>(context: context, builder: (ctx) {
                     String tmp = '';
                     return AlertDialog(

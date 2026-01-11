@@ -219,7 +219,11 @@ class _HomeViewState extends State<HomeView> {
           itemCount: 3 + _posts.length + (_loadingMore ? 1 : 0),
           itemBuilder: (context, index) {
             if (index == 0) return StoryBarComponent();
-            if (index == 1) return CreatePostComponent(onPost: _onCreatePost);
+            if (index == 1) return CreatePostComponent(onCreated: (created) {
+              if (created is PostModel && mounted) {
+                setState(() => _posts.insert(0, created));
+              }
+            }, onPost: _onCreatePost);
             if (index == 2) return Divider(thickness: 6, color: Colors.grey[200]);
 
             final postIndex = index - 3;
