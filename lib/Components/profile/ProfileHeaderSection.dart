@@ -23,6 +23,8 @@ class ProfileHeaderSection extends StatelessWidget {
   final List<FriendPreview> friends;
   final int activeIndex;
   final ValueChanged<int>? onTabChanged;
+  final ValueChanged<FriendPreview>? onFriendTap;
+  final VoidCallback? onViewAll;
   final VoidCallback? onAvatarTap;
   final bool isUploadingAvatar;
   final Widget? actionArea;
@@ -41,6 +43,8 @@ class ProfileHeaderSection extends StatelessWidget {
     required this.friends,
     this.activeIndex = 0,
     this.onTabChanged,
+    this.onFriendTap,
+    this.onViewAll,
     this.onAvatarTap,
     this.isUploadingAvatar = false,
     this.actionArea,
@@ -80,7 +84,7 @@ class ProfileHeaderSection extends StatelessWidget {
         const SizedBox(height: 16),
         _ProfileIntroCard(details: introDetails),
         const SizedBox(height: 12),
-        ProfileFriendsSection(friends: friends, accentColor: accentColor),
+        ProfileFriendsSection(friends: friends, accentColor: accentColor, onFriendTap: onFriendTap, onViewAll: onViewAll),
         const SizedBox(height: 16),
         ProfileTabs(
           tabs: [

@@ -47,4 +47,8 @@ class FriendService {
   Future<List<FriendRequestModel>> getPendingRequests({int page = 1, int limit = 20}) {
     return _repository.getPendingRequests(page: page, limit: limit);
   }
+
+  Future<List<FriendListItem>> getFriends({int page = 1, int limit = 50}) {
+    return _repository.getFriends(page: page, limit: limit);
+  }
 }

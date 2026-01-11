@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mangxahoi/l10n/app_localizations.dart';
 import 'package:mangxahoi/Views/SearchView.dart';
+import 'package:mangxahoi/Views/Profile/FriendsListView.dart';
 import 'package:mangxahoi/Views/Settings/EditProfileView.dart';
 import 'package:mangxahoi/Views/Settings/FeedbackView.dart';
 import 'package:mangxahoi/Views/Settings/LanguageSettingsView.dart';
@@ -67,6 +68,16 @@ class MyApp extends StatelessWidget {
               return const Scaffold(
                 body: Center(child: Text('User not found')),
               );
+            },
+            '/profile/friends': (context) {
+              final args = ModalRoute.of(context)?.settings.arguments;
+              if (args is FriendsListArguments) {
+                return FriendsListView(args: args);
+              }
+              if (args is Map && args['userId'] != null) {
+                return FriendsListView(args: FriendsListArguments(userId: args['userId'].toString(), title: args['title']?.toString()));
+              }
+              return const Scaffold(body: Center(child: Text('No user specified')));
             },
             '/notifications': (context) => const NotificationView(),
             // '/setting': (context) => SettingView(),

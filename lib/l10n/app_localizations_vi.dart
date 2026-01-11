@@ -385,6 +385,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get profile_section_friends => 'Bạn bè';
 
   @override
+  String get profile_my_friends => 'Bạn bè của tôi';
+
+  @override
   String get profile_friends_empty => 'Chưa có danh sách bạn bè.';
 
   @override
@@ -413,6 +416,8 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get profile_friend_request_failed => 'Không thể cập nhật trạng thái kết bạn.';
+
+  String get profile_friend_not_found => 'Không tìm thấy bạn bè.';
 
   @override
   String get profile_message => 'Nhắn tin';
