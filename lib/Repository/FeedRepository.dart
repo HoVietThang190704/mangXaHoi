@@ -15,7 +15,7 @@ class FeedRepository {
   Future<List<PostModel>> getFeed({int page = 1, int limit = 10}) async {
     final api = await ApiService.create();
     final jsonData = await api.getJson(
-      '/api/posts/feed/public',
+      '/api/posts/feed/user',
       queryParameters: {'page': page, 'limit': limit},
     );
     final data = jsonData['data'];
@@ -143,6 +143,11 @@ class FeedRepository {
     if (error is DioException) {
       final resp = error.response?.data;
       debugPrint(' $scope dio error: ${error.message} | response: $resp');
+      if (error.type == DioExceptionType.connectionTimeout ||
+          error.type == DioExceptionType.sendTimeout ||
+          error.type == DioExceptionType.receiveTimeout) {
+        throw Exception('Request timed out. Please try again.');
+      }
       if (resp is Map && resp['message'] != null) {
         throw Exception(resp['message'].toString());
       }
