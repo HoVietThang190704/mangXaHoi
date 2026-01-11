@@ -43,7 +43,7 @@ class SettingsHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Utils.selectIndex = 3;
+    Utils.selectIndex = 4; 
     final l10n = AppLocalizations.of(context)!;
     final sectionSpacing = SizedBox(height: 14);
 

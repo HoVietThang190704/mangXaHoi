@@ -1036,6 +1036,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete_comment_confirm_title;
+
+  /// No description provided for @notification_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notification_title;
+
+  /// No description provided for @notification_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get notification_empty;
+
+  /// No description provided for @notification_load_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load notifications'**
+  String get notification_load_error;
+
+  /// No description provided for @notification_mark_all_read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get notification_mark_all_read;
+
+  /// No description provided for @notification_just_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get notification_just_now;
+
+  /// No description provided for @notification_minutes_ago.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes ago'**
+  String get notification_minutes_ago;
+
+  /// No description provided for @notification_hours_ago.
+  ///
+  /// In en, this message translates to:
+  /// **'hours ago'**
+  String get notification_hours_ago;
+
+  /// No description provided for @notification_days_ago.
+  ///
+  /// In en, this message translates to:
+  /// **'days ago'**
+  String get notification_days_ago;
+
+  /// No description provided for @notification_friend_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend Request'**
+  String get notification_friend_request;
+
+  /// No description provided for @notification_friend_request_message.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} sent you a friend request'**
+  String notification_friend_request_message(Object name);
+
+  /// No description provided for @notification_friend_accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend Request Accepted'**
+  String get notification_friend_accepted;
+
+  /// No description provided for @notification_friend_accepted_message.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} accepted your friend request'**
+  String notification_friend_accepted_message(Object name);
+
+  /// No description provided for @profile_pending_received.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get profile_pending_received;
+
+  /// No description provided for @profile_reject_request.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get profile_reject_request;
+
+  /// No description provided for @profile_friend_accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend request accepted'**
+  String get profile_friend_accepted;
+
+  /// No description provided for @profile_friend_rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend request rejected'**
+  String get profile_friend_rejected;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

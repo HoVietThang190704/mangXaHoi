@@ -490,4 +490,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete_comment_confirm_title => 'Delete';
+
+  @override
+  String get notification_title => 'Notifications';
+
+  @override
+  String get notification_empty => 'No notifications yet';
+
+  @override
+  String get notification_load_error => 'Unable to load notifications';
+
+  @override
+  String get notification_mark_all_read => 'Mark all read';
+
+  @override
+  String get notification_just_now => 'Just now';
+
+  @override
+  String get notification_minutes_ago => 'minutes ago';
+
+  @override
+  String get notification_hours_ago => 'hours ago';
+
+  @override
+  String get notification_days_ago => 'days ago';
+
+  @override
+  String get notification_friend_request => 'Friend Request';
+
+  @override
+  String notification_friend_request_message(Object name) {
+    return '$name sent you a friend request';
+  }
+
+  @override
+  String get notification_friend_accepted => 'Friend Request Accepted';
+
+  @override
+  String notification_friend_accepted_message(Object name) {
+    return '$name accepted your friend request';
+  }
+
+  @override
+  String get profile_pending_received => 'Accept';
+
+  @override
+  String get profile_reject_request => 'Reject';
+
+  @override
+  String get profile_friend_accepted => 'Friend request accepted';
+
+  @override
+  String get profile_friend_rejected => 'Friend request rejected';
 }

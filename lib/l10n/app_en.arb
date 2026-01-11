@@ -192,5 +192,31 @@
   "comment_like_failed": "Unable to like comment",
   "comment_action_failed": "Unable to post comment",
   "max_reply_depth": "Only 3 levels of replies are supported",
-  "delete_comment_confirm_title": "Delete"
+  "delete_comment_confirm_title": "Delete",
+  "notification_title": "Notifications",
+  "notification_empty": "No notifications yet",
+  "notification_load_error": "Unable to load notifications",
+  "notification_mark_all_read": "Mark all read",
+  "notification_just_now": "Just now",
+  "notification_minutes_ago": "minutes ago",
+  "notification_hours_ago": "hours ago",
+  "notification_days_ago": "days ago",
+  "notification_friend_request": "Friend Request",
+  "notification_friend_request_message": "{name} sent you a friend request",
+  "@notification_friend_request_message": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "notification_friend_accepted": "Friend Request Accepted",
+  "notification_friend_accepted_message": "{name} accepted your friend request",
+  "@notification_friend_accepted_message": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "profile_pending_received": "Accept",
+  "profile_reject_request": "Reject",
+  "profile_friend_accepted": "Friend request accepted",
+  "profile_friend_rejected": "Friend request rejected"
 }
