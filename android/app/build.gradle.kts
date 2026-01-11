@@ -12,6 +12,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        // Enable core library desugaring to support newer Java APIs used by
+        // some dependencies (e.g. flutter_local_notifications)
+        isCoreLibraryDesugaringEnabled = true
     }
 
     defaultConfig {
@@ -32,6 +35,14 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+
+dependencies {
+    // Required for core library desugaring (e.g. java.time APIs used by some libs)
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+
+    // Explicit Pushy SDK dependency so PushyBroadcastReceiver class is packaged
+    implementation("me.pushy:sdk:1.0.95")
 }
 
 flutter {

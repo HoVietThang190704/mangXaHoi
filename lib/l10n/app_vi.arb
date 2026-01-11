@@ -192,5 +192,31 @@
   "comment_like_failed": "Không thể thích bình luận",
   "comment_action_failed": "Không thể đăng bình luận",
   "max_reply_depth": "Chỉ hỗ trợ tối đa 3 tầng trả lời",
-  "delete_comment_confirm_title": "Xóa"
+  "delete_comment_confirm_title": "Xóa",
+  "notification_title": "Thông báo",
+  "notification_empty": "Chưa có thông báo",
+  "notification_load_error": "Không thể tải thông báo",
+  "notification_mark_all_read": "Đánh dấu đã đọc",
+  "notification_just_now": "Vừa xong",
+  "notification_minutes_ago": "phút trước",
+  "notification_hours_ago": "giờ trước",
+  "notification_days_ago": "ngày trước",
+  "notification_friend_request": "Lời mời kết bạn",
+  "notification_friend_request_message": "{name} đã gửi lời mời kết bạn cho bạn",
+  "@notification_friend_request_message": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "notification_friend_accepted": "Đã chấp nhận kết bạn",
+  "notification_friend_accepted_message": "{name} đã chấp nhận lời mời kết bạn của bạn",
+  "@notification_friend_accepted_message": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "profile_pending_received": "Chấp nhận",
+  "profile_reject_request": "Từ chối",
+  "profile_friend_accepted": "Đã chấp nhận lời mời kết bạn",
+  "profile_friend_rejected": "Đã từ chối lời mời kết bạn"
 }

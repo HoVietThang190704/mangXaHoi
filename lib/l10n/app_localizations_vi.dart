@@ -490,4 +490,56 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get delete_comment_confirm_title => 'Xóa';
+
+  @override
+  String get notification_title => 'Thông báo';
+
+  @override
+  String get notification_empty => 'Chưa có thông báo';
+
+  @override
+  String get notification_load_error => 'Không thể tải thông báo';
+
+  @override
+  String get notification_mark_all_read => 'Đánh dấu đã đọc';
+
+  @override
+  String get notification_just_now => 'Vừa xong';
+
+  @override
+  String get notification_minutes_ago => 'phút trước';
+
+  @override
+  String get notification_hours_ago => 'giờ trước';
+
+  @override
+  String get notification_days_ago => 'ngày trước';
+
+  @override
+  String get notification_friend_request => 'Lời mời kết bạn';
+
+  @override
+  String notification_friend_request_message(Object name) {
+    return '$name đã gửi lời mời kết bạn cho bạn';
+  }
+
+  @override
+  String get notification_friend_accepted => 'Đã chấp nhận kết bạn';
+
+  @override
+  String notification_friend_accepted_message(Object name) {
+    return '$name đã chấp nhận lời mời kết bạn của bạn';
+  }
+
+  @override
+  String get profile_pending_received => 'Chấp nhận';
+
+  @override
+  String get profile_reject_request => 'Từ chối';
+
+  @override
+  String get profile_friend_accepted => 'Đã chấp nhận lời mời kết bạn';
+
+  @override
+  String get profile_friend_rejected => 'Đã từ chối lời mời kết bạn';
 }

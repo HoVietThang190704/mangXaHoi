@@ -4,6 +4,7 @@ import 'package:mangxahoi/Service/SessionService.dart';
 import 'package:mangxahoi/Views/Auth/LoginView.dart';
 import 'package:mangxahoi/Views/Auth/RegisterView.dart';
 import 'package:mangxahoi/Views/CreatePostView.dart';
+import 'package:mangxahoi/Views/NotificationView.dart';
 import 'package:mangxahoi/Views/Profile/MyProfileView.dart';
 import 'package:mangxahoi/Views/Profile/UserProfileView.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
                 body: Center(child: Text('User not found')),
               );
             },
+            '/notifications': (context) => const NotificationView(),
             // '/setting': (context) => SettingView(),
             '/setting': (context) => SettingsHomeView(),
             //'/myprofile': (context) => EditProfileView(),

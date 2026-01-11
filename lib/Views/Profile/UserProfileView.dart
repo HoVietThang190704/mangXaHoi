@@ -256,16 +256,66 @@ class _UserProfileViewState extends State<UserProfileView> {
       if (_friendStatus == FriendStatus.none) {
         updated = await _friendService.sendFriendRequest(widget.userId);
         _showSnack(loc.profile_friend_request_sent);
-      } else if (_friendStatus == FriendStatus.requested) {
+      } else if (_friendStatus == FriendStatus.pendingSent) {
         updated = await _friendService.cancelFriendRequest(widget.userId);
         _showSnack(loc.profile_friend_request_cancelled);
-      } else {
+      } else if (_friendStatus == FriendStatus.friends) {
         updated = await _friendService.removeFriend(widget.userId);
         _showSnack(loc.profile_friend_removed);
+      } else {
+        return;
       }
 
       if (mounted) {
         setState(() => _friendStatus = updated);
+      }
+    } catch (_) {
+      if (mounted) {
+        _showSnack(loc.profile_friend_request_failed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _friendBusy = false);
+      }
+    }
+  }
+
+  Future<void> _handleAcceptRequest() async {
+    if (_friendBusy) return;
+    final loc = AppLocalizations.of(context)!;
+    final requestId = _friendService.cachedRequestId;
+    if (requestId == null) return;
+
+    setState(() => _friendBusy = true);
+    try {
+      await _friendService.acceptFriendRequest(requestId);
+      _showSnack(loc.profile_friend_accepted);
+      if (mounted) {
+        setState(() => _friendStatus = FriendStatus.friends);
+      }
+    } catch (_) {
+      if (mounted) {
+        _showSnack(loc.profile_friend_request_failed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _friendBusy = false);
+      }
+    }
+  }
+
+  Future<void> _handleRejectRequest() async {
+    if (_friendBusy) return;
+    final loc = AppLocalizations.of(context)!;
+    final requestId = _friendService.cachedRequestId;
+    if (requestId == null) return;
+
+    setState(() => _friendBusy = true);
+    try {
+      await _friendService.rejectFriendRequest(requestId);
+      _showSnack(loc.profile_friend_rejected);
+      if (mounted) {
+        setState(() => _friendStatus = FriendStatus.none);
       }
     } catch (_) {
       if (mounted) {
@@ -302,6 +352,32 @@ class _UserProfileViewState extends State<UserProfileView> {
 
   Widget? _buildActionArea(AppLocalizations loc) {
     if (_isViewingSelf) return null;
+    
+    // Handle pending received - show accept/reject buttons
+    if (_friendStatus == FriendStatus.pendingReceived) {
+      return Row(
+        children: [
+          Expanded(
+            child: FilledButton.icon(
+              onPressed: _friendBusy ? null : _handleAcceptRequest,
+              icon: _friendBusy
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                  : const Icon(Icons.check),
+              label: Text(loc.profile_pending_received),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: OutlinedButton.icon(
+              onPressed: _friendBusy ? null : _handleRejectRequest,
+              icon: const Icon(Icons.close),
+              label: Text(loc.profile_reject_request),
+            ),
+          ),
+        ],
+      );
+    }
+    
     late final String friendLabel;
     late final IconData friendIcon;
     switch (_friendStatus) {
@@ -309,13 +385,17 @@ class _UserProfileViewState extends State<UserProfileView> {
         friendLabel = loc.profile_add_friend;
         friendIcon = Icons.person_add_alt;
         break;
-      case FriendStatus.requested:
+      case FriendStatus.pendingSent:
         friendLabel = loc.profile_cancel_request;
         friendIcon = Icons.hourglass_bottom;
         break;
       case FriendStatus.friends:
         friendLabel = loc.profile_remove_friend;
         friendIcon = Icons.check;
+        break;
+      case FriendStatus.pendingReceived:
+        friendLabel = loc.profile_pending_received;
+        friendIcon = Icons.person;
         break;
     }
 

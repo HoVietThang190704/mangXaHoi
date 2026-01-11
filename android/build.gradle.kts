@@ -2,6 +2,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // Pushy SDK (required for pushy_flutter runtime classes like PushyBroadcastReceiver)
+        maven(url = "https://sdk.pushy.me/android")
     }
 }
 

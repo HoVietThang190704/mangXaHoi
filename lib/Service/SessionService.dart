@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:mangxahoi/Model/AuthUserModel.dart';
 import 'package:mangxahoi/Utils.dart';
+import 'package:mangxahoi/services/PushNotificationManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionService {
@@ -29,6 +30,10 @@ class SessionService {
       Utils.userName = user.userName ?? user.email;
       Utils.accessToken = accessToken;
       Utils.refreshToken = prefs.getString(_refreshTokenKey);
+      
+      // Initialize push notifications after session restore
+      await PushNotificationManager.instance.initialize();
+      
       return true;
     } catch (_) {
       await clearSession();
@@ -54,6 +59,9 @@ class SessionService {
     } else {
       await prefs.remove(_refreshTokenKey);
     }
+    
+    // Initialize push notifications after login
+    await PushNotificationManager.instance.initialize();
   }
 
   static Future<void> updateUser(AuthUserModel user) async {
@@ -64,6 +72,9 @@ class SessionService {
   }
 
   static Future<void> clearSession() async {
+    // Clear push notification token first (before clearing access token)
+    await PushNotificationManager.instance.clearToken();
+    
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_accessTokenKey);
     await prefs.remove(_refreshTokenKey);

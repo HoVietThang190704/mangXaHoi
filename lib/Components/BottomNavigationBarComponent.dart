@@ -19,11 +19,20 @@ class BottomNavigationBarComponent extends StatelessWidget{
       if(value == 2){
         Navigator.pushNamed(context, '/chat');
       }
-
       if(value == 3){
+        debugPrint('BottomNavigationBar: Notification item pressed');
+        final navCtx = Utils.navigatorKey.currentContext;
+        if (navCtx != null) {
+          Navigator.pushNamed(navCtx, '/notifications');
+        } else {
+          Navigator.pushNamed(context, '/notifications');
+        }
+      }
+      if(value == 4){
 
         Navigator.pushNamed(context, '/setting');
       }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -40,6 +49,7 @@ class BottomNavigationBarComponent extends StatelessWidget{
           BottomNavigationBarItem(icon: Icon(Icons.home,),label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.account_circle,),label: "My Profile"),
           BottomNavigationBarItem(icon: Icon(Icons.chat,),label: "Chat"),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications,), label: "Notification"),
           BottomNavigationBarItem(icon: Icon(Icons.settings,),label: "Setting"),
         ]);
   }
